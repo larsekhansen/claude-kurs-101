@@ -44,10 +44,16 @@ Alt under er beslutninger som er tatt. Ikke gjenåpne dem uten grunn.
    `user`). Den varianten krever innlogging i Digdirs Claude, og det er
    grunnen til flyttingen hit.
 
-## Neste steg
+## Etter planleggingen
 
-Beskrevet i `CLAUDE.md`: bytt synk-laget, hold alt annet, deploy på
-GitHub Pages, skriv `docs/oppsett.md`.
+- Synk-laget er byttet til en Cloudflare Worker med Durable Object på Lars
+  sin private gratiskonto, ikke Supabase. Da kunne alt settes opp uten nye
+  kontoer, og navn kan sjekkes mot hverandre på ett sted.
+- Deltakerne logger ikke inn. De skriver et navn, og navnet må være ledig.
+- Designet bruker paletten og skriftene fra ki.norge.no.
+- «Til Claude»-knappen er fjernet. Den virker bare inne i claude.ai.
+
+Oppsett og deploy står i `docs/oppsett.md`.
 
 ## Preferanser for kommunikasjon med Lars
 

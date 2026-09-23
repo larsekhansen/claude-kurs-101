@@ -1,0 +1,88 @@
+# Oppsett
+
+Kurssiden er én statisk fil, `index.html`, på GitHub Pages. Presentør-synk,
+tilstedeværelse og reaksjoner går via en Cloudflare Worker med én Durable
+Object, i `worker/`. Deltakerne logger ikke inn. De skriver et navn, og
+serveren passer på at to som er koblet til samtidig ikke har samme navn.
+
+## Adresser
+
+- Kurssiden: https://larsekhansen.github.io/claude-kurs-101/
+- Live-tjenesten: https://claude-kurs.lars1702.workers.dev, WebSocket på `/ws`
+- Presentørlenken: `https://larsekhansen.github.io/claude-kurs-101/#presenter=<token>`
+
+Tokenet står ikke i repoet. Det ligger som secret i Workeren.
+
+## Wrangler-profil
+
+Workeren ligger på Lars sin private Cloudflare-konto. Innloggingen ligger i en
+egen wrangler-profil, så den ikke blandes med jobbinnloggingen:
+
+```bash
+export XDG_CONFIG_HOME="$HOME/.config/cf-privat"
+npx wrangler login
+npx wrangler whoami
+```
+
+`login` trengs bare første gang. `whoami` skal vise gratiskontoen.
+`account_id` i `worker/wrangler.jsonc` hindrer deploy fra en annen innlogging.
+
+## Deploy Workeren
+
+```bash
+cd worker
+XDG_CONFIG_HOME="$HOME/.config/cf-privat" npx wrangler deploy
+```
+
+## Presentør-token
+
+Lag et nytt token og legg det inn. Det gamle slutter å virke med en gang.
+
+```bash
+openssl rand -base64 32 | tr '+/' '-_' | tr -d '=\n' > /tmp/token.txt
+cd worker
+XDG_CONFIG_HOME="$HOME/.config/cf-privat" npx wrangler secret put PRESENTER_TOKEN < /tmp/token.txt
+```
+
+Presentørlenken er kurssidens adresse med `#presenter=` og innholdet i fila
+bak. Slett fila etterpå. Tokenet må være minst 16 tegn, og bare bokstaver,
+tall, `-` og `_`.
+
+Siden fjerner tokenet fra adresselinja med en gang og husker det bare i den
+fanen. Lenken du deler i Teams, er derfor alltid den vanlige.
+
+## GitHub Pages
+
+Pages publiserer fra `main`, rotmappa. Ingen byggesteg.
+
+## Lokal utvikling
+
+```bash
+python3 -m http.server 8000
+cd worker && npx wrangler dev --port 8787
+```
+
+Legg `PRESENTER_TOKEN=<noe på minst 16 tegn>` i `worker/.dev.vars`, som git
+ignorerer. Åpne http://localhost:8000/?live=ws://127.0.0.1:8787/ws og legg til
+`#presenter=<tokenet>` for presentørvisningen. `?live=` virker bare på
+localhost.
+
+## Slik virker live-laget
+
+- Hver fane har én WebSocket. Første melding er `hello` med nettleser-id,
+  navn og eventuelt token. Serveren svarer `welcome` med rolle, hvilken side
+  presentasjonen står på, og om navnet var ledig.
+- Presentøren sender `go` ved hvert sidebytte. Siden lagres i Durable Object,
+  så de som kommer sent, lander på riktig side.
+- Tilstedeværelse regnes ut fra de åpne forbindelsene. Alle får antall, bare
+  presentøren får navn.
+- Navn er unike blant dem som er koblet til nå, uansett store og små
+  bokstaver. Flere faner i samme nettleser er samme person, med samme navn,
+  hånd og ferdig.
+- Reaksjoner sendes til alle andre og strupes ved spam.
+- Nullstill tømmer hender og ferdige hos alle, også hos dem som kobler seg på
+  igjen etterpå.
+- Klientene pinger hvert 25. sekund. Forbindelser uten livstegn på 2,5
+  minutter lukkes, så tellerne ikke henger igjen.
+- Bare nettsider fra `ALLOWED_ORIGINS` i `worker/wrangler.jsonc`, og
+  localhost, får koble til.

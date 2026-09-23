@@ -4,184 +4,335 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <title>Introduksjon til Claude</title>
+<meta name="description" content="Kurs fra KI Norge. Følg presentasjonen, kopier promptene og rekk opp hånda, uten å logge inn.">
+<meta property="og:title" content="Introduksjon til Claude">
+<meta property="og:description" content="Kurs fra KI Norge. Følg presentasjonen, kopier promptene og rekk opp hånda, uten å logge inn.">
+<meta name="theme-color" content="#F8F3EE" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#1B1416" media="(prefers-color-scheme: dark)">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Cpath d='M7 4h18a5 5 0 0 1 5 5v10a5 5 0 0 1-5 5h-3l-6 5v-5H7a5 5 0 0 1-5-5V9a5 5 0 0 1 5-5z' fill='%23B42946'/%3E%3C/svg%3E">
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500&family=IBM+Plex+Sans:wght@400;600&family=Source+Serif+4:opsz,wght@8..60,400;8..60,600&display=swap">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Instrument+Sans:wght@400..700&family=PT+Serif:wght@400;700&display=swap">
 <style>
+  /* Paletten er ki.norge.no sin: vinrødt og crimson, fersken og korall på varm papirbakgrunn. */
   :root {
-    box-sizing: border-box;
-    padding-top: env(safe-area-inset-top, 0px);
-    padding-bottom: env(safe-area-inset-bottom, 0px);
-    --bg: #f6f4ee; --card: #fffdf9; --ink: #1b2a3a; --muted: #5c6670; --line: #d9d4c7;
-    --accent: #b84a24; --accent-ink: #ffffff; --mono-bg: #f1ede3; --teal: #234e4a; --teal-ink: #f6f4ee;
-    --ok: #2f7f78; --shadow: 0 1px 2px rgba(27,42,58,.08);
+    --paper: #F8F3EE; --surface: #FFFDFB; --ink: #292C30; --muted: #5B5D60; --heading: #541321;
+    --accent: #B42946; --accent-hover: #912138; --accent-ink: #FFFFFF;
+    --line: #E8DCD3; --line-strong: #CFBBAE;
+    --bubble: #FCDCC6; --bubble-ink: #3B2417; --apricot: #E9B596; --blush: #F6E4E8;
+    --coral: #F5898D; --coral-ink: #3F0D17; --ok: #056D13; --ok-bg: #DAEDDD;
+    --note: #FCF0D9; --note-line: #ECD29C; --note-ink: #3D2B0B;
+    --dark-bg: #541321; --dark-ink: #FBF3F1; --dark-soft: #FCC9A9; --dark-mark: #F5898D; --dark-line: rgba(252, 201, 169, .3);
+    --scrim: rgba(52, 14, 22, .5); --shadow: 0 12px 32px rgba(84, 19, 33, .16);
+    --serif: "PT Serif", Georgia, "Times New Roman", serif;
+    --sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
+    color-scheme: light;
   }
   @media (prefers-color-scheme: dark) {
     :root:not([data-theme="light"]) {
-      --bg: #141c26; --card: #1b2a3a; --ink: #f6f4ee; --muted: #9aa5b1; --line: #2f3f52;
-      --accent: #f0a077; --accent-ink: #1b2a3a; --mono-bg: #122032; --teal: #1a3f3b; --teal-ink: #f6f4ee;
-      --ok: #7fc8c0; --shadow: 0 1px 2px rgba(0,0,0,.3);
+      --paper: #1B1416; --surface: #261B1E; --ink: #F1E8E9; --muted: #BBAAAD; --heading: #FAD9CF;
+      --accent: #EE8A9C; --accent-hover: #F6A7B4; --accent-ink: #2B0A12;
+      --line: #3A2A2E; --line-strong: #5C454B;
+      --bubble: #3D2A21; --bubble-ink: #F9E7DB; --apricot: #C9906F; --blush: #3A2328;
+      --coral: #F5898D; --coral-ink: #3F0D17; --ok: #8FD49A; --ok-bg: #1D3822;
+      --note: #342A1A; --note-line: #6E5630; --note-ink: #F5E6C4;
+      --dark-bg: #3F0E19; --dark-ink: #FBF3F1; --dark-soft: #FCC9A9; --dark-mark: #F5898D; --dark-line: rgba(252, 201, 169, .22);
+      --scrim: rgba(0, 0, 0, .6); --shadow: 0 12px 32px rgba(0, 0, 0, .5);
+      color-scheme: dark;
     }
   }
   :root[data-theme="dark"] {
-    --bg: #141c26; --card: #1b2a3a; --ink: #f6f4ee; --muted: #9aa5b1; --line: #2f3f52;
-    --accent: #f0a077; --accent-ink: #1b2a3a; --mono-bg: #122032; --teal: #1a3f3b; --teal-ink: #f6f4ee;
-    --ok: #7fc8c0; --shadow: 0 1px 2px rgba(0,0,0,.3);
+    --paper: #1B1416; --surface: #261B1E; --ink: #F1E8E9; --muted: #BBAAAD; --heading: #FAD9CF;
+    --accent: #EE8A9C; --accent-hover: #F6A7B4; --accent-ink: #2B0A12;
+    --line: #3A2A2E; --line-strong: #5C454B;
+    --bubble: #3D2A21; --bubble-ink: #F9E7DB; --apricot: #C9906F; --blush: #3A2328;
+    --coral: #F5898D; --coral-ink: #3F0D17; --ok: #8FD49A; --ok-bg: #1D3822;
+    --note: #342A1A; --note-line: #6E5630; --note-ink: #F5E6C4;
+    --dark-bg: #3F0E19; --dark-ink: #FBF3F1; --dark-soft: #FCC9A9; --dark-mark: #F5898D; --dark-line: rgba(252, 201, 169, .22);
+    --scrim: rgba(0, 0, 0, .6); --shadow: 0 12px 32px rgba(0, 0, 0, .5);
+    color-scheme: dark;
   }
-  html { scroll-padding-top: env(safe-area-inset-top, 0px); }
+
   * { box-sizing: border-box; }
+  html { -webkit-text-size-adjust: 100%; }
   body {
-    margin: 0; background: var(--bg); color: var(--ink);
-    font-family: "IBM Plex Sans", "Segoe UI", Arial, sans-serif; font-size: 17px; line-height: 1.5;
-    padding-bottom: 96px;
+    margin: 0; background: var(--paper); color: var(--ink);
+    font-family: var(--sans); font-size: 18px; line-height: 1.55;
+    padding-bottom: var(--foot-h, 72px);
   }
-  a { color: var(--accent); }
-  button { font: inherit; cursor: pointer; }
+  a { color: var(--accent); text-underline-offset: .18em; }
+  button, input { font: inherit; color: inherit; }
+  button { cursor: pointer; }
+  :focus-visible { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .hidden { display: none !important; }
+  .vh { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 
+  /* ---------- Topp ---------- */
   header.top {
-    position: sticky; top: env(safe-area-inset-top, 0px); z-index: 5;
-    background: var(--bg); border-bottom: 1px solid var(--line);
-    display: flex; align-items: center; gap: 12px; padding: 10px 16px; flex-wrap: wrap;
-  }
-  header.top .brand { font-weight: 600; font-size: 15px; white-space: nowrap; }
-  header.top .counter { color: var(--muted); font-size: 14px; white-space: nowrap; }
-  header.top .spacer { flex: 1; }
-  .pill {
-    display: inline-flex; align-items: center; gap: 6px; border: 1px solid var(--line); background: var(--card);
-    color: var(--ink); border-radius: 999px; padding: 5px 12px; font-size: 14px; white-space: nowrap;
-  }
-  .pill .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--muted); }
-  .pill .dot.on { background: var(--ok); }
-  .pill.action { border-color: var(--accent); color: var(--accent); }
-  .pill.hidden, .hidden { display: none !important; }
-
-  main { max-width: 1040px; margin: 0 auto; padding: 24px 16px 16px; }
-  .slide { background: var(--card); border: 1px solid var(--line); border-radius: 18px; padding: 28px; box-shadow: var(--shadow); }
-  .slide.dark { background: var(--teal); color: var(--teal-ink); border-color: transparent; }
-  .slide.dark .kicker, .slide.dark .muted { color: #f0a077; }
-  .slide.dark .row { border-top-color: #6f9b96; }
-  .kicker { color: var(--accent); font-weight: 600; font-size: 14px; letter-spacing: .01em; margin: 0 0 8px; }
-  h1.title { font-family: "Source Serif 4", Georgia, serif; font-weight: 400; font-size: clamp(28px, 4.6vw, 44px); line-height: 1.12; margin: 0 0 8px; }
-  p.lead { font-size: 19px; color: var(--muted); margin: 0 0 8px; }
-  .slide.dark p.lead { color: #d9d4c7; }
-  .muted { color: var(--muted); }
-  .grid { display: grid; grid-template-columns: 3fr 2fr; gap: 20px; margin-top: 20px; align-items: start; }
-  @media (max-width: 760px) { .grid { grid-template-columns: 1fr; } }
-  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; margin-top: 20px; }
-  @media (max-width: 640px) { .cols { grid-template-columns: 1fr; } }
-  .box { background: var(--bg); border: 1px solid var(--line); border-radius: 14px; padding: 18px; }
-  .box h3 { margin: 0 0 12px; font-size: 14px; font-weight: 600; color: var(--accent); }
-
-  .prompt { display: flex; flex-direction: column; gap: 8px; padding: 12px 0; border-top: 1px solid var(--line); }
-  .prompt:first-of-type { border-top: none; padding-top: 0; }
-  .prompt .pre { font-size: 15px; color: var(--muted); }
-  .prompt .num { display: inline-block; min-width: 22px; color: var(--accent); font-weight: 600; }
-  .ptext {
-    font-family: "IBM Plex Mono", Consolas, "Courier New", monospace; font-size: 15px; line-height: 1.5;
-    background: var(--mono-bg); border-radius: 10px; padding: 10px 12px; margin: 0;
-    overflow-wrap: anywhere;
-  }
-  .actions { display: flex; gap: 8px; flex-wrap: wrap; }
-  .btn {
-    border: 1px solid var(--line); background: var(--card); color: var(--ink); border-radius: 10px;
-    padding: 8px 14px; font-size: 14px; font-weight: 600; line-height: 1.2;
-  }
-  .btn.primary { background: var(--accent); color: var(--accent-ink); border-color: var(--accent); }
-  .btn.copied { background: var(--ok); color: #ffffff; border-color: var(--ok); }
-  .btn.send { border-color: var(--accent); color: var(--accent); }
-  .btn.small { padding: 6px 10px; font-size: 13px; }
-  .btn:disabled { opacity: .5; cursor: default; }
-  .btn.active { background: var(--ink); color: var(--bg); border-color: var(--ink); }
-
-  .points { display: flex; flex-direction: column; gap: 16px; }
-  .point h3 { margin: 0 0 4px; font-size: 14px; font-weight: 600; color: var(--accent); }
-  .point p { margin: 0; font-size: 17px; }
-
-  .statements { display: flex; flex-direction: column; margin-top: 12px; }
-  .statement { display: flex; gap: 18px; align-items: flex-start; padding: 16px 0; border-top: 1px solid var(--line); }
-  .slide.dark .statement { border-top-color: #6f9b96; }
-  .statement .n { font-family: "Source Serif 4", Georgia, serif; font-size: 34px; line-height: 1; color: var(--accent); min-width: 34px; }
-  .statement p { margin: 0; font-size: clamp(18px, 2.6vw, 24px); line-height: 1.35; }
-
-  .rows { display: flex; flex-direction: column; margin-top: 12px; }
-  .row { padding: 14px 0; border-top: 1px solid var(--line); }
-  .row:first-child { border-top: none; padding-top: 4px; }
-  .row b.label { color: var(--accent); }
-  .row .chips { display: flex; flex-direction: column; gap: 8px; margin-top: 8px; }
-  .chip { display: flex; gap: 8px; align-items: center; flex-wrap: wrap; }
-  .chip .ptext { flex: 1; min-width: 200px; }
-
-  table.plan { width: 100%; border-collapse: collapse; margin-top: 16px; font-size: 16px; }
-  table.plan th, table.plan td { text-align: left; padding: 10px 8px; border-bottom: 1px solid var(--line); vertical-align: top; }
-  table.plan th { font-weight: 600; border-bottom: 2px solid var(--ink); }
-  table.plan td.t { font-weight: 600; white-space: nowrap; }
-
-  .foot { margin-top: 18px; padding-top: 12px; border-top: 1px solid var(--line); color: var(--muted); font-size: 14px; }
-  .notes { margin-top: 16px; background: var(--bg); border: 1px dashed var(--line); border-radius: 14px; padding: 16px; font-size: 15px; }
-  .notes h3 { margin: 0 0 6px; font-size: 13px; font-weight: 600; color: var(--accent); }
-  .big { font-family: "Source Serif 4", Georgia, serif; font-size: 34px; margin: 28px 0 0; }
-
-  footer.bottom {
-    position: fixed; left: 0; right: 0; bottom: 0; z-index: 5;
-    background: var(--bg); border-top: 1px solid var(--line);
-    padding: 10px 16px; padding-bottom: calc(10px + env(safe-area-inset-bottom, 0px));
+    position: sticky; top: 0; z-index: 10;
+    background: var(--paper); border-bottom: 1px solid var(--line);
+    padding: calc(10px + env(safe-area-inset-top, 0px)) 20px 10px;
     display: flex; align-items: center; gap: 10px; flex-wrap: wrap;
   }
-  footer.bottom .spacer { flex: 1; }
-  .nav { display: flex; gap: 8px; }
-  .react { display: flex; gap: 6px; }
-  .react .btn { padding: 8px 10px; font-size: 18px; line-height: 1; }
-  .status { font-size: 14px; color: var(--muted); white-space: nowrap; }
+  .brand { font-family: var(--serif); font-weight: 700; font-size: 18px; color: var(--heading); white-space: nowrap; }
+  .count { color: var(--muted); font-size: 15px; font-variant-numeric: tabular-nums; white-space: nowrap; }
+  .grow { flex: 1; }
+  .progress { position: absolute; left: 0; bottom: -1px; height: 3px; width: 0; background: var(--accent); transition: width .3s ease; }
 
-  #overview {
-    position: fixed; z-index: 6; top: calc(56px + env(safe-area-inset-top, 0px)); right: 16px; width: min(360px, calc(100vw - 32px));
-    max-height: 60vh; overflow: auto; background: var(--card); border: 1px solid var(--line); border-radius: 14px; box-shadow: 0 8px 30px rgba(0,0,0,.18); padding: 8px;
+  .chip {
+    display: inline-flex; align-items: center; gap: 10px; min-height: 36px; padding: 6px 14px;
+    border: 1px solid var(--line-strong); border-radius: 999px; background: var(--surface);
+    font-size: 15px; white-space: nowrap; font-variant-numeric: tabular-nums;
   }
-  #overview button { display: block; width: 100%; text-align: left; border: none; background: transparent; color: var(--ink); padding: 8px 10px; border-radius: 8px; font-size: 15px; }
-  #overview button:hover, #overview button.current { background: var(--bg); }
-  #overview button span { color: var(--muted); font-size: 13px; margin-right: 8px; }
+  button.chip:hover { border-color: var(--accent); }
+  .chip .dot { width: 8px; height: 8px; border-radius: 50%; background: var(--line-strong); }
+  .chip .dot.on { background: var(--ok); }
+  .chip.following::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
+  .chip.action { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+  .chip.action:hover { background: var(--accent-hover); }
 
-  #fx { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 4; }
-  .float { position: absolute; bottom: 90px; font-size: 34px; animation: rise 2.2s ease-out forwards; }
-  @keyframes rise { from { transform: translateY(0); opacity: 1; } to { transform: translateY(-360px); opacity: 0; } }
+  /* ---------- Scenen ---------- */
+  .stage { min-height: calc(100vh - var(--head-h, 60px) - var(--foot-h, 72px)); min-height: calc(100dvh - var(--head-h, 60px) - var(--foot-h, 72px)); transition: background-color .35s ease, color .35s ease; }
+  body.dark-slide .stage { background: var(--dark-bg); color: var(--dark-ink); }
+  main { max-width: 1120px; margin: 0 auto; padding: 52px 24px 64px; }
+  @media (max-width: 640px) { main { padding: 32px 16px 48px; } }
 
-  .toast { position: fixed; left: 50%; transform: translateX(-50%); bottom: calc(100px + env(safe-area-inset-bottom, 0px)); background: var(--ink); color: var(--bg); padding: 10px 16px; border-radius: 999px; font-size: 14px; z-index: 7; opacity: 0; transition: opacity .2s; pointer-events: none; }
-  .toast.show { opacity: 1; }
+  .kicker { margin: 0 0 14px; color: var(--accent); font-weight: 600; font-size: 16px; }
+  h1.title {
+    font-family: var(--serif); font-weight: 700; color: var(--heading);
+    font-size: clamp(34px, 5.4vw, 60px); line-height: 1.06; letter-spacing: -.01em;
+    margin: 0 0 18px; max-width: 20ch; text-wrap: balance;
+  }
+  .lead { font-size: clamp(19px, 2.2vw, 23px); color: var(--muted); margin: 0 0 14px; max-width: 46ch; }
+  .slide p { max-width: 68ch; }
+  .muted { color: var(--muted); }
+  body.dark-slide .kicker { color: var(--dark-soft); }
+  body.dark-slide h1.title { color: var(--dark-ink); }
+  body.dark-slide .lead, body.dark-slide .muted { color: var(--dark-soft); }
+  body.dark-slide a { color: var(--dark-soft); }
+
+  /* Prompter er replikker i en samtale, ikke kode. */
+  .grid { display: grid; grid-template-columns: minmax(0, 3fr) minmax(0, 2fr); gap: 44px; margin-top: 32px; align-items: start; }
+  @media (max-width: 860px) { .grid { grid-template-columns: 1fr; gap: 32px; } }
+  .seq-h { margin: 0 0 6px; font-size: 15px; font-weight: 600; color: var(--muted); }
+  .step { display: grid; grid-template-columns: 34px minmax(0, 1fr); padding: 16px 0; border-top: 1px solid var(--line); }
+  .seq-h + .step { border-top: 0; }
+  .step .n { font-family: var(--serif); font-weight: 700; font-size: 21px; line-height: 1.35; color: var(--accent); }
+  .step .body, .item { display: flex; flex-direction: column; gap: 10px; }
+  .pre { margin: 0; color: var(--muted); font-size: 16px; }
+  .say { display: flex; align-items: flex-end; justify-content: flex-end; gap: 10px; flex-wrap: wrap; }
+  .bubble {
+    flex: 1 1 260px; margin: 0; padding: 12px 18px;
+    background: var(--bubble); color: var(--bubble-ink);
+    border-radius: 20px 20px 4px 20px; font-size: 17.5px; line-height: 1.45; overflow-wrap: anywhere;
+    transition: box-shadow .2s ease;
+  }
+  .say.copied .bubble { box-shadow: 0 0 0 2px var(--accent); }
+  .copy {
+    flex: none; min-height: 36px; padding: 6px 16px; border-radius: 999px;
+    border: 1px solid var(--line-strong); background: var(--surface); font-size: 14px; font-weight: 600;
+  }
+  .copy:hover { border-color: var(--accent); color: var(--accent); }
+  .copy.done, .copy.done:hover { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+
+  .points { display: grid; gap: 22px; border-left: 2px solid var(--apricot); padding-left: 22px; }
+  .point h3 { margin: 0 0 4px; font-size: 15px; font-weight: 600; color: var(--accent); }
+  .point p { margin: 0; font-size: 17px; }
+
+  .statements { list-style: none; margin: 28px 0 0; padding: 0; }
+  .statement { display: grid; grid-template-columns: 64px minmax(0, 1fr); gap: 12px; align-items: baseline; padding: 16px 0; border-top: 1px solid var(--line); }
+  .statement .n { font-family: var(--serif); font-weight: 700; font-size: 44px; line-height: 1; color: var(--accent); }
+  .statement p { margin: 0; font-family: var(--serif); font-size: clamp(20px, 2.5vw, 28px); line-height: 1.3; max-width: 44ch; }
+  body.dark-slide .statement { border-top-color: var(--dark-line); }
+  body.dark-slide .statement .n { color: var(--dark-mark); }
+  @media (max-width: 640px) { .statement { grid-template-columns: 44px minmax(0, 1fr); } .statement .n { font-size: 34px; } }
+
+  table.plan { width: 100%; border-collapse: collapse; margin-top: 28px; font-size: 17px; }
+  table.plan th { text-align: left; font-size: 14px; font-weight: 600; color: var(--muted); padding: 0 16px 10px 0; border-bottom: 2px solid var(--heading); }
+  table.plan td { padding: 14px 16px 14px 0; border-bottom: 1px solid var(--line); vertical-align: top; }
+  table.plan td.t { font-weight: 600; color: var(--accent); white-space: nowrap; font-variant-numeric: tabular-nums; }
+  table.plan td.b { font-weight: 600; }
+
+  .rows { margin-top: 24px; }
+  .row { padding: 18px 0; border-top: 1px solid var(--line); }
+  .row:first-child { border-top: 0; padding-top: 4px; }
+  .row > p { margin: 0; }
+  .row .label { color: var(--heading); }
+  .says { display: grid; gap: 10px; margin-top: 12px; }
+
+  /* Alle i crimson, teknologene i aprikos. Samme koding på alle sider. */
+  .cols { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 32px; }
+  @media (max-width: 760px) { .cols { grid-template-columns: 1fr; gap: 28px; } }
+  .col h2 { margin: 0; padding-bottom: 10px; border-bottom: 3px solid var(--accent); font-family: var(--serif); font-size: 24px; color: var(--heading); }
+  .col + .col h2 { border-bottom-color: var(--apricot); }
+  .item { padding: 16px 0; border-top: 1px solid var(--line); }
+  .col h2 + .item { border-top: 0; }
+  .plain { margin: 0; font-size: 19px; }
+
+  .foot { margin-top: 32px; padding-top: 14px; border-top: 1px solid var(--line); color: var(--muted); font-size: 15px; }
+  .big { font-family: var(--serif); font-weight: 700; font-size: clamp(40px, 6vw, 72px); line-height: 1.05; color: var(--heading); margin: 44px 0 0; }
+
+  /* Presentørens notater: en gul lapp. */
+  .notes {
+    margin-top: 36px; max-width: 72ch; padding: 16px 20px;
+    background: var(--note); color: var(--note-ink); border: 1px solid var(--note-line);
+    border-radius: 4px 4px 16px 4px; font-size: 16px;
+  }
+  .notes h2 { margin: 0 0 6px; font-size: 14px; font-weight: 700; }
+  .notes p { margin: 0; }
+
+  /* ---------- Bunnlinje ---------- */
+  footer.bar {
+    position: fixed; left: 0; right: 0; bottom: 0; z-index: 10;
+    background: var(--paper); border-top: 1px solid var(--line);
+    padding: 10px 16px calc(10px + env(safe-area-inset-bottom, 0px));
+    display: flex; align-items: center; gap: 12px; flex-wrap: wrap;
+  }
+  .group { display: flex; align-items: center; gap: 6px; flex-wrap: wrap; }
+  .btn {
+    display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+    min-height: 42px; padding: 8px 16px; border-radius: 999px;
+    border: 1px solid var(--line-strong); background: var(--surface);
+    font-size: 15px; font-weight: 600; line-height: 1.1; white-space: nowrap;
+  }
+  .btn:hover:not(:disabled) { border-color: var(--accent); }
+  .btn:disabled { opacity: .4; cursor: default; }
+  .btn.primary { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); }
+  .btn.primary:hover:not(:disabled) { background: var(--accent-hover); border-color: var(--accent-hover); }
+  .btn.stop { background: var(--heading); border-color: var(--heading); color: var(--paper); }
+  .btn.round { width: 44px; padding: 0; font-size: 19px; }
+  .btn.emoji { width: 44px; padding: 0; font-size: 20px; }
+  .btn.hand-on { background: var(--coral); border-color: var(--coral); color: var(--coral-ink); }
+  .btn.done-on { background: var(--ok-bg); border-color: var(--ok); color: var(--ok); }
+  .btn.on { background: var(--note); border-color: var(--note-line); color: var(--note-ink); }
+  .btn.quiet { border-color: transparent; background: transparent; font-weight: 500; color: var(--muted); text-decoration: underline; text-underline-offset: .2em; }
+  .btn.quiet:hover:not(:disabled) { border-color: transparent; color: var(--accent); }
+  .status { color: var(--muted); font-size: 14px; }
+  @media (max-width: 640px) {
+    header.top { padding-left: 16px; padding-right: 16px; gap: 8px; }
+    .brand { font-size: 16px; }
+    .count, .btn .lbl, .status, #meBtn.named { display: none; }
+    .chip { padding: 6px 12px; }
+    footer.bar { gap: 6px; padding-left: 10px; padding-right: 10px; }
+    .group { gap: 4px; }
+    .btn { padding: 8px 12px; }
+    .btn.round, .btn.emoji, #handBtn, #doneBtn { width: 40px; padding: 0; }
+  }
+
+  /* ---------- Paneler ---------- */
+  .panel {
+    position: fixed; z-index: 12; top: calc(var(--head-h, 60px) + 8px); right: 16px;
+    width: min(380px, calc(100vw - 32px)); max-height: min(70vh, 560px); overflow: auto;
+    background: var(--surface); border: 1px solid var(--line); border-radius: 16px; box-shadow: var(--shadow); padding: 8px;
+  }
+  .panel .go { display: flex; gap: 12px; width: 100%; text-align: left; border: 0; background: transparent; padding: 10px 12px; border-radius: 10px; font-size: 16px; }
+  .panel .go:hover, .panel .go[aria-current="page"] { background: var(--blush); }
+  .panel .go span { min-width: 1.6em; color: var(--muted); font-variant-numeric: tabular-nums; }
+  #roster { padding: 16px 18px; }
+  #roster h2 { margin: 0 0 12px; font-family: var(--serif); font-size: 22px; color: var(--heading); }
+  #roster h3 { margin: 14px 0 8px; font-size: 14px; font-weight: 600; color: var(--muted); }
+  #roster h3 span { color: var(--ink); }
+  .names { list-style: none; margin: 0; padding: 0; display: flex; flex-wrap: wrap; gap: 6px; counter-reset: q; }
+  .names li { padding: 3px 12px; border-radius: 999px; background: var(--blush); font-size: 15px; }
+  ol.names li { background: var(--coral); color: var(--coral-ink); }
+  ol.names li::before { counter-increment: q; content: counter(q) ". "; font-weight: 600; }
+  .names li.anon { background: transparent; border: 1px dashed var(--line-strong); color: var(--muted); }
+  ol.names li.anon::before { content: none; }
+  .empty { margin: 0; color: var(--muted); font-size: 16px; }
+
+  /* ---------- Bli med ---------- */
+  .scrim { position: fixed; inset: 0; z-index: 20; background: var(--scrim); display: grid; place-items: center; padding: 16px; }
+  .sheet { width: min(440px, 100%); background: var(--surface); border-radius: 22px; padding: 28px; box-shadow: var(--shadow); }
+  .sheet h2 { margin: 0 0 8px; font-family: var(--serif); font-size: 30px; line-height: 1.15; color: var(--heading); }
+  .sheet p { margin: 0 0 18px; color: var(--muted); font-size: 17px; }
+  .sheet input {
+    width: 100%; font-size: 20px; padding: 12px 16px; border-radius: 14px;
+    border: 1.5px solid var(--line-strong); background: var(--paper);
+  }
+  .sheet input:focus { outline: 3px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+  .sheet .err { margin: 6px 0 10px; min-height: 1.4em; color: var(--accent); font-size: 15px; }
+  .sheet .acts { display: flex; align-items: center; gap: 8px; flex-wrap: wrap; }
+  @media (max-width: 640px) {
+    .scrim { place-items: end center; padding: 0; }
+    .sheet { border-radius: 22px 22px 0 0; padding-bottom: calc(24px + env(safe-area-inset-bottom, 0px)); }
+  }
+
+  /* ---------- Reaksjoner og beskjeder ---------- */
+  #fx { position: fixed; inset: 0; pointer-events: none; overflow: hidden; z-index: 9; }
+  .float { position: absolute; bottom: calc(var(--foot-h, 72px) + 8px); font-size: 36px; animation: rise 2.4s cubic-bezier(.2, .7, .3, 1) forwards; }
+  @keyframes rise {
+    0% { transform: translateY(0) scale(.6); opacity: 0; }
+    12% { transform: translateY(-28px) scale(1.08); opacity: 1; }
+    100% { transform: translateY(-380px) scale(1); opacity: 0; }
+  }
+  .toast {
+    position: fixed; left: 50%; bottom: calc(var(--foot-h, 72px) + 14px); z-index: 30;
+    transform: translate(-50%, 8px); opacity: 0; pointer-events: none;
+    max-width: calc(100vw - 32px); padding: 10px 18px; border-radius: 999px;
+    background: var(--heading); color: var(--paper); font-size: 15px; text-align: center;
+    transition: opacity .2s ease, transform .2s ease;
+  }
+  .toast.show { opacity: 1; transform: translate(-50%, 0); }
+  body.dark-slide .toast { background: var(--dark-soft); color: var(--dark-bg); }
+  @media (prefers-reduced-motion: reduce) {
+    .float { animation: fade 1.6s ease forwards; }
+    @keyframes fade { from { opacity: 1; } to { opacity: 0; } }
+    .stage, .progress, .toast, .bubble { transition: none; }
+  }
 </style>
 </head>
 <body>
 
-<header class="top">
+<header class="top" id="top">
   <span class="brand">Introduksjon til Claude</span>
-  <span class="counter" id="counter"></span>
-  <span class="spacer"></span>
-  <span class="pill hidden" id="herePill"><span class="dot" id="connDot"></span><span id="hereText"></span></span>
-  <button class="pill hidden action" id="followBtn"></button>
-  <button class="pill" id="menuBtn" aria-label="Oversikt">≡ Sider</button>
+  <span class="count" id="counter"></span>
+  <span class="grow"></span>
+  <span class="chip hidden" id="hereChip"></span>
+  <button class="chip hidden" id="roomChip" aria-expanded="false" aria-controls="roster"></button>
+  <button class="chip hidden" id="followBtn"></button>
+  <button class="chip" id="menuBtn" aria-expanded="false" aria-controls="overview">Sider</button>
+  <span class="progress" id="progress"></span>
 </header>
 
-<div id="overview" class="hidden"></div>
-<main><div id="slide" class="slide"></div></main>
-<div id="fx"></div>
-<div class="toast" id="toast"></div>
+<nav id="overview" class="panel hidden" aria-label="Alle sider"></nav>
+<div id="roster" class="panel hidden"></div>
+<div class="stage" id="stage"><main><article id="slide" class="slide"></article></main></div>
+<div id="fx" aria-hidden="true"></div>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
 
-<footer class="bottom">
-  <div class="nav">
-    <button class="btn" id="prevBtn" aria-label="Forrige">←</button>
-    <button class="btn" id="nextBtn" aria-label="Neste">→</button>
+<div class="scrim hidden" id="join">
+  <form class="sheet" id="joinForm" role="dialog" aria-modal="true" aria-labelledby="joinTitle" novalidate>
+    <h2 id="joinTitle">Hva heter du?</h2>
+    <p>Skriv navnet ditt, så ser Lars hvem som rekker opp hånda. Ingen innlogging.</p>
+    <label class="vh" for="joinName">Navn</label>
+    <input id="joinName" autocomplete="given-name" maxlength="32" placeholder="Fornavn" enterkeyhint="go" spellcheck="false">
+    <p class="err" id="joinErr" role="alert"></p>
+    <div class="acts">
+      <button class="btn primary" type="submit" id="joinOk">Bli med</button>
+      <button class="btn quiet" type="button" id="joinSkip">Bare se på</button>
+    </div>
+  </form>
+</div>
+
+<footer class="bar" id="bar">
+  <div class="group">
+    <button class="btn round" id="prevBtn" aria-label="Forrige side">←</button>
+    <button class="btn round" id="nextBtn" aria-label="Neste side">→</button>
   </div>
-  <div class="react hidden" id="viewerTools">
-    <button class="btn" id="handBtn" title="Rekk opp hånda">✋</button>
-    <button class="btn" id="doneBtn" title="Jeg er ferdig">✅</button>
-    <button class="btn" data-react="👍" title="Reaksjon">👍</button>
-    <button class="btn" data-react="😂" title="Reaksjon">😂</button>
-    <button class="btn" data-react="❓" title="Reaksjon">❓</button>
+  <div class="group hidden" id="viewerTools">
+    <button class="btn" id="handBtn" aria-pressed="false" title="Rekk opp hånda"><span aria-hidden="true">✋</span><span class="lbl">Hånd</span><span class="vh">Rekk opp hånda</span></button>
+    <button class="btn" id="doneBtn" aria-pressed="false" title="Jeg er ferdig"><span aria-hidden="true">✅</span><span class="lbl">Ferdig</span><span class="vh">Jeg er ferdig</span></button>
+    <button class="btn emoji" data-react="👍" aria-label="Tommel opp">👍</button>
+    <button class="btn emoji" data-react="😂" aria-label="Latter">😂</button>
+    <button class="btn emoji" data-react="❓" aria-label="Spørsmål">❓</button>
   </div>
-  <div class="react hidden" id="presenterTools">
+  <div class="group hidden" id="presenterTools">
     <button class="btn primary" id="liveBtn">Start presentasjon</button>
-    <button class="btn" id="notesBtn">Notater</button>
-    <button class="btn" id="clearBtn" title="Nullstill ferdig og hender">Nullstill</button>
+    <button class="btn" id="notesBtn" aria-pressed="false">Notater</button>
+    <button class="btn" id="clearBtn" title="Tøm hender og ferdig hos alle">Nullstill</button>
   </div>
-  <span class="spacer"></span>
+  <span class="grow"></span>
+  <button class="btn quiet hidden" id="meBtn" title="Endre navn"></button>
   <span class="status" id="statusText"></span>
 </footer>
 
@@ -427,34 +578,65 @@
 
   var EMOJI = ["👍", "😂", "❓"];
 
+  // Live-tjenesten er en Cloudflare Worker, se worker/ og docs/oppsett.md.
+  // Lokalt kan den overstyres med ?live=ws://127.0.0.1:8787/ws, men bare på localhost.
+  var LIVE_URL = "wss://claude-kurs.lars1702.workers.dev/ws";
+  (function () {
+    var q = new URLSearchParams(location.search).get("live");
+    if (q && /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) LIVE_URL = q;
+  })();
+
+  // ---------- Lagring ----------
+  function load(store, key) { try { return window[store].getItem(key); } catch (e) { return null; } }
+  function save(store, key, val) {
+    try { if (val == null) window[store].removeItem(key); else window[store].setItem(key, val); } catch (e) {}
+  }
+
+  // Presentøren åpner siden med #presenter=<token>. Tokenet sjekkes av serveren,
+  // huskes bare i denne fanen og fjernes fra adresselinja med en gang.
+  var token = null;
+  (function () {
+    var m = /^#presenter=([A-Za-z0-9_-]{16,128})$/.exec(location.hash || "");
+    if (m) {
+      token = m[1];
+      save("sessionStorage", "kurs.presenter", token);
+      history.replaceState(null, "", location.pathname + location.search);
+    } else token = load("sessionStorage", "kurs.presenter");
+  })();
+
+  // Én id per nettleser, så flere faner regnes som én person.
+  var cid = load("localStorage", "kurs.cid");
+  if (!cid || !/^[A-Za-z0-9_-]{8,64}$/.test(cid)) {
+    cid = window.crypto && crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36) + Math.random().toString(36).slice(2);
+    save("localStorage", "kurs.cid", cid);
+  }
+
   // ---------- Tilstand ----------
   var st = {
-    i: 0, following: true, isPresenter: false, broadcasting: false, live: null,
-    canSend: false, notesOpen: false, hand: false, done: false,
-    peers: [], connected: false, capable: false
+    i: 0, following: true, isPresenter: !!token, verified: false, broadcasting: false, live: null,
+    notesOpen: false, hand: false, done: false, name: load("localStorage", "kurs.name") || "", seen: 0, presence: null
   };
-  var db = null, room = null, userNs = null;
+  var net = { ws: null, open: false, ever: false, failed: false, asked: false, retry: 0, last: 0, timer: null };
 
   function $(s) { return document.querySelector(s); }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]; }); }
   function visible() { return SLIDES.filter(function (s) { return !s.backstage || st.isPresenter; }); }
   function indexOf(id) { var v = visible(); for (var k = 0; k < v.length; k++) if (v[k].id === id) return k; return -1; }
+  function live() { return !!(st.live && st.live.on); }
 
   // ---------- Rendering ----------
-  function promptHtml(item, n) {
-    var h = "<div class=\"prompt\">";
-    if (item.pre) h += "<div class=\"pre\">" + (n ? "<span class=\"num\">" + n + ".</span>" : "") + esc(item.pre) + "</div>";
-    if (item.copy) {
-      if (!item.pre && n) h += "<div class=\"pre\"><span class=\"num\">" + n + ".</span></div>";
-      h += chipHtml(item.copy);
-      if (item.then) h += "<div class=\"pre\">Så:</div>" + chipHtml(item.then);
-    }
-    return h + "</div>";
+  function sayHtml(text) {
+    return "<div class=\"say\"><p class=\"bubble\">" + esc(text) + "</p>" +
+      "<button class=\"copy\" data-copy=\"" + esc(text) + "\" aria-label=\"Kopier prompten\">Kopier</button></div>";
   }
-  function chipHtml(text) {
-    return "<div class=\"chip\"><p class=\"ptext\">" + esc(text) + "</p><span class=\"actions\">" +
-      "<button class=\"btn small copy\" data-copy=\"" + esc(text) + "\">Kopier</button>" +
-      "<button class=\"btn small send" + (st.canSend ? "" : " hidden") + "\" data-send=\"" + esc(text) + "\">Til Claude</button></span></div>";
+  function promptHtml(item, n) {
+    var h = "<div class=\"step\"><span class=\"n\">" + n + "</span><div class=\"body\">";
+    if (item.pre) h += "<p class=\"pre\">" + esc(item.pre) + "</p>";
+    if (item.copy) {
+      h += sayHtml(item.copy);
+      if (item.then) h += "<p class=\"pre\">Så:</p>" + sayHtml(item.then);
+    }
+    return h + "</div></div>";
   }
   function blockHtml(b) {
     switch (b.t) {
@@ -462,27 +644,31 @@
       case "big": return "<p class=\"big\">" + esc(b.text) + "</p>";
       case "foot": return "<div class=\"foot\">" + (b.html ? b.html : esc(b.text)) + "</div>";
       case "table":
-        return "<table class=\"plan\"><tr><th>Tid</th><th>Bolk</th><th>Innhold</th></tr>" + b.rows.map(function (r) {
-          return "<tr><td class=\"t\">" + esc(r[0]) + "</td><td>" + esc(r[1]) + "</td><td>" + esc(r[2]) + "</td></tr>";
-        }).join("") + "</table>";
+        return "<table class=\"plan\"><thead><tr><th scope=\"col\">Tid</th><th scope=\"col\">Bolk</th><th scope=\"col\">Innhold</th></tr></thead><tbody>" +
+          b.rows.map(function (r) {
+            return "<tr><td class=\"t\">" + esc(r[0]) + "</td><td class=\"b\">" + esc(r[1]) + "</td><td>" + esc(r[2]) + "</td></tr>";
+          }).join("") + "</tbody></table>";
       case "statements":
-        return "<div class=\"statements\">" + b.items.map(function (s, k) {
-          return "<div class=\"statement\"><span class=\"n\">" + (k + 1) + "</span><p>" + esc(s) + "</p></div>";
-        }).join("") + "</div>";
+        return "<ol class=\"statements\">" + b.items.map(function (s, k) {
+          return "<li class=\"statement\"><span class=\"n\" aria-hidden=\"true\">" + (k + 1) + "</span><p>" + esc(s) + "</p></li>";
+        }).join("") + "</ol>";
       case "grid":
-        return "<div class=\"grid\"><div class=\"box\"><h3>Prompter, i rekkefølge</h3>" + b.prompts.map(function (p, k) { return promptHtml(p, k + 1); }).join("") +
-          "</div><div class=\"points\">" + b.points.map(function (p) { return "<div class=\"point\"><h3>" + esc(p.h) + "</h3><p>" + esc(p.p) + "</p></div>"; }).join("") + "</div></div>";
+        return "<div class=\"grid\"><section><h2 class=\"seq-h\">Prompter, i rekkefølge</h2>" +
+          b.prompts.map(function (p, k) { return promptHtml(p, k + 1); }).join("") +
+          "</section><div class=\"points\">" + b.points.map(function (p) {
+            return "<div class=\"point\"><h3>" + esc(p.h) + "</h3><p>" + esc(p.p) + "</p></div>";
+          }).join("") + "</div></div>";
       case "rows":
         return "<div class=\"rows\">" + b.items.map(function (r) {
-          return "<div class=\"row\"><b class=\"label\">" + esc(r.label) + "</b> " + esc(r.text) +
-            (r.copies ? "<div class=\"chips\">" + r.copies.map(chipHtml).join("") + "</div>" : "") + "</div>";
+          return "<div class=\"row\"><p><b class=\"label\">" + esc(r.label) + "</b> " + esc(r.text) + "</p>" +
+            (r.copies ? "<div class=\"says\">" + r.copies.map(sayHtml).join("") + "</div>" : "") + "</div>";
         }).join("") + "</div>";
       case "cols":
         return "<div class=\"cols\">" + b.cards.map(function (c) {
-          return "<div class=\"box\"><h3>" + esc(c.h) + "</h3>" + c.items.map(function (it) {
-            return "<div class=\"prompt\">" + (it.text ? "<div class=\"pre\">" + esc(it.text) + "</div>" : "") +
-              (it.copy ? chipHtml(it.copy) : "") + (it.then ? "<div class=\"pre\">Så:</div>" + chipHtml(it.then) : "") + "</div>";
-          }).join("") + "</div>";
+          return "<section class=\"col\"><h2>" + esc(c.h) + "</h2>" + c.items.map(function (it) {
+            return "<div class=\"item\">" + (it.text ? "<p class=\"" + (it.copy ? "pre" : "plain") + "\">" + esc(it.text) + "</p>" : "") +
+              (it.copy ? sayHtml(it.copy) : "") + (it.then ? "<p class=\"pre\">Så:</p>" + sayHtml(it.then) : "") + "</div>";
+          }).join("") + "</section>";
         }).join("") + "</div>";
     }
     return "";
@@ -492,209 +678,382 @@
     if (st.i >= v.length) st.i = v.length - 1;
     if (st.i < 0) st.i = 0;
     var s = v[st.i];
-    var el = $("#slide");
-    el.className = "slide" + (s.dark ? " dark" : "");
+    document.body.classList.toggle("dark-slide", !!s.dark);
     var h = "<p class=\"kicker\">" + esc(s.kicker) + "</p><h1 class=\"title\">" + esc(s.title) + "</h1>";
     if (s.lead) h += "<p class=\"lead\">" + esc(s.lead) + "</p>";
     h += s.blocks.map(blockHtml).join("");
-    if (st.isPresenter && st.notesOpen && s.notes) h += "<div class=\"notes\"><h3>Notater, bare for deg</h3>" + esc(s.notes) + "</div>";
-    el.innerHTML = h;
-    $("#counter").textContent = (st.i + 1) + " / " + v.length;
+    if (st.isPresenter && st.notesOpen && s.notes) h += "<aside class=\"notes\"><h2>Notater, bare for deg</h2><p>" + esc(s.notes) + "</p></aside>";
+    $("#slide").innerHTML = h;
+    $("#counter").textContent = (st.i + 1) + " av " + v.length;
+    $("#progress").style.width = ((st.i + 1) / v.length * 100) + "%";
     $("#prevBtn").disabled = st.i === 0;
     $("#nextBtn").disabled = st.i === v.length - 1;
     history.replaceState(null, "", "#/" + s.id);
-    window.scrollTo({ top: 0 });
+    window.scrollTo(0, 0);
     renderOverview();
     updateBar();
-    recheckSend();
   }
   function renderOverview() {
-    var v = visible();
-    $("#overview").innerHTML = v.map(function (s, k) {
-      return "<button data-go=\"" + k + "\"" + (k === st.i ? " class=\"current\"" : "") + "><span>" + (k + 1) + "</span>" + esc(s.title) + "</button>";
+    $("#overview").innerHTML = visible().map(function (s, k) {
+      return "<button class=\"go\" data-go=\"" + k + "\"" + (k === st.i ? " aria-current=\"page\"" : "") + "><span>" + (k + 1) + "</span>" + esc(s.title) + "</button>";
     }).join("");
+  }
+  function renderRoster() {
+    var el = $("#roster"), p = st.presence;
+    if (!st.isPresenter || !p || !p.people) { el.innerHTML = ""; return; }
+    var hands = [], done = [], rest = [];
+    p.people.forEach(function (x) { (x.hand ? hands : x.done ? done : rest).push(x); });
+    function group(title, list, ordered) {
+      if (!list.length) return "";
+      var named = list.filter(function (x) { return x.name; }), anon = list.length - named.length, tag = ordered ? "ol" : "ul";
+      return "<section><h3>" + title + " <span>" + list.length + "</span></h3><" + tag + " class=\"names\">" +
+        named.map(function (x) { return "<li>" + esc(x.name) + "</li>"; }).join("") +
+        (anon ? "<li class=\"anon\">" + anon + " uten navn</li>" : "") + "</" + tag + "></section>";
+    }
+    el.innerHTML = "<h2>I salen nå</h2>" + (p.people.length
+      ? group("✋ Hånd oppe", hands, true) + group("✅ Ferdig", done) + group("Her", rest)
+      : "<p class=\"empty\">Ingen deltakere ennå. Del lenken i Teams-chatten.</p>");
   }
 
   // ---------- Navigasjon ----------
-  var liveWant = null, liveWriting = false, liveWritten = null;
-  function pushLive() {
-    if (!db || !st.broadcasting) return;
-    var s = visible()[st.i];
-    if (!s || s.backstage) return;
-    liveWant = s.id;
-    if (liveWriting || liveWant === liveWritten) return;
-    liveWriting = true;
-    var id = liveWant;
-    db.doc("live/state").set({ on: true, slideId: id, at: Date.now() }).then(function () { liveWritten = id; }).catch(function () {}).then(function () {
-      liveWriting = false;
-      if (liveWant !== liveWritten) pushLive();
-    });
-  }
   function go(n, opts) {
-    opts = opts || {};
     var v = visible();
     if (n < 0 || n >= v.length) return;
+    if (!st.isPresenter && opts && opts.manual && live()) st.following = false;
     st.i = n;
-    if (!st.isPresenter && opts.manual) st.following = false;
     render();
-    if (st.isPresenter) pushLive();
+    if (st.isPresenter && st.broadcasting) pushLive();
   }
-  function followLive() {
-    if (!st.live || !st.live.on) return;
-    var k = indexOf(st.live.slideId);
+  function jumpTo(id) {
+    var k = indexOf(id);
     if (k >= 0 && k !== st.i) { st.i = k; render(); }
   }
-
-  // ---------- Statuslinje ----------
-  function updateBar() {
-    var here = $("#herePill"), ht = $("#hereText"), fb = $("#followBtn"), status = $("#statusText");
-    if (room) {
-      var people = st.peers.filter(function (p) { return p.kind === "viewer"; });
-      var ids = {}; var n = 0;
-      people.forEach(function (p) { var k = p.by || p.peer; if (!ids[k]) { ids[k] = 1; n++; } });
-      var hands = people.filter(function (p) { return p.presence && p.presence.hand === true; }).length;
-      var done = people.filter(function (p) { return p.presence && p.presence.done === true; }).length;
-      here.classList.remove("hidden");
-      $("#connDot").className = "dot" + (st.connected ? " on" : "");
-      ht.textContent = n + (n === 1 ? " her" : " her") + (st.isPresenter ? " · ✋ " + hands + " · ✅ " + done : "");
-    }
-    if (st.isPresenter) {
-      fb.classList.add("hidden");
-      status.textContent = st.broadcasting ? "Du styrer hva publikum ser" : "Publikum blar selv";
-      $("#liveBtn").textContent = st.broadcasting ? "Stopp presentasjon" : "Start presentasjon";
-      $("#liveBtn").className = "btn " + (st.broadcasting ? "active" : "primary");
-      $("#notesBtn").className = "btn" + (st.notesOpen ? " active" : "");
-    } else if (db && st.live && st.live.on) {
-      var k = indexOf(st.live.slideId);
-      if (st.following) { fb.textContent = "● Følger presentasjonen"; fb.className = "pill"; }
-      else { fb.textContent = "Gå til presentasjonen" + (k >= 0 ? " (" + (k + 1) + ")" : ""); fb.className = "pill action"; }
-      fb.classList.remove("hidden");
-      status.textContent = st.following ? "Presentasjonen styrer siden. Bla selv for å slippe." : "";
+  function followLive() { if (live()) jumpTo(st.live.slide); }
+  // Backstage vises aldri for publikum, så den sendes ikke.
+  function pushLive() {
+    var s = visible()[st.i];
+    if (!s || s.backstage) return;
+    st.live = { on: true, slide: s.id };
+    send({ t: "go", on: true, slide: s.id });
+  }
+  function toggleLive() {
+    var s = visible()[st.i];
+    if (!st.broadcasting) {
+      if (s.backstage) { toast("Gå til en vanlig side først. Backstage vises aldri for publikum."); return; }
+      if (!send({ t: "go", on: true, slide: s.id })) return;
+      st.broadcasting = true; st.live = { on: true, slide: s.id };
     } else {
-      fb.classList.add("hidden");
-      status.textContent = db ? "" : (st.capable ? "" : "Solo-modus: bla selv med pilene.");
+      var slide = (st.live && st.live.slide) || s.id;
+      if (!send({ t: "go", on: false, slide: slide })) return;
+      st.broadcasting = false; st.live = { on: false, slide: slide };
     }
-    $("#viewerTools").classList.toggle("hidden", !room || st.isPresenter);
-    $("#handBtn").className = "btn" + (st.hand ? " active" : "");
-    $("#doneBtn").className = "btn" + (st.done ? " active" : "");
+    updateBar();
   }
 
-  // ---------- Kopiering og sending ----------
+  // ---------- Statuslinjene ----------
+  function updateBar() {
+    var p = st.presence || { here: 0, hands: 0, done: 0 };
+    var here = $("#hereChip"), room = $("#roomChip"), fb = $("#followBtn");
+    var dot = "<span class=\"dot" + (net.open ? " on" : "") + "\"></span>";
+    here.classList.toggle("hidden", !net.ever || st.isPresenter);
+    room.classList.toggle("hidden", !net.ever || !st.isPresenter);
+    if (net.ever && st.isPresenter) {
+      room.innerHTML = dot + "<span>" + p.here + " her</span><span>✋ " + p.hands + "</span><span>✅ " + p.done + "</span>";
+      room.setAttribute("aria-label", p.here + " her, " + p.hands + " med hånda oppe, " + p.done + " ferdige. Vis hvem.");
+    } else if (net.ever) {
+      here.innerHTML = dot + "<span>" + p.here + " her</span>";
+    }
+
+    if (!st.isPresenter && net.ever && live()) {
+      var k = indexOf(st.live.slide);
+      fb.textContent = st.following ? "Følger presentasjonen" : "Gå til presentasjonen" + (k >= 0 ? " (" + (k + 1) + ")" : "");
+      fb.className = "chip " + (st.following ? "following" : "action");
+    } else fb.className = "chip hidden";
+
+    var status = "";
+    if (st.isPresenter) status = !net.open ? (net.failed ? "Ingen kontakt med live-tjenesten" : "Kobler til …") : st.broadcasting ? "Du styrer hva publikum ser" : "Publikum blar selv";
+    else if (net.failed && !net.ever) status = "Solo-modus: bla selv med pilene.";
+    else if (net.ever && !net.open) status = "Kobler til igjen …";
+    else if (live() && st.following) status = "Presentasjonen styrer siden. Bla selv for å slippe.";
+    $("#statusText").textContent = status;
+
+    $("#presenterTools").classList.toggle("hidden", !st.isPresenter);
+    var lb = $("#liveBtn");
+    lb.textContent = st.broadcasting ? "Stopp presentasjon" : "Start presentasjon";
+    lb.className = "btn " + (st.broadcasting ? "stop" : "primary");
+    lb.disabled = !net.open || !st.verified;
+    $("#clearBtn").disabled = !net.open || !st.verified;
+    $("#notesBtn").setAttribute("aria-pressed", String(st.notesOpen));
+    $("#notesBtn").classList.toggle("on", st.notesOpen);
+
+    $("#viewerTools").classList.toggle("hidden", st.isPresenter || !net.ever);
+    $("#handBtn").className = "btn" + (st.hand ? " hand-on" : "");
+    $("#handBtn").setAttribute("aria-pressed", String(st.hand));
+    $("#doneBtn").className = "btn" + (st.done ? " done-on" : "");
+    $("#doneBtn").setAttribute("aria-pressed", String(st.done));
+    var me = $("#meBtn");
+    me.classList.toggle("hidden", st.isPresenter || !net.ever);
+    me.textContent = st.name || "Legg til navn";
+    me.classList.toggle("named", !!st.name);
+  }
+
+  // ---------- Kopiering ----------
   var toastT = null;
   function toast(msg) {
-    var t = $("#toast"); t.textContent = msg; t.classList.add("show");
-    clearTimeout(toastT); toastT = setTimeout(function () { t.classList.remove("show"); }, 1400);
+    var t = $("#toast");
+    t.textContent = msg; t.classList.add("show");
+    clearTimeout(toastT); toastT = setTimeout(function () { t.classList.remove("show"); }, 2200);
   }
   function copyText(text, btn) {
-    function ok() { btn.classList.add("copied"); btn.textContent = "Kopiert"; setTimeout(function () { btn.classList.remove("copied"); btn.textContent = "Kopier"; }, 1500); }
-    if (navigator.clipboard && navigator.clipboard.writeText) {
-      navigator.clipboard.writeText(text).then(ok, function () { fallback(); });
-    } else fallback();
+    var say = btn.closest(".say");
+    function ok() {
+      btn.classList.add("done"); btn.textContent = "Kopiert";
+      if (say) say.classList.add("copied");
+      setTimeout(function () { btn.classList.remove("done"); btn.textContent = "Kopier"; if (say) say.classList.remove("copied"); }, 1500);
+    }
     function fallback() {
-      var ta = document.createElement("textarea"); ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.top = "-1000px";
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.setAttribute("readonly", ""); ta.style.position = "fixed"; ta.style.top = "-1000px";
       document.body.appendChild(ta); ta.select();
-      try { document.execCommand("copy"); ok(); } catch (e) { toast("Kunne ikke kopiere, marker teksten manuelt"); }
+      try { if (document.execCommand("copy")) ok(); else throw new Error(); } catch (e) { toast("Kunne ikke kopiere. Marker teksten og kopier selv."); }
       document.body.removeChild(ta);
     }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(ok, fallback);
+    else fallback();
   }
-  function recheckSend() {
-    if (!room || typeof room.canSendToClaudeSession !== "function") return;
-    room.canSendToClaudeSession().then(function (v) {
-      var can = v === "available";
-      if (can !== st.canSend) { st.canSend = can; document.querySelectorAll(".btn.send").forEach(function (b) { b.classList.toggle("hidden", !can); }); }
-    }).catch(function () {});
+
+  // ---------- Bli med ----------
+  var joinOpen = false, joinPending = false;
+  function setInert(on) { ["#top", "#stage", "#bar"].forEach(function (s) { $(s).inert = on; }); }
+  function openJoin(taken) {
+    if (st.isPresenter) return;
+    joinOpen = true; joinPending = false;
+    $("#join").classList.remove("hidden");
+    setInert(true);
+    var inp = $("#joinName");
+    inp.value = taken || st.name || "";
+    $("#joinErr").textContent = taken ? takenText(taken) : "";
+    $("#joinOk").disabled = false;
+    setTimeout(function () { inp.focus(); inp.select(); }, 40);
+  }
+  function closeJoin(skipped) {
+    joinOpen = false; joinPending = false;
+    $("#join").classList.add("hidden");
+    setInert(false);
+    if (skipped) save("sessionStorage", "kurs.skip", "1");
+  }
+  function takenText(name) { return "«" + name + "» er tatt. Legg til forbokstaven i etternavnet ditt."; }
+  function joinError(name) {
+    joinPending = false;
+    $("#joinOk").disabled = false;
+    $("#joinErr").textContent = name ? takenText(name) : "Skriv et navn, eller trykk «Bare se på».";
+    $("#joinName").focus();
+  }
+  $("#joinForm").addEventListener("submit", function (e) {
+    e.preventDefault();
+    var name = $("#joinName").value.replace(/\s+/g, " ").trim();
+    if (!name) { joinError(""); return; }
+    if (name === st.name) { closeJoin(); return; }
+    if (!send({ t: "name", name: name })) { $("#joinErr").textContent = "Får ikke kontakt akkurat nå. Prøv igjen om litt."; return; }
+    joinPending = true;
+    $("#joinOk").disabled = true;
+  });
+
+  // ---------- Klikk og taster ----------
+  function togglePanel(id, show) {
+    var el = $("#" + id), btn = id === "overview" ? $("#menuBtn") : $("#roomChip");
+    if (show === undefined) show = el.classList.contains("hidden");
+    el.classList.toggle("hidden", !show);
+    btn.setAttribute("aria-expanded", String(show));
+    if (show && id === "roster") renderRoster();
+  }
+  function setMe(patch) {
+    if ("hand" in patch) st.hand = patch.hand;
+    if ("done" in patch) st.done = patch.done;
+    send({ t: "me", hand: st.hand, done: st.done });
+    updateBar();
+  }
+  var lastReact = 0;
+  function react(e) {
+    var now = Date.now();
+    if (now - lastReact < 300) return;
+    lastReact = now;
+    burst(e);
+    send({ t: "react", e: e });
+  }
+  function burst(emoji) {
+    if (EMOJI.indexOf(emoji) < 0) return;
+    var fx = $("#fx");
+    if (fx.childElementCount > 40) return;
+    var el = document.createElement("div");
+    el.className = "float"; el.textContent = emoji;
+    el.style.left = (8 + Math.random() * 84) + "%";
+    fx.appendChild(el);
+    setTimeout(function () { el.remove(); }, 2600);
   }
 
   document.addEventListener("click", function (e) {
-    var t = e.target.closest ? e.target.closest("button") : null;
+    if (!e.target.closest("#overview, #menuBtn")) togglePanel("overview", false);
+    if (!e.target.closest("#roster, #roomChip")) togglePanel("roster", false);
+    var t = e.target.closest("button");
     if (!t) return;
     if (t.dataset.copy !== undefined) { copyText(t.dataset.copy, t); return; }
-    if (t.dataset.send !== undefined) {
-      if (!room) return;
-      var text = t.dataset.send;
-      room.sendToClaudeSession({ label: "Prompt fra Claude-kurset", prompt: text }).then(function () { toast("Ligger i Claude-feltet ditt. Lim inn det du vil ha med, og send."); }).catch(function () { toast("Ikke tilgjengelig her. Bruk Kopier."); });
-      return;
-    }
-    if (t.dataset.go !== undefined) { $("#overview").classList.add("hidden"); go(parseInt(t.dataset.go, 10), { manual: true }); return; }
-    if (t.dataset.react) { if (room) room.emit("reaction", { e: t.dataset.react }).catch(function () {}); burst(t.dataset.react); return; }
+    if (t.dataset.go !== undefined) { togglePanel("overview", false); go(parseInt(t.dataset.go, 10), { manual: true }); return; }
+    if (t.dataset.react) { react(t.dataset.react); return; }
     switch (t.id) {
       case "prevBtn": go(st.i - 1, { manual: true }); break;
       case "nextBtn": go(st.i + 1, { manual: true }); break;
-      case "menuBtn": $("#overview").classList.toggle("hidden"); break;
-      case "followBtn": st.following = true; followLive(); updateBar(); break;
-      case "handBtn": st.hand = !st.hand; if (room) room.presence({ hand: st.hand }).catch(function () {}); updateBar(); break;
-      case "doneBtn": st.done = !st.done; if (room) room.presence({ done: st.done }).catch(function () {}); updateBar(); break;
-      case "liveBtn":
-        st.broadcasting = !st.broadcasting;
-        if (st.broadcasting) { liveWritten = null; pushLive(); }
-        else if (db) { db.doc("live/state").set({ on: false, slideId: visible()[st.i].id, at: Date.now() }).catch(function () {}); }
-        updateBar(); break;
+      case "menuBtn": togglePanel("overview"); break;
+      case "roomChip": togglePanel("roster"); break;
+      case "followBtn": if (!st.following) { st.following = true; followLive(); updateBar(); } break;
+      case "handBtn": setMe({ hand: !st.hand }); break;
+      case "doneBtn": setMe({ done: !st.done }); break;
+      case "meBtn": openJoin(); break;
+      case "joinSkip": closeJoin(true); break;
+      case "liveBtn": toggleLive(); break;
       case "notesBtn": st.notesOpen = !st.notesOpen; render(); break;
-      case "clearBtn": if (room) room.emit("clear", { at: Date.now() }).catch(function () {}); break;
+      case "clearBtn": if (send({ t: "clear" })) toast("Hender og ferdig er nullstilt hos alle."); break;
     }
   });
   document.addEventListener("keydown", function (e) {
+    if (joinOpen) { if (e.key === "Escape") closeJoin(true); return; }
     var tag = (e.target && e.target.tagName) || "";
-    if (tag === "INPUT" || tag === "TEXTAREA") return;
-    if (e.key === "ArrowRight" || e.key === "PageDown" || e.key === " ") { e.preventDefault(); go(st.i + 1, { manual: true }); }
+    if (tag === "INPUT" || tag === "TEXTAREA" || e.metaKey || e.ctrlKey || e.altKey) return;
+    if (e.key === "ArrowRight" || e.key === "PageDown" || (e.key === " " && tag !== "BUTTON")) { e.preventDefault(); go(st.i + 1, { manual: true }); }
     else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(st.i - 1, { manual: true }); }
     else if (e.key === "Home") go(0, { manual: true });
     else if (e.key === "End") go(visible().length - 1, { manual: true });
-    else if (e.key === "Escape") $("#overview").classList.add("hidden");
+    else if (e.key === "Escape") { togglePanel("overview", false); togglePanel("roster", false); }
   });
 
-  function burst(emoji) {
-    if (EMOJI.indexOf(emoji) < 0) return;
-    var el = document.createElement("div"); el.className = "float"; el.textContent = emoji;
-    el.style.left = (10 + Math.random() * 80) + "%";
-    $("#fx").appendChild(el);
-    setTimeout(function () { el.remove(); }, 2300);
+  // ---------- Live ----------
+  function connect() {
+    clearTimeout(net.timer);
+    if (!/^wss?:\/\//.test(LIVE_URL) || !window.WebSocket) { net.failed = true; updateBar(); return; }
+    var ws;
+    try { ws = new WebSocket(LIVE_URL); } catch (e) { retry(); return; }
+    net.ws = ws;
+    ws.onopen = function () {
+      net.open = true; net.retry = 0; net.last = Date.now();
+      send({ t: "hello", cid: cid, name: st.name, hand: st.hand, done: st.done, seen: st.seen, token: token || undefined });
+    };
+    ws.onmessage = function (ev) {
+      net.last = Date.now();
+      if (ev.data === "pong") return;
+      var m;
+      try { m = JSON.parse(ev.data); } catch (e) { return; }
+      onMessage(m);
+    };
+    ws.onclose = function () { if (net.ws === ws) drop(); };
+  }
+  function drop() {
+    var ws = net.ws;
+    net.ws = null; net.open = false;
+    if (ws) { ws.onopen = ws.onmessage = ws.onclose = null; try { ws.close(); } catch (e) {} }
+    if (!net.ever) net.failed = true;
+    updateBar();
+    retry();
+  }
+  function retry() {
+    clearTimeout(net.timer);
+    var wait = Math.min(15000, 1000 * Math.pow(2, net.retry++)) * (0.7 + Math.random() * 0.6);
+    net.timer = setTimeout(connect, wait);
+  }
+  function send(m) {
+    if (!net.ws || !net.open) return false;
+    try { net.ws.send(JSON.stringify(m)); return true; } catch (e) { return false; }
+  }
+  // Ping holder forbindelsen i live og avslører døde forbindelser.
+  setInterval(function () {
+    if (!net.ws || !net.open) return;
+    if (document.visibilityState === "visible" && Date.now() - net.last > 70000) { drop(); return; }
+    try { net.ws.send("ping"); } catch (e) {}
+  }, 25000);
+  document.addEventListener("visibilitychange", function () {
+    if (document.visibilityState !== "visible") return;
+    if (net.ws && net.open && Date.now() - net.last > 70000) drop();
+    else if (!net.ws) { net.retry = 0; connect(); }
+  });
+
+  function onMessage(m) {
+    switch (m.t) {
+      case "welcome": onWelcome(m); break;
+      case "live": applyLive(m); break;
+      case "presence": st.presence = m; updateBar(); renderRoster(); break;
+      case "me": applyMe(m, false); break;
+      case "name-taken": joinError(m.name); break;
+      case "react": burst(m.e); break;
+      case "clear": st.hand = false; st.done = false; st.seen = m.at || 0; updateBar(); break;
+    }
+  }
+  function onWelcome(m) {
+    net.ever = true; net.failed = false;
+    st.seen = m.clearAt || 0;
+    var was = st.isPresenter;
+    st.verified = m.role === "presenter";
+    st.isPresenter = st.verified;
+    if (m.badToken) {
+      token = null;
+      save("sessionStorage", "kurs.presenter", null);
+      toast("Presentørlenken er ikke gyldig. Du ser kurset som deltaker.");
+    }
+    if (st.isPresenter !== was) render();
+    applyMe(m.me || {}, true);
+    if (st.isPresenter) {
+      if (st.broadcasting) pushLive(); // Var vi live før bruddet, er det vi som bestemmer siden.
+      else applyLive(m.live || {});
+    } else {
+      applyLive(m.live || {});
+      if (m.nameTaken) openJoin(m.nameTaken);
+      else if (!st.name && !net.asked && !load("sessionStorage", "kurs.skip")) openJoin();
+      net.asked = true;
+    }
+    updateBar();
+  }
+  function applyLive(l) {
+    var was = live();
+    st.live = { on: l.on === true, slide: l.slide || null };
+    if (st.isPresenter) {
+      st.broadcasting = st.live.on;
+      if (st.live.on) jumpTo(st.live.slide);
+    } else {
+      if (st.live.on && !was) st.following = true;
+      if (st.following) followLive();
+    }
+    updateBar();
+  }
+  function applyMe(me, fromWelcome) {
+    if (typeof me.hand === "boolean") st.hand = me.hand;
+    if (typeof me.done === "boolean") st.done = me.done;
+    if (typeof me.name === "string" && (me.name || fromWelcome)) {
+      st.name = me.name;
+      if (me.name) save("localStorage", "kurs.name", me.name);
+      if (joinOpen && joinPending && me.name) { closeJoin(); toast("Du er med som " + me.name + "."); }
+    }
+    updateBar();
   }
 
   // ---------- Oppstart ----------
-  function startAt() {
-    var m = /^#\/([A-Za-z0-9_-]+)$/.exec(location.hash || "");
-    if (m) { var k = indexOf(m[1]); if (k >= 0) st.i = k; }
+  function measure() {
+    var r = document.documentElement.style;
+    r.setProperty("--head-h", $("#top").offsetHeight + "px");
+    r.setProperty("--foot-h", $("#bar").offsetHeight + "px");
   }
-  startAt();
+  window.addEventListener("resize", measure);
+  if (window.ResizeObserver) { var ro = new ResizeObserver(measure); ro.observe($("#top")); ro.observe($("#bar")); }
+
+  // Limes presentørlenken inn i en fane der kurset alt er åpent, endres bare hashen.
+  window.addEventListener("hashchange", function () {
+    if (/^#presenter=/.test(location.hash)) { location.reload(); return; }
+    var m = /^#\/([A-Za-z0-9_-]+)$/.exec(location.hash || ""), k = m ? indexOf(m[1]) : -1;
+    if (k >= 0 && k !== st.i) go(k, { manual: true });
+  });
+
+  var start = /^#\/([A-Za-z0-9_-]+)$/.exec(location.hash || "");
+  if (start && indexOf(start[1]) >= 0) st.i = indexOf(start[1]);
   render();
-
-  function use(name) {
-    try {
-      if (window.claude && typeof window.claude.use === "function") { st.capable = true; return window.claude.use(name); }
-    } catch (e) {}
-    return Promise.resolve(null);
-  }
-
-  use("user").then(function (u) {
-    userNs = u;
-    if (!u) return false;
-    return u.canEdit().catch(function () { return false; });
-  }).then(function (canEdit) {
-    st.isPresenter = !!canEdit;
-    if (st.isPresenter) { $("#presenterTools").classList.remove("hidden"); startAt(); render(); }
-    return use("db");
-  }).then(function (d) {
-    db = d;
-    if (!db) { updateBar(); return; }
-    db.doc("live/state").onSnapshot(function (snap) {
-      st.live = snap.exists ? snap.data() : null;
-      if (!st.isPresenter && st.following) followLive();
-      updateBar();
-    }, function () { db = null; updateBar(); });
-  });
-
-  use("room").then(function (r) {
-    room = r;
-    if (!room) { updateBar(); return; }
-    $("#viewerTools").classList.remove("hidden");
-    room.onPeers(function (ch) { st.peers = ch.peers; updateBar(); }, function () {});
-    room.onConnection(function (c) { st.connected = c; updateBar(); }, function () {});
-    room.on("reaction", function (m) { if (m.sameTab) return; var e = m.data && m.data.e; if (EMOJI.indexOf(e) >= 0) burst(e); }, function () {});
-    room.on("clear", function () { st.hand = false; st.done = false; room.presence({ hand: false, done: false }).catch(function () {}); updateBar(); }, function () {});
-    recheckSend();
-    updateBar();
-  });
+  measure();
+  connect();
 })();
 </script>
 </body>
