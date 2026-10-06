@@ -162,7 +162,7 @@ på om den kan noe, spør den: «Er dette noe du kan hjelpe meg med?»
 Vil du videre:
 
 - Introduksjon til generativ KI, DFØ. E-læring på norsk, 30 til 45 minutter, om
-  hva språkmodeller er og ansvarlig bruk i forvaltningen.
+  hva språkmodeller er og ansvarlig bruk i forvaltningen. Krever innlogging.
   https://laeringsplattformen.dfo.no/kursoversikt/introduksjon-til-generativ-ki
 - AI Fluency: Framework and foundations, Anthropic. Gratis, på engelsk, rundt
   fire timer. https://academy.claude.com/courses/ai-fluency-framework-foundations
