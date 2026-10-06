@@ -546,9 +546,9 @@
           }
         },
         {
-          bonus: true, text: "spør hva den mangler.",
+          bonus: true, text: "gi den et eksempel på hvordan du vil ha det.",
           say: {
-            _: "Hva mer trenger du å vite for å gjøre dette bedre?",
+            _: "Her er et eksempel på hvordan jeg vil ha det: [lim inn et eksempel du liker]. Gjør det på samme måte.",
             design: "Gå gjennom prototypen for universell utforming. Hva ville feilet for en som bruker skjermleser eller bare tastatur?"
           }
         }
@@ -559,6 +559,7 @@
         "Si hvor bildet kommer fra: en erfaren bruker beskrev den første prompten som hoppkanten. Bommer du der, går resten av samtalen med til å rette opp.",
         "Etter steg 2: be to stykker si hva som ble forskjellig, én i rommet og én på Teams. Spør etter fagfelt, ikke etter navn: «dere som jobber med jus, hva fikk dere?»",
         "Si så prinsippet i én setning: kontekst, oppgave, format. Kontrasten først, regelen etterpå, det er rekkefølgen som virker.",
+        "Har noen tatt DFØ-kurset, kjenner de dette som KORE: kontekst, oppgave, retningslinjer, eksempel. Ekstrasteget er E-en: et eksempel på det du vil ha sier mer enn en lang beskrivelse.",
         "Steg 3 er det mange ikke vet: ber du om en fil, får du en fil. Ellers får du en tabell midt i teksten.",
         "Test prompten for hvert fagfelt kvelden før, med nettsøk på, og ha skjermbilder klare."
       ]
@@ -568,7 +569,7 @@
       lead: "Har du et utkast, kan den være kritikeren din før noen andre ser det.",
       track: true,
       steps: [
-        { text: "Lim inn noe du jobber med, og si hvem det er til. Offentlig, oppdiktet eller uten personopplysninger.", say: "Her er et utkast. Det skal til [hvem]. [lim inn teksten]" },
+        { text: "Lim inn noe du jobber med, og si hvem det er til. Offentlig, oppdiktet eller uten personopplysninger.", say: "Her er et utkast. Det skal til [hvem]. Teksten står mellom de tre anførselstegnene. \"\"\"[lim inn teksten]\"\"\"" },
         { text: "Be den være kritisk.", say: "Vær kritisk. Hva har jeg ikke tenkt på, og hva er de sterkeste motargumentene?" },
         { text: "Be om en kortere versjon, med dine egne ord.", say: "Skriv det på halve lengden, uten å miste poenget." },
         {
@@ -587,6 +588,7 @@
       meme: meme("sparring-drake", "Drake avviser: Be en kollega lese utkastet fredag kl. 15.55. Drake liker: Be Claude være kritisk først."),
       notes: [
         "Har de ikke noe å lime inn, kan de bruke svaret fra hoppkanten. Folk lærer mest av tekst de kjenner godt, for der ser de selv hvor den tar feil.",
+        "De tre anførselstegnene skiller beskjeden fra teksten. Da blander den ikke det som står i teksten, med det du ber den om.",
         "Poenget: du kan få motstand uten å involvere noen andre, og komme bedre forberedt til dem du skal vise det til.",
         "Ekstrasteget gir ofte latter. La det skje."
       ]
@@ -609,12 +611,13 @@
       lead: "Én setning, på formen «Når jeg …, ber jeg Claude om å …». Lurer du på om den kan noe, spør den: «Er dette noe du kan hjelpe meg med?»",
       wall: { id: "i-morgen", placeholder: "Når jeg …, ber jeg Claude om å …" },
       after: [{ t: "links", h: "Vil du videre", items: [
-        ["Introduksjon til generativ KI", "https://laeringsplattformen.dfo.no/kursoversikt/introduksjon-til-generativ-ki", "DFØ, e-læring på norsk, 30 til 45 minutter. Om hva språkmodeller er, og ansvarlig bruk i forvaltningen. Krever innlogging."],
+        ["Introduksjon til generativ KI", "https://laeringsplattformen.dfo.no/kursoversikt/introduksjon-til-generativ-ki", "DFØ, e-læring på norsk, 30 til 45 minutter, med kursbevis. Fem moduler: hvordan språkmodeller virker, gode instruksjoner, sparring, ansvarlig bruk etter forvaltningsverdiene, og øving. Krever innlogging."],
         ["AI Fluency: Framework and foundations", "https://academy.claude.com/courses/ai-fluency-framework-foundations", "Anthropic, gratis, på engelsk, rundt fire timer."]
       ] }],
       meme: meme("slutt-rollsafe", "Mann peker på tinningen. Tekst: Claude kan ikke ta feil, hvis du aldri sjekker."),
       notes: [
         "Les opp tre fra veggen, gjerne fra ulike fagfelt. En plan på formen «når jeg …, gjør jeg …» blir oftere gjort enn et løfte om å prøve.",
+        "Foreslå et KI-minutt på neste avdelingsmøte, der én forteller hva hen prøvde. DFØ-kurset anbefaler det samme, og det holder vanen ved like.",
         "Avslutt med memen og en takk, ikke med «noen spørsmål?». Si at du blir igjen fem minutter for dem som vil spørre.",
         "Det siste de husker, er slutten. La den handle om deres planer, ikke dine."
       ]

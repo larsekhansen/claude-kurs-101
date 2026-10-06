@@ -102,7 +102,7 @@ Første prompt er hoppkanten. Bommer du på den, går resten av samtalen med til
 1. Kjør den korte først. Se på svaret.
 2. Åpne en ny samtale. Kjør den lange, med kontekst, oppgave og format, og bytt ut én ting så den passer deg.
 3. Be om en fil du kan bruke videre.
-4. Ekstra: spør hva den mangler. «Hva mer trenger du å vite for å gjøre dette bedre?»
+4. Ekstra: gi den et eksempel på hvordan du vil ha det. «Her er et eksempel på hvordan jeg vil ha det: [lim inn et eksempel du liker]. Gjør det på samme måte.»
 
 Promptene per fagfelt, kort, lang og fil:
 
@@ -138,7 +138,7 @@ Meme: Gru's Plan. «Skriv lag en tabell. Få en tabell. Tabellen handler om feil
 
 Har du et utkast, kan den være kritikeren din før noen andre ser det.
 
-1. Lim inn noe du jobber med, og si hvem det er til. Offentlig, oppdiktet eller uten personopplysninger. «Her er et utkast. Det skal til [hvem]. [lim inn teksten]»
+1. Lim inn noe du jobber med, og si hvem det er til. Offentlig, oppdiktet eller uten personopplysninger. «Her er et utkast. Det skal til [hvem]. Teksten står mellom de tre anførselstegnene. """[lim inn teksten]"""»
 2. Be den være kritisk. «Vær kritisk. Hva har jeg ikke tenkt på, og hva er de sterkeste motargumentene?»
 3. Be om en kortere versjon, med dine egne ord. «Skriv det på halve lengden, uten å miste poenget.»
 4. Ekstra: la den spille motparten. Alle: «Svar som en skeptisk leder som skal godkjenne dette.» Skriving: «Svar som en journalist som leter etter en vinkel.» Jus: «Svar som advokaten til motparten.» Analyse: «Svar som Riksrevisjonen.» Design: «Svar som en bruker med skjermleser som prøver løsningen.» Utvikling: «Svar som en sikkerhetsrevisor.» Ledelse: «Svar som en økonomidirektør som vil kutte budsjettet.»
@@ -161,8 +161,10 @@ på om den kan noe, spør den: «Er dette noe du kan hjelpe meg med?»
 
 Vil du videre:
 
-- Introduksjon til generativ KI, DFØ. E-læring på norsk, 30 til 45 minutter, om
-  hva språkmodeller er og ansvarlig bruk i forvaltningen. Krever innlogging.
+- Introduksjon til generativ KI, DFØ. E-læring på norsk, 30 til 45 minutter, med
+  kursbevis. Fem moduler: hvordan språkmodeller virker, gode instruksjoner,
+  sparring, ansvarlig bruk etter forvaltningsverdiene, og øving. Krever
+  innlogging.
   https://laeringsplattformen.dfo.no/kursoversikt/introduksjon-til-generativ-ki
 - AI Fluency: Framework and foundations, Anthropic. Gratis, på engelsk, rundt
   fire timer. https://academy.claude.com/courses/ai-fluency-framework-foundations
@@ -191,6 +193,13 @@ Meme: To knapper. «Si at Digdir har rundt 400 ansatte» og «Si det brukeren vi
 - Bruk samme Claude-plan som deltakerne, zoom 150 prosent eller mer og lyst tema når du deler.
 - Slå av varsler på maskinen du deler skjerm fra.
 - To dager etter: legg en ny oppgave i Teams-chatten. Det er vanen som stopper folk, ikke ferdighetene.
+
+## Fra DFØ-kurset
+
+Tre grep er tatt fra DFØ-kurset «Introduksjon til generativ KI»: et eksempel på
+det du vil ha (E-en i KORE: kontekst, oppgave, retningslinjer, eksempel),
+skilletegn rundt innlimt tekst, og et KI-minutt på avdelingsmøtene. Resten er
+grunnlag og ansvarlig bruk, som det lenkes til fra siste side.
 
 ## Grepene for presentøren
 

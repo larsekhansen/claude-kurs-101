@@ -6,6 +6,12 @@ og oppsettet i [`../oppsett.md`](../oppsett.md).
 
 ## 2026-10-06
 
+- **Tre grep er tatt fra DFØ-kurset «Introduksjon til generativ KI»:** et
+  eksempel på det du vil ha (E-en i KORE) som ekstrasteg på hoppkanten,
+  skilletegn rundt innlimt tekst i sparringen, og et KI-minutt på
+  avdelingsmøtene til slutt. Resten er grunnlag og ansvarlig bruk, som det
+  lenkes til.
+
 - **Research på presentasjonsteknikk er flettet inn**
   ([rapporten](2026-10-06-presentasjonsteknikk.html)). Det som ble endret:
   - Alle gjetter før forklaringen av hvorfor svarene spriker.
