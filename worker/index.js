@@ -1,5 +1,6 @@
 // Live-tjenesten for Claude-kurset. Ett rom, én Durable Object.
-// Presentøren styrer siden, deltakerne følger, rekker opp hånda og reagerer.
+// Presentøren styrer siden. Deltakerne følger, rekker opp hånda, krysser av
+// steg i oppgavene, svarer på avstemninger og deler korte svar på en vegg.
 // Protokollen er JSON over WebSocket, se docs/oppsett.md.
 import { DurableObject } from "cloudflare:workers";
 
@@ -7,7 +8,10 @@ const EMOJI = ["👍", "😂", "❓"];
 const STALE_MS = 150_000; // ingen ping på 2,5 minutter: forbindelsen regnes som død
 const SWEEP_MS = 60_000;
 const MAX_SOCKETS = 400;
+const MAX_WALL = 80; // innlegg per vegg
+const MAX_POST = 240; // tegn per innlegg
 const OPEN = 1;
+const ID = /^[a-z0-9-]{1,40}$/;
 
 export default {
   async fetch(request, env) {
@@ -33,6 +37,7 @@ export class Room extends DurableObject {
     super(ctx, env);
     this.live = { on: false, slide: null };
     this.clearAt = 0;
+    this.walls = {};
     this.flood = new Map();
     this.presenceTimer = null;
     // Svarer på ping uten å vekke objektet. Tidspunktet brukes til å finne døde forbindelser.
@@ -40,6 +45,7 @@ export class Room extends DurableObject {
     ctx.blockConcurrencyWhile(async () => {
       this.live = (await ctx.storage.get("live")) || this.live;
       this.clearAt = (await ctx.storage.get("clearAt")) || 0;
+      this.walls = (await ctx.storage.get("walls")) || {};
     });
   }
 
@@ -50,7 +56,7 @@ export class Room extends DurableObject {
     const pair = new WebSocketPair();
     const [client, server] = Object.values(pair);
     this.ctx.acceptWebSocket(server);
-    server.serializeAttachment({ role: null, cid: null, name: "", hand: false, handAt: 0, done: false, at: Date.now() });
+    server.serializeAttachment({ role: null, cid: null, name: "", hand: false, handAt: 0, prog: {}, ans: {}, at: Date.now() });
     if ((await this.ctx.storage.getAlarm()) === null) {
       await this.ctx.storage.setAlarm(Date.now() + SWEEP_MS);
     }
@@ -58,7 +64,7 @@ export class Room extends DurableObject {
   }
 
   async webSocketMessage(ws, raw) {
-    if (typeof raw !== "string" || raw.length > 2000) return;
+    if (typeof raw !== "string" || raw.length > 4000) return;
     let m;
     try { m = JSON.parse(raw); } catch { return; }
     if (!m || typeof m !== "object") return;
@@ -66,12 +72,17 @@ export class Room extends DurableObject {
     if (m.t === "hello") return this.hello(ws, a, m);
     if (!a || !a.role) return; // hello må komme først
     const presenter = a.role === "presenter";
+    const viewer = a.role === "viewer";
     switch (m.t) {
-      case "name": if (!presenter) this.rename(ws, a, m.name); break;
-      case "me": if (!presenter) this.setMe(ws, a, m); break;
-      case "react": this.react(ws, m.e); break;
+      case "name": if (viewer) this.rename(ws, a, m.name); break;
+      case "me": if (viewer) this.setHand(ws, a, m.hand); break;
+      case "step": if (viewer) this.setStep(ws, a, m.slide, m.n); break;
+      case "vote": if (viewer) this.vote(ws, a, m.poll, m.opt); break;
+      case "post": if (viewer || presenter) await this.post(ws, m.wall, m.text); break;
+      case "react": if (a.role !== "screen") this.react(ws, m.e); break;
       case "go": if (presenter) await this.go(ws, m); break;
       case "clear": if (presenter) await this.clear(); break;
+      case "wipe": if (presenter) await this.wipe(m.wall); break;
     }
   }
 
@@ -103,21 +114,23 @@ export class Room extends DurableObject {
     const cid = typeof m.cid === "string" && /^[A-Za-z0-9_-]{8,64}$/.test(m.cid) ? m.cid : crypto.randomUUID();
     const hasToken = typeof m.token === "string" && m.token.length > 0;
     const presenter = hasToken && sameToken(m.token, this.env.PRESENTER_TOKEN);
-    const next = { ...a, role: presenter ? "presenter" : "viewer", cid };
+    // Skjermvisningen i møterommet følger presentasjonen, men telles ikke som deltaker.
+    const role = presenter ? "presenter" : m.screen === true ? "screen" : "viewer";
+    const next = { ...a, role, cid };
     let nameTaken = null;
 
-    if (!presenter) {
+    if (role === "viewer") {
       // Samme nettleser i flere faner er samme person, med samme tilstand.
       const twin = this.sockets().find(([s, b]) => s !== ws && b.role === "viewer" && b.cid === cid);
       if (twin) {
         const b = twin[1];
-        Object.assign(next, { name: b.name, hand: b.hand, handAt: b.handAt, done: b.done });
+        Object.assign(next, { name: b.name, hand: b.hand, handAt: b.handAt, prog: b.prog, ans: b.ans });
       } else {
-        // Har presentøren nullstilt siden sist, gjelder ikke gammel hånd og ferdig.
-        const fresh = (Number(m.seen) || 0) >= this.clearAt;
-        next.hand = fresh && m.hand === true;
+        // Har presentøren nullstilt siden sist, gjelder ikke en gammel hånd.
+        next.hand = (Number(m.seen) || 0) >= this.clearAt && m.hand === true;
         next.handAt = next.hand ? Date.now() : 0;
-        next.done = fresh && m.done === true;
+        next.prog = cleanMap(m.prog, (v) => Number.isInteger(v) && v >= 0 && v <= 20);
+        next.ans = cleanMap(m.ans, (v) => typeof v === "string" && ID.test(v));
       }
       const wanted = cleanName(m.name);
       if (!next.name && wanted) {
@@ -127,14 +140,15 @@ export class Room extends DurableObject {
     }
 
     ws.serializeAttachment(next);
-    if (!presenter && next.name) this.updateCid(cid, { name: next.name }, ws);
+    if (role === "viewer" && next.name) this.updateCid(cid, { name: next.name }, ws);
     send(ws, {
       t: "welcome",
-      role: next.role,
+      role,
       badToken: hasToken && !presenter,
       live: this.live,
       clearAt: this.clearAt,
-      me: { name: next.name, hand: next.hand, done: next.done },
+      walls: this.walls,
+      me: { name: next.name, hand: next.hand, prog: next.prog, ans: next.ans },
       nameTaken,
     });
     this.schedulePresence();
@@ -150,30 +164,54 @@ export class Room extends DurableObject {
     this.schedulePresence();
   }
 
-  setMe(ws, a, m) {
-    const patch = {};
-    if (typeof m.hand === "boolean" && m.hand !== a.hand) {
-      patch.hand = m.hand;
-      patch.handAt = m.hand ? Date.now() : 0;
-    }
-    if (typeof m.done === "boolean") patch.done = m.done;
-    this.updateCid(a.cid, patch, ws);
+  setHand(ws, a, hand) {
+    if (typeof hand !== "boolean" || hand === a.hand) return;
+    this.updateCid(a.cid, { hand, handAt: hand ? Date.now() : 0 }, ws);
     this.schedulePresence();
   }
 
+  setStep(ws, a, slide, n) {
+    if (typeof slide !== "string" || !ID.test(slide) || !Number.isInteger(n) || n < 0 || n > 20) return;
+    if (!(slide in a.prog) && Object.keys(a.prog).length >= 40) return;
+    this.updateCid(a.cid, { prog: { ...a.prog, [slide]: n } }, ws);
+    this.schedulePresence();
+  }
+
+  vote(ws, a, poll, opt) {
+    if (typeof poll !== "string" || !ID.test(poll) || typeof opt !== "string" || !ID.test(opt)) return;
+    if (!(poll in a.ans) && Object.keys(a.ans).length >= 40) return;
+    this.updateCid(a.cid, { ans: { ...a.ans, [poll]: opt } }, ws);
+    this.schedulePresence();
+  }
+
+  // Veggen er anonym. Serveren lagrer bare teksten.
+  async post(ws, wall, raw) {
+    if (typeof wall !== "string" || !ID.test(wall)) return;
+    const text = cleanText(raw);
+    if (!text || this.flooded(ws, "post", 3, 10_000)) return;
+    if (!this.walls[wall] && Object.keys(this.walls).length >= 40) return;
+    const list = this.walls[wall] || (this.walls[wall] = []);
+    const item = { id: crypto.randomUUID().slice(0, 8), text, at: Date.now() };
+    list.push(item);
+    if (list.length > MAX_WALL) list.splice(0, list.length - MAX_WALL);
+    await this.ctx.storage.put("walls", this.walls);
+    this.broadcast({ t: "wall", wall, item });
+  }
+
+  async wipe(wall) {
+    if (typeof wall !== "string" || !ID.test(wall) || !this.walls[wall]) return;
+    delete this.walls[wall];
+    await this.ctx.storage.put("walls", this.walls);
+    this.broadcast({ t: "wall-wipe", wall });
+  }
+
   react(ws, e) {
-    if (!EMOJI.includes(e)) return;
-    const now = Date.now();
-    const f = this.flood.get(ws) || { n: 0, t: now };
-    if (now - f.t > 4000) { f.n = 0; f.t = now; }
-    f.n++;
-    this.flood.set(ws, f);
-    if (f.n > 8) return;
+    if (!EMOJI.includes(e) || this.flooded(ws, "react", 8, 4000)) return;
     this.broadcast({ t: "react", e }, ws);
   }
 
   async go(ws, m) {
-    const slide = typeof m.slide === "string" && /^[a-z0-9-]{1,40}$/.test(m.slide) ? m.slide : this.live.slide;
+    const slide = typeof m.slide === "string" && ID.test(m.slide) ? m.slide : this.live.slide;
     this.live = { on: m.on === true, slide };
     await this.ctx.storage.put("live", this.live);
     this.broadcast({ t: "live", ...this.live }, ws);
@@ -183,10 +221,21 @@ export class Room extends DurableObject {
     this.clearAt = Date.now();
     await this.ctx.storage.put("clearAt", this.clearAt);
     for (const [s, a] of this.sockets()) {
-      if (a.role === "viewer") s.serializeAttachment({ ...a, hand: false, handAt: 0, done: false });
+      if (a.role === "viewer") s.serializeAttachment({ ...a, hand: false, handAt: 0 });
     }
     this.broadcast({ t: "clear", at: this.clearAt });
     this.broadcastPresence();
+  }
+
+  flooded(ws, kind, max, windowMs) {
+    const now = Date.now();
+    const all = this.flood.get(ws) || {};
+    const f = all[kind] || { n: 0, t: now };
+    if (now - f.t > windowMs) { f.n = 0; f.t = now; }
+    f.n++;
+    all[kind] = f;
+    this.flood.set(ws, all);
+    return f.n > max;
   }
 
   // Oppdaterer alle faner til samme person og sier fra til dem.
@@ -195,7 +244,7 @@ export class Room extends DurableObject {
       if (a.role !== "viewer" || a.cid !== cid) continue;
       const b = { ...a, ...patch };
       s.serializeAttachment(b);
-      if (s !== except) send(s, { t: "me", name: b.name, hand: b.hand, done: b.done });
+      if (s !== except) send(s, { t: "me", name: b.name, hand: b.hand, prog: b.prog, ans: b.ans });
     }
   }
 
@@ -245,24 +294,35 @@ export class Room extends DurableObject {
     }, 250);
   }
 
-  // Alle får antall. Bare presentøren får navn.
+  // Alle får antall og fordelingen i avstemningene. Bare presentøren får navn og fremdrift.
   broadcastPresence() {
     const people = new Map();
     const all = this.sockets();
     for (const [, a] of all) {
       if (a.role === "viewer" && !people.has(a.cid)) {
-        people.set(a.cid, { name: a.name, hand: a.hand, handAt: a.handAt, done: a.done });
+        people.set(a.cid, { name: a.name, hand: a.hand, handAt: a.handAt, prog: a.prog || {}, ans: a.ans || {} });
       }
     }
     const list = [...people.values()].sort(byQueue);
-    const counts = {
-      t: "presence",
-      here: list.length,
-      hands: list.filter((p) => p.hand).length,
-      done: list.filter((p) => p.done).length,
-    };
+    // polls: antall per svar. steps: steps[side][i] er hvor mange som er ferdige med steg i+1.
+    const polls = {};
+    const steps = {};
+    for (const p of list) {
+      for (const [poll, opt] of Object.entries(p.ans)) {
+        const counts = polls[poll] || (polls[poll] = {});
+        counts[opt] = (counts[opt] || 0) + 1;
+      }
+      for (const [slide, n] of Object.entries(p.prog)) {
+        const done = steps[slide] || (steps[slide] = []);
+        for (let i = 0; i < n; i++) done[i] = (done[i] || 0) + 1;
+      }
+    }
+    const counts = { t: "presence", here: list.length, hands: list.filter((p) => p.hand).length, polls, steps };
     const short = JSON.stringify(counts);
-    const full = JSON.stringify({ ...counts, people: list.map((p) => ({ name: p.name, hand: p.hand, done: p.done })) });
+    const full = JSON.stringify({
+      ...counts,
+      people: list.map((p) => ({ name: p.name, hand: p.hand, prog: p.prog, ans: p.ans })),
+    });
     for (const [s, a] of all) {
       try { s.send(a.role === "presenter" ? full : short); } catch {}
     }
@@ -281,10 +341,25 @@ function byQueue(a, b) {
   return a.name.localeCompare(b.name, "nb");
 }
 
+function cleanMap(obj, ok) {
+  const out = {};
+  if (!obj || typeof obj !== "object" || Array.isArray(obj)) return out;
+  for (const [k, v] of Object.entries(obj).slice(0, 40)) {
+    if (ID.test(k) && ok(v)) out[k] = v;
+  }
+  return out;
+}
+
 function cleanName(s) {
   if (typeof s !== "string") return "";
   const t = s.normalize("NFC").replace(/[\p{Cc}\p{Cf}]/gu, "").replace(/\s+/g, " ").trim();
   return Array.from(t).slice(0, 32).join("").trim();
+}
+
+function cleanText(s) {
+  if (typeof s !== "string") return "";
+  const t = s.normalize("NFC").replace(/[\p{Cc}\p{Cf}]/gu, " ").replace(/\s+/g, " ").trim();
+  return Array.from(t).slice(0, MAX_POST).join("").trim();
 }
 
 function nameKey(s) {

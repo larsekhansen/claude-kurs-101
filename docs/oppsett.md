@@ -1,8 +1,8 @@
 # Oppsett
 
 Kurssiden er én statisk fil, `index.html`, på GitHub Pages. Presentør-synk,
-tilstedeværelse og reaksjoner går via en Cloudflare Worker med én Durable
-Object, i `worker/`. Deltakerne logger ikke inn. De skriver et navn, og
+tilstedeværelse, steg, avstemninger, veggen og reaksjoner går via en
+Cloudflare Worker med én Durable Object, i `worker/`. Deltakerne logger ikke inn. De skriver et navn, og
 serveren passer på at to som er koblet til samtidig ikke har samme navn.
 
 ## Adresser
@@ -10,6 +10,7 @@ serveren passer på at to som er koblet til samtidig ikke har samme navn.
 - Kurssiden: https://larsekhansen.github.io/claude-kurs-101/
 - Live-tjenesten: https://claude-kurs.lars1702.workers.dev, WebSocket på `/ws`
 - Presentørlenken: `https://larsekhansen.github.io/claude-kurs-101/#presenter=<token>`
+- Skjermvisningen for møterommet: https://larsekhansen.github.io/claude-kurs-101/?skjerm
 
 Tokenet står ikke i repoet. Det ligger som secret i Workeren.
 
@@ -51,6 +52,13 @@ tall, `-` og `_`.
 Siden fjerner tokenet fra adresselinja med en gang og husker det bare i den
 fanen. Lenken du deler i Teams, er derfor alltid den vanlige.
 
+## I møterommet
+
+Presentørvisningen hører hjemme på laptopen, med notater og navn. Skjermen i
+rommet får skjermvisningen (`?skjerm`): stor tekst, ingen knapper, følger
+presentøren, viser fremdrift, avstemninger og veggen, og telles ikke som
+deltaker. Claude ligger i et eget vindu som deles når du demonstrerer.
+
 ## GitHub Pages
 
 Pages publiserer fra `main`, rotmappa. Ingen byggesteg.
@@ -74,14 +82,21 @@ localhost.
   presentasjonen står på, og om navnet var ledig.
 - Presentøren sender `go` ved hvert sidebytte. Siden lagres i Durable Object,
   så de som kommer sent, lander på riktig side.
-- Tilstedeværelse regnes ut fra de åpne forbindelsene. Alle får antall, bare
-  presentøren får navn.
+- Tilstedeværelse regnes ut fra de åpne forbindelsene. Alle får antall,
+  fordelingen i avstemningene og hvor mange som er ferdige med hvert steg.
+  Bare presentøren får navn, fagfelt og fremdrift per person.
+- `step` sier hvor mange steg en deltaker er ferdig med på en side, `vote`
+  svarer på en avstemning. Fagfeltet er avstemningen `felt`.
+- `post` legger et innlegg på en vegg. Veggen er anonym, serveren lagrer bare
+  teksten, maks 240 tegn og 80 innlegg per vegg. Presentøren tømmer en vegg
+  med `wipe`.
+- Skjermvisningen sier `screen: true` i `hello`, og telles ikke.
 - Navn er unike blant dem som er koblet til nå, uansett store og små
   bokstaver. Flere faner i samme nettleser er samme person, med samme navn,
   hånd og ferdig.
 - Reaksjoner sendes til alle andre og strupes ved spam.
-- Nullstill tømmer hender og ferdige hos alle, også hos dem som kobler seg på
-  igjen etterpå.
+- Nullstill tar ned alle hender, også hos dem som kobler seg på igjen
+  etterpå. Steg og svar blir stående.
 - Klientene pinger hvert 25. sekund. Forbindelser uten livstegn på 2,5
   minutter lukkes, så tellerne ikke henger igjen.
 - Bare nettsider fra `ALLOWED_ORIGINS` i `worker/wrangler.jsonc`, og

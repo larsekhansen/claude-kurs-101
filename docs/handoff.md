@@ -60,3 +60,15 @@ Oppsett og deploy står i `docs/oppsett.md`.
 - Direkte og teknisk. Ingen smiger, ingen overforklaring.
 - Norsk bokmål. Ingen tankestreker.
 - Kort. Si hva som er gjort og hva som gjenstår.
+
+## Versjon 2, oktober 2026
+
+- Kurset er fredag 9. oktober 2026, 11:00 til 11:45, i et møterom for åtte og
+  på Teams samtidig.
+- Innspill fra en erfaren, ikke-teknisk bruker: den første prompten er
+  hoppkanten, den kan mer enn du tror (spør den om den kan), den er en god
+  sparringspartner, og Projects er som mapper.
+- En deltaker fra design ønsker eksempler på prototyper og universell
+  utforming. Derfor eget fagfelt for design og universell utforming.
+- Beslutningene står i `beslutningslogg.md`.
+
