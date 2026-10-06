@@ -5,6 +5,7 @@
 import { DurableObject } from "cloudflare:workers";
 
 const EMOJI = ["👍", "😂", "❓"];
+const FX = ["applaus"];
 const STALE_MS = 150_000; // ingen ping på 2,5 minutter: forbindelsen regnes som død
 const SWEEP_MS = 60_000;
 const MAX_SOCKETS = 400;
@@ -38,6 +39,7 @@ export class Room extends DurableObject {
     this.live = { on: false, slide: null };
     this.clearAt = 0;
     this.walls = {};
+    this.revealed = {};
     this.flood = new Map();
     this.presenceTimer = null;
     // Svarer på ping uten å vekke objektet. Tidspunktet brukes til å finne døde forbindelser.
@@ -46,6 +48,7 @@ export class Room extends DurableObject {
       this.live = (await ctx.storage.get("live")) || this.live;
       this.clearAt = (await ctx.storage.get("clearAt")) || 0;
       this.walls = (await ctx.storage.get("walls")) || {};
+      this.revealed = (await ctx.storage.get("revealed")) || {};
     });
   }
 
@@ -83,6 +86,9 @@ export class Room extends DurableObject {
       case "go": if (presenter) await this.go(ws, m); break;
       case "clear": if (presenter) await this.clear(); break;
       case "wipe": if (presenter) await this.wipe(m.wall); break;
+      case "reveal": if (presenter) await this.reveal(m.poll, m.on); break;
+      case "fx": if (presenter && FX.includes(m.kind) && !this.flooded(ws, "fx", 3, 5000)) this.broadcast({ t: "fx", kind: m.kind }, ws); break;
+      case "spot": if (presenter) this.spot(m); break;
     }
   }
 
@@ -148,6 +154,7 @@ export class Room extends DurableObject {
       live: this.live,
       clearAt: this.clearAt,
       walls: this.walls,
+      revealed: this.revealed,
       me: { name: next.name, hand: next.hand, prog: next.prog, ans: next.ans },
       nameTaken,
     });
@@ -205,14 +212,33 @@ export class Room extends DurableObject {
     this.broadcast({ t: "wall-wipe", wall });
   }
 
+  // Fasiten i en avstemning vises for alle når presentøren sier det.
+  async reveal(poll, on) {
+    if (typeof poll !== "string" || !ID.test(poll)) return;
+    if (on === true) this.revealed[poll] = true;
+    else delete this.revealed[poll];
+    await this.ctx.storage.put("revealed", this.revealed);
+    this.broadcast({ t: "reveal", poll, on: on === true });
+  }
+
+  // Presentøren løfter fram et innlegg fra veggen på alle skjermer, uten navn.
+  spot(m) {
+    if (m.off === true) { this.broadcast({ t: "spot", text: null }); return; }
+    if (typeof m.wall !== "string" || !ID.test(m.wall) || typeof m.id !== "string") return;
+    const item = (this.walls[m.wall] || []).find((x) => x.id === m.id);
+    if (item) this.broadcast({ t: "spot", text: item.text });
+  }
+
   react(ws, e) {
     if (!EMOJI.includes(e) || this.flooded(ws, "react", 8, 4000)) return;
     this.broadcast({ t: "react", e }, ws);
   }
 
+  // since er når presentasjonen ble startet, så presentøren kan holde tiden.
   async go(ws, m) {
     const slide = typeof m.slide === "string" && ID.test(m.slide) ? m.slide : this.live.slide;
-    this.live = { on: m.on === true, slide };
+    const on = m.on === true;
+    this.live = { on, slide, since: on ? (this.live.on && this.live.since) || Date.now() : null };
     await this.ctx.storage.put("live", this.live);
     this.broadcast({ t: "live", ...this.live }, ws);
   }
