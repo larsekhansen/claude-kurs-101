@@ -51,11 +51,14 @@ QR-kode og lenken larsekhansen.github.io/claude-kurs-101.
 Mens folk kommer inn. Én av disse står i Grunnloven, de to andre skrev Claude:
 
 - «Staten skal sørge for at alle kan bruke offentlige digitale tjenester.» (Claude)
-- «Det skal være ytringsfrihet.» (Grunnloven § 100)
+- «Ytringsfrihet bør finne sted.» (Grunnloven § 100, første setning)
 - «Enhver har rett til et klart og forståelig språk fra det offentlige.» (Claude)
 
 Presentøren viser svaret når de fleste har stemt. Så kommer memen: Pam fra The
 Office med «Grunnloven § 100» og «Noe Claude fant på». De er samme bilde.
+
+Sjekket mot Lovdata 6. oktober 2026. Under forberedelsene skrev Claude først
+«Det skal være ytringsfrihet» som den ekte setningen. Den står ikke der.
 
 ## Hvem er her?
 
