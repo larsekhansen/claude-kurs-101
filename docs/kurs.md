@@ -17,6 +17,9 @@ Fredag 9. oktober 2026, 11:00 til 11:45. Møterom og Teams samtidig.
   prosjekt, og noe annet.
 - Ekstrasteg for dem som er raskt ferdige. Memen kommer når alle stegene er
   gjort.
+- Der det finnes en fasit, gjetter alle først. Svaret vises når presentøren
+  viser det, eller går videre. Blar du selv uten presentasjon, ser du svaret
+  når du har svart.
 
 ## Kjøreplan
 
@@ -24,27 +27,28 @@ Rundt 35 minutter planlagt. Resten av de 45 er buffer for somling og
 spørsmål. Fire kapitler, vist i toppen av siden. De mørke sidene er pauser med
 humor.
 
-| Kapittel    | Side                               | Modus | Min |
-|-------------|------------------------------------|-------|-----|
-| Start       | Introduksjon til Claude            | Se    | før |
-| Kom i gang  | Ekte eller Claude? (pause)         | Del   | 1,5 |
-| Kom i gang  | Hvem er her?                       | Del   | 1   |
-| Kom i gang  | Har alle Claude?                   | Gjør  | 4   |
-| Den gjetter | Spør om DDoS-saken                 | Gjør  | 5   |
-| Den gjetter | Den gjetter neste ord              | Gjør  | 3   |
-| Den gjetter | Fra rask til grundig (kan kuttes)  | Se    | 1   |
-| Hoppkanten  | Hoppkanten                         | Gjør  | 8   |
-| Hoppkanten  | Velg stilen (pause, kan kuttes)    | Del   | 1,5 |
-| Videre      | Få den til å være uenig med deg    | Gjør  | 4   |
-| Videre      | En mappe som husker, og spørsmål   | Se    | 3   |
-| Videre      | Hva prøver du i morgen? Jukseark   | Del   | 3   |
-| Videre      | Dagens tall                        | Del   | 0,5 |
-| Reserve     | Insister på noe feil               | Gjør  | 3   |
+| Kapittel       | Side                                | Modus | Min |
+|----------------|-------------------------------------|-------|-----|
+| Start          | Introduksjon til Claude             | Se    | før |
+| Kom i gang     | Ekte eller Claude? (pause)          | Del   | 1,5 |
+| Kom i gang     | Hvem er her?                        | Del   | 1   |
+| Kom i gang     | Har alle Claude?                    | Gjør  | 4   |
+| Første samtale | Spør om DDoS-saken                  | Gjør  | 5   |
+| Første samtale | Hvorfor ble svarene forskjellige?   | Gjør  | 3   |
+| Første samtale | Fra rask til grundig (kan kuttes)   | Se    | 1   |
+| Hoppkanten     | Hoppkanten                          | Gjør  | 8   |
+| Hoppkanten     | Velg stilen (pause, kan kuttes)     | Del   | 1,5 |
+| Videre         | Få den til å være uenig med deg     | Gjør  | 4   |
+| Videre         | En mappe som husker, og spørsmål    | Se    | 3   |
+| Videre         | Hva prøver du i morgen? Jukseark    | Del   | 3   |
+| Videre         | Dagens tall                         | Del   | 0,5 |
+| Reserve        | Insister på noe feil                | Gjør  | 3   |
 
 ## Introduksjon til Claude
 
 Alt vi gjør i dag, gjør vi samtidig. Du trenger PC, nettleser og et spørsmål.
-QR-kode og lenken larsekhansen.github.io/claude-kurs-101.
+QR-kode og lenken larsekhansen.github.io/claude-kurs-101, og et stort tall som
+teller hvor mange som er med.
 
 ## Ekte eller Claude?
 
@@ -59,6 +63,7 @@ Office med «Grunnloven § 100» og «Noe Claude fant på». De er samme bilde.
 
 Sjekket mot Lovdata 6. oktober 2026. Under forberedelsene skrev Claude først
 «Det skal være ytringsfrihet» som den ekte setningen. Den står ikke der.
+Historien er replikken etter avsløringen.
 
 ## Hvem er her?
 
@@ -71,7 +76,7 @@ To avstemninger, svarene vises for alle:
 
 1. Åpne claude.ai i nettleseren, eller Claude-appen, og legg den ved siden av kurssiden.
 2. Logg inn med Digdir-kontoen.
-3. La den intervjue deg om jobben din. «Jeg jobber i Digdir med [det du jobber med]. Still meg tre korte spørsmål om jobben min. Når jeg har svart, foreslå én ting du kan hjelpe meg med denne uka.»
+3. La den intervjue deg om jobben din. Bytt ut teksten i klammene. «Jeg jobber i Digdir med [det du jobber med]. Still meg tre korte spørsmål om jobben min. Når jeg har svart, foreslå én ting du kan hjelpe meg med denne uka.»
 
 Meme: Afraid to Ask Andy. «Jeg vet ikke hvor jeg logger inn, og nå er det for sent å spørre.»
 
@@ -85,17 +90,19 @@ Skriv med egne ord. Eksemplene er bare eksempler.
 4. Stod det Claude sa, i kilden? Ja, delvis, nei eller fant ikke kilden. Svarene vises for alle.
 5. Ekstra: bytt modell, hvis du har valget, og still samme spørsmål på nytt.
 
-## Den gjetter neste ord
+## Hvorfor ble svarene forskjellige?
 
-Den slår ikke opp et svar. Den gjetter neste ord, ett om gangen, og trekker
-litt tilfeldig.
+Gjett først. Alle spurte om det samme. Den har flere svar lagret og velger
+ett, den henter fra ulike kilder hver gang, eller den gjetter neste ord med
+litt tilfeldighet? Svarene vises for alle, men fasiten står ikke på siden før
+presentøren viser den.
 
-Først en gjetning, med svarene synlige for alle: hvorfor ble svarene
-forskjellige? Den har flere svar lagret og velger ett, den henter fra ulike
-kilder hver gang, den gjetter neste ord med litt tilfeldighet, eller vet ikke.
-Fasit: den gjetter. Med nettsøk på henter den også fra ulike kilder.
+Da bytter tittelen til «Den gjetter neste ord»: Den slår ikke opp et svar. Den
+gjetter ett ord om gangen og trekker litt tilfeldig. Med nettsøk på henter den
+også fra ulike kilder, så nummer to er delvis riktig. Men svarene ligger aldri
+ferdige.
 
-En simulator der alle trekker en setning ord for ord, med sannsynlighetene
+Så kommer en simulator der alle trekker en setning ord for ord, med sannsynlighetene
 synlige. To ulike spørsmål gir ulike sannsynligheter. En glidebryter går fra
 forutsigbar, der alle får samme setning, til vill. Sannsynlighetene er laget
 for hånd, som illustrasjon.
@@ -206,8 +213,12 @@ Meme: Roll Safe. «Claude kan ikke ta feil, hvis du aldri sjekker.»
 
 ## Dagens tall
 
+Lenken virker etter kurset også, og juksearket ligger på forrige side.
+
 Finalen: antall deltakere, steg fullført, innlegg på veggene, stemmer og
-fagfelt i rommet, telt opp live. Presentøren trykker Applaus.
+fagfelt i rommet, telt opp live. Det sjette kortet er en tørr callback til
+åpningen: «2 setninger Claude prøvde å snike inn i Grunnloven». Presentøren
+trykker Applaus.
 
 ## Reserve: Insister på noe feil
 
@@ -241,11 +252,15 @@ grunnlag og ansvarlig bruk, som det lenkes til fra siste side.
 
 ## Presentørens verktøy
 
-- **Vis svaret** på «Ekte eller Claude?».
+- **Vis svaret** på «Ekte eller Claude?» og på gjetningen om neste ord. Går
+  presentøren videre uten å trykke, vises svaret likevel. Uten kontakt med
+  live-tjenesten vises det bare hos presentøren.
 - **👏 Applaus:** konfetti på alle skjermer.
 - **Vis for alle:** løfter fram et innlegg fra veggen på alle skjermer, uten navn.
 - **Tidtaker:** tid siden start mot planen, og hvilke sider som kan kuttes hvis det går tregt.
-- Skjermen i rommet feirer når alle er ferdige med stegene.
+- Skjermen i rommet feirer når alle er ferdige med stegene. Den åpner bare
+  steget flertallet står på, og på brede skjermer står veggen, stilprompten
+  og memen i en egen kolonne.
 
 ## Grepene for presentøren
 

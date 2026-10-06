@@ -140,7 +140,7 @@
   .step.current .t { font-size: 20px; font-weight: 600; }
   .step.done { background: transparent; border-style: dashed; color: var(--muted); }
   .step.done .no { color: var(--ok); }
-  .step.later { opacity: .55; }
+  .step.later { background: transparent; color: var(--muted); }
   .step.bonus { border-style: dashed; background: transparent; }
   .step.bonus .no { color: var(--apricot); }
   .step .acts { display: flex; gap: 10px; flex-wrap: wrap; align-items: center; }
@@ -235,6 +235,11 @@
   .qr svg { width: 168px; height: 168px; padding: 10px; background: #fff; border-radius: 14px; }
   .qr .url { margin: 0; font-size: 20px; font-weight: 600; }
   .qr .url small { display: block; font-size: 16px; font-weight: 400; color: var(--dark-soft); }
+  .lobby { margin: 0 0 0 auto; text-align: right; color: var(--dark-soft); font-size: 18px; }
+  .lobby b { display: block; font-family: var(--serif); font-size: clamp(56px, 8vw, 128px); line-height: 1; color: var(--dark-ink); font-variant-numeric: tabular-nums; }
+  .lobby.bump b { animation: bump .5s ease; }
+  @keyframes bump { 40% { transform: scale(1.12); } }
+  @media (max-width: 640px) { .lobby { margin-left: 0; text-align: left; } }
 
   .list { margin: 32px 0 0; padding: 0 0 0 1.2em; max-width: 64ch; display: grid; gap: 10px; }
   .links { margin: 44px 0 0; max-width: 780px; }
@@ -277,12 +282,31 @@
   /* ---------- Skjermen i møterommet ---------- */
   body.screen { font-size: 22px; padding-bottom: 0; }
   body.screen footer.bar, body.screen #menuBtn, body.screen .tracks, body.screen .post-form, body.screen .copy { display: none !important; }
-  body.screen main { max-width: 1400px; }
-  body.screen h1.title { font-size: clamp(48px, 6.4vw, 92px); }
+  body.screen main { max-width: 1400px; padding-top: 32px; }
+  body.screen h1.title { font-size: clamp(48px, min(6.4vw, 9.5vh), 92px); }
   body.screen .qr svg { width: 280px; height: 280px; }
   body.screen .qr .url { font-size: 30px; }
   body.screen .meme { max-width: 520px; }
   body.screen .stage { min-height: calc(100dvh - var(--head-h, 60px)); }
+  body.screen .opt { font-size: 22px; padding: 12px 22px; }
+  body.screen .wall-h { font-size: 18px; }
+  body.screen .opt .n { font-size: 20px; }
+  body.screen .bubble { font-size: 21px; }
+  body.screen .posts li { font-size: 21px; }
+  body.screen .steps, body.screen .poll, body.screen .wall, body.screen .styleprompt { max-width: 980px; }
+  body.screen .step { padding: 14px 22px; }
+  body.screen .step .body { margin-top: 12px; gap: 12px; }
+  body.screen .step.focus { border: 2px solid var(--accent); }
+  /* Brede skjermer: veggen, stilprompten og memen står i en egen kolonne, så de ikke havner under kanten. */
+  @media (min-width: 1200px) {
+    body.screen .slide.side { display: grid; grid-template-columns: minmax(0, 2fr) minmax(0, 1fr); column-gap: 64px; align-items: start; }
+    body.screen .slide.side > aside { position: sticky; top: calc(var(--head-h, 60px) + 32px); }
+    body.screen .slide.side > aside > :first-child { margin-top: 0; }
+    body.screen .slide.side .meme { max-width: none; }
+    body.screen .slide.side .meme img { width: auto; max-width: 100%; max-height: calc(100dvh - var(--head-h, 60px) - 96px); }
+    body.screen .slide.side aside > * + .meme img { max-height: 36vh; }
+    body.screen aside .styleprompt .wall-h { font-family: var(--serif); font-weight: 700; font-size: 30px; line-height: 1.2; color: inherit; }
+  }
 
   /* ---------- Paneler ---------- */
   .panel {
@@ -348,23 +372,26 @@
   /* ---------- Fasit, mørke brudd, tall ---------- */
   .opt.right { border-color: var(--ok); box-shadow: 0 0 0 2px var(--ok-bg); font-weight: 600; }
   .opt.right .fill { background: var(--ok-bg); }
-  .opt.wrong { opacity: .55; }
+  .opt.wrong { color: var(--muted); border-style: dashed; }
   .opt:disabled { cursor: default; }
   .explain { margin: 16px 0 0; font-weight: 600; max-width: 60ch; }
   body.dark-slide .poll h2, body.dark-slide .opt { color: var(--dark-ink); }
   body.dark-slide .opt { background: rgba(255, 255, 255, .06); border-color: var(--dark-line); }
   body.dark-slide .opt .fill { background: rgba(252, 201, 169, .22); }
   body.dark-slide .opt .n, body.dark-slide .explain, body.dark-slide .wall-h, body.dark-slide .fine { color: var(--dark-soft); }
+  body.dark-slide .opt.wrong { color: rgba(251, 243, 241, .72); }
   body.dark-slide .opt[aria-pressed="true"] { border-color: var(--dark-soft); box-shadow: 0 0 0 2px rgba(252, 201, 169, .25); }
   body.dark-slide .opt.right { border-color: #8FD49A; box-shadow: 0 0 0 2px rgba(143, 212, 154, .25); }
   body.dark-slide .opt.right .fill { background: rgba(143, 212, 154, .22); }
   body.dark-slide .copy { background: transparent; border-color: var(--dark-line); color: var(--dark-ink); }
   .styleprompt { margin: 36px 0 0; max-width: 780px; display: grid; gap: 10px; }
   .styleprompt .wall-h { margin: 0; }
-  .stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(170px, 1fr)); gap: 16px; margin: 44px 0 0; max-width: 1080px; }
+  .stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; margin: 44px 0 0; max-width: 1080px; }
+  @media (max-width: 640px) { .stats { grid-template-columns: 1fr 1fr; } }
   .stats div { padding: 20px 22px; border-radius: 18px; background: rgba(255, 255, 255, .06); border: 1px solid var(--dark-line); }
   .stats b { display: block; font-family: var(--serif); font-size: clamp(48px, 7vw, 92px); line-height: 1; color: var(--dark-ink); font-variant-numeric: tabular-nums; }
-  .stats span { color: var(--dark-soft); font-size: 16px; }
+  .stats span { display: block; margin-top: 8px; line-height: 1.3; color: var(--dark-soft); font-size: 16px; }
+  body.screen .stats span { font-size: 20px; }
   .allset { display: inline-flex; align-items: center; gap: 8px; margin: 32px 0 -16px; padding: 8px 16px; border-radius: 999px; background: var(--ok-bg); color: var(--ok); font-weight: 600; }
   .cheat-btn { margin-top: 36px; }
 
@@ -404,7 +431,7 @@
     .float { animation: fade 1.6s ease forwards; }
     @keyframes fade { from { opacity: 1; } to { opacity: 0; } }
     .stage, .progress, .toast, .bubble, .meter i, .opt .fill, .net line, .net circle { transition: none; }
-    .posts li.fresh { animation: none; }
+    .posts li.fresh, .lobby.bump b { animation: none; }
   }
 </style>
 </head>
@@ -521,14 +548,14 @@
         ],
         explain: "Grunnloven § 100 begynner sånn. De to andre skrev Claude på noen sekunder, og de høres mer riktige ut enn originalen."
       }],
-      revealMeme: true,
+      gate: true,
       meme: meme("ekte-same", "Pam fra The Office med to bilder, merket Grunnloven paragraf 100 og Noe Claude fant på. De er samme bilde."),
       notes: [
         "Kjør dette mens folk kommer inn. Trykk Vis svaret når de fleste har stemt.",
+        "Replikk etter avsløringen, og den er sann: «Da jeg lagde kurset med Claude, ga den meg feil fasit her. Den mente Grunnloven sier \"Det skal være ytringsfrihet\". Det gjør den ikke. Lovdata hadde rett.»",
         "Poenget, sagt én gang: det høres riktig ut, og det er nettopp problemet. Vi kommer tilbake til det med kildene.",
-        "C ligner språklova, som sier at offentlige organ skal bruke klart språk. Men det står ikke i Grunnloven.",
-        "Replikk etter avsløringen: «Bommet du? Bra. Det var meningen.»",
-        "Sann historie fra forberedelsene, hvis du vil: Claude skrev først «Det skal være ytringsfrihet» som den ekte setningen. Den står ikke i Grunnloven. Lovdata sa «Ytringsfrihet bør finne sted.» Det er hele kurset i én setning."
+        "Bommet mange? «Bra. Det var meningen.»",
+        "C ligner språklova, som sier at offentlige organ skal bruke klart språk. Men det står ikke i Grunnloven."
       ]
     },
     {
@@ -549,7 +576,7 @@
       steps: [
         { text: "Åpne claude.ai i nettleseren, eller Claude-appen, og legg den ved siden av denne siden." },
         { text: "Logg inn med Digdir-kontoen." },
-        { text: "La den intervjue deg om jobben din. Fyll inn det i klammer.", say: "Jeg jobber i Digdir med [det du jobber med]. Still meg tre korte spørsmål om jobben min. Når jeg har svart, foreslå én ting du kan hjelpe meg med denne uka." }
+        { text: "La den intervjue deg om jobben din. Bytt ut teksten i klammene.", say: "Jeg jobber i Digdir med [det du jobber med]. Still meg tre korte spørsmål om jobben min. Når jeg har svart, foreslå én ting du kan hjelpe meg med denne uka." }
       ],
       meme: meme("oppsett-afraid", "Mann i skjorte ser forsiktig opp. Tekst: Jeg vet ikke hvor jeg logger inn, og nå er det for sent å spørre."),
       notes: [
@@ -561,7 +588,7 @@
       ]
     },
     {
-      id: "ddos", ch: "Den gjetter", mode: "gjor", min: 5, kicker: "Første samtale", title: "Spør om DDoS-saken",
+      id: "ddos", ch: "Første samtale", mode: "gjor", min: 5, kicker: "Første samtale", title: "Spør om DDoS-saken",
       lead: "Skriv med egne ord. Eksemplene er bare eksempler.",
       steps: [
         { text: "Spør om angrepene mot fellesløsningene i sommer.", say: "Hva vet du om DDoS-angrepene mot Digdir i 2026?" },
@@ -579,11 +606,15 @@
       ]
     },
     {
-      id: "hvorfor", ch: "Den gjetter", mode: "gjor", min: 3, kicker: "Hvorfor svarene spriker", title: "Den gjetter neste ord",
-      lead: "Den slår ikke opp et svar. Den gjetter neste ord, ett om gangen, og trekker litt tilfeldig.",
-      polls: [
-        { id: "hvorfor-gjett", q: "Gjett først: hvorfor ble svarene forskjellige?", options: [["lagret", "Den har flere svar lagret og velger ett"], ["kilder", "Den henter fra ulike kilder hver gang"], ["gjetter", "Den gjetter neste ord, med litt tilfeldighet"], ["vet-ikke", "Vet ikke"]] }
-      ],
+      id: "hvorfor", ch: "Første samtale", mode: "gjor", min: 3, gate: true, kicker: "Gjett først", title: "Hvorfor ble svarene forskjellige?",
+      lead: "Alle spurte om det samme.",
+      // Svaret står ikke på siden før presentøren viser det. Da bytter tittelen, og simulatoren kommer fram.
+      answered: { kicker: "Hvorfor svarene spriker", title: "Den gjetter neste ord", lead: "Den slår ikke opp et svar. Den gjetter ett ord om gangen og trekker litt tilfeldig." },
+      polls: [{
+        id: "hvorfor-gjett", answer: "gjetter",
+        options: [["lagret", "Den har flere svar lagret og velger ett"], ["kilder", "Den henter fra ulike kilder hver gang"], ["gjetter", "Den gjetter neste ord, med litt tilfeldighet"]],
+        explain: "Med nettsøk på henter den også fra ulike kilder, så nummer to er delvis riktig. Men svarene ligger aldri ferdige."
+      }],
       sim: true,
       steps: [
         { text: "Trekk en hel setning.", auto: "Trykk Trekk neste ord til setningen er ferdig." },
@@ -591,15 +622,16 @@
       ],
       meme: meme("samtale-philosoraptor", "Dinosaur i tenkepositur. Tekst: Hvis alle spurte om det samme, hvorfor fikk vi ti forskjellige svar?"),
       notes: [
-        "La alle gjette før du forklarer. Et spørsmål før forklaringen hjelper folk å huske akkurat det spørsmålet handler om.",
-        "Fasit: den gjetter. Med nettsøk på henter den også fra ulike kilder, så nummer to er delvis riktig. Svarene er aldri lagret ferdige.",
+        "La alle gjette før du forklarer. Et spørsmål før forklaringen hjelper folk å huske akkurat det spørsmålet handler om. Trykk Vis svaret når de fleste har stemt. Da bytter tittelen til svaret, og simulatoren kommer fram.",
+        "Fasit: den gjetter. Med nettsøk på henter den også fra ulike kilder, så nummer to er delvis riktig. Svarene ligger aldri ferdige.",
         "Alle trekker selv. Samme start gir ulike setninger, og det ser de på veggen.",
+        "Glidebryteren viser hva temperatur betyr: helt til venstre får alle samme setning, helt til høyre blir det vilt.",
         "Bytt spørsmål øverst, så flytter sannsynlighetene seg. Det er det som skjer når du endrer ordlyden i Claude.",
         "Si det rett ut: mekanismen er ekte, tallene er laget for hånd."
       ]
     },
     {
-      id: "modeller", ch: "Den gjetter", cut: true, mode: "se", min: 1, kicker: "Modeller", title: "Fra rask til grundig",
+      id: "modeller", ch: "Første samtale", cut: true, mode: "se", min: 1, kicker: "Modeller", title: "Fra rask til grundig",
       lead: "Du velger modell i Claude. I tillegg kan den få mer eller mindre tid til å tenke. Det heter effort.",
       blocks: [{ t: "models", items: [["Haiku", "Svarer fort"], ["Sonnet", "Allrounder"], ["Opus", "Tenker grundig"], ["Fable", "Tenker lengst"]] }],
       meme: meme("modeller-gb", "Fire hjerner som lyser sterkere og sterkere, merket Haiku, Sonnet, Opus og Fable."),
@@ -753,9 +785,11 @@
     },
     {
       id: "tall", ch: "Videre", mode: "del", min: 0.5, dark: true, kicker: "Takk for i dag", title: "Dagens tall",
+      lead: "Lenken virker etter kurset også, og juksearket ligger på forrige side.",
       stats: true,
       notes: [
         "Les opp ett av tallene. Trykk Applaus.",
+        "Det siste kortet er en tørr callback til åpningen. Ikke forklar det.",
         "Si takk, og at du blir igjen fem minutter for dem som vil spørre."
       ]
     },
@@ -859,13 +893,17 @@
   function pick(v) { return typeof v === "string" ? v : (v[field()] || v._); }
   function core(s) { return (s.steps || []).filter(function (x) { return !x.bonus; }); }
   function progOf(s) { return Math.min(st.prog[s.id] || 0, core(s).length); }
+  // Fasiten vises når presentøren sier det. Er ingen presentasjon i gang, ser du den når du har svart.
+  function shown(p) { return !!(p.answer && (st.revealed[p.id] || (!overview() && !live() && st.ans[p.id]))); }
+  // På en side med gate kommer resten av siden først når fasiten er vist.
+  function gateOpen(s) { return !s.gate || (s.polls || []).some(shown); }
   function fieldLabel(id) { for (var k = 0; k < FIELDS.length; k++) if (FIELDS[k][0] === id) return FIELDS[k][1]; return "Noe annet"; }
   // Presentøren og skjermen ser hele oppgaven og fremdriften. Deltakerne krysser av.
   function overview() { return st.isPresenter || SCREEN; }
 
   // ---------- Rendering ----------
   var MODE = { se: "Se på skjermen", gjor: "Gjør", del: "Del" };
-  var CHAPTERS = ["Kom i gang", "Den gjetter", "Hoppkanten", "Videre"];
+  var CHAPTERS = ["Kom i gang", "Første samtale", "Hoppkanten", "Videre"];
   var reduced = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
   function fmtMin(m) { return m < 1 ? Math.round(m * 60) + " sek" : String(m).replace(".", ",") + " min"; }
   function stepByKey(id, key) {
@@ -876,30 +914,37 @@
     return "<div class=\"say\"><p class=\"bubble\">" + esc(text) + "</p>" +
       "<button class=\"copy\" data-copy=\"" + esc(text) + "\" aria-label=\"Kopier prompten\">Kopier</button></div>";
   }
+  // Skjermen i rommet åpner bare steget flertallet står på. Da får den plass, og den følger rommet.
+  function roomStep(s) {
+    var all = core(s).length, here = (st.presence && st.presence.here) || 0, agg = (st.presence && st.presence.steps && st.presence.steps[s.id]) || [], k = 0;
+    while (here && k < all - 1 && (agg[k] || 0) * 2 >= here) k++;
+    return k;
+  }
   function stepsHtml(s) {
     var steps = s.steps, n = progOf(s), all = core(s).length, agg = (st.presence && st.presence.steps && st.presence.steps[s.id]) || [], here = (st.presence && st.presence.here) || 0;
-    var k = 0;
+    var k = 0, focus = SCREEN ? roomStep(s) : -1;
     var h = "<ol class=\"steps\" id=\"steps\">" + steps.map(function (x) {
       var idx = x.bonus ? -1 : k++;
-      var cls = x.bonus ? "bonus" : overview() ? "" : idx < n ? "done" : idx === n ? "current" : "later";
-      var open = overview() || cls === "current" || (x.bonus && n >= all);
+      if (SCREEN && x.bonus) return "";
+      var cls = x.bonus ? "bonus" : overview() ? (idx === focus ? "focus" : "") : idx < n ? "done" : idx === n ? "current" : "later";
+      var open = (overview() && (!SCREEN || idx === focus)) || cls === "current" || (x.bonus && n >= all);
       var no = x.bonus ? "+" : idx < n && !overview() ? "✓" : String(idx + 1);
       var out = "<li class=\"step " + cls + "\"><div class=\"h\"><span class=\"no\">" + no + "</span><span class=\"t\">" + esc(x.bonus ? "Ekstra, hvis du er raskt ferdig: " + x.text : x.text) + "</span>";
       if (cls === "done" && idx === n - 1) out += "<button class=\"btn quiet\" data-undo=\"" + s.id + "\">Angre</button>";
       out += "</div>";
+      var body = "";
       if (open) {
-        var body = "";
         if (x.say) body += sayHtml(pick(x.say));
         if (x.wall && !x.auto && !overview()) body += wallFormHtml(x.wall, x.placeholder || "Lim inn her");
         if (x.poll) body += pollHtml(x.poll, true);
         if (!overview() && !x.bonus && !x.wall && !x.poll && !x.auto) body += "<div class=\"acts\"><button class=\"btn primary\" data-step=\"" + s.id + "\">Ferdig med steg " + (idx + 1) + "</button></div>";
         if (x.auto && !overview()) body += "<p class=\"fine\">" + esc(x.auto) + "</p>";
-        if (overview() && !x.bonus) {
-          var c = agg[idx] || 0;
-          body += "<div class=\"count-row\"><span class=\"meter\"><i style=\"width:" + (here ? Math.round(c / here * 100) : 0) + "%\"></i></span><span>" + c + " av " + here + "</span></div>";
-        }
-        if (body) out += "<div class=\"body\">" + body + "</div>";
       }
+      if (overview() && !x.bonus) {
+        var c = agg[idx] || 0;
+        body += "<div class=\"count-row\"><span class=\"meter\"><i style=\"width:" + (here ? Math.round(c / here * 100) : 0) + "%\"></i></span><span>" + c + " av " + here + "</span></div>";
+      }
+      if (body) out += "<div class=\"body\">" + body + "</div>";
       return out + "</li>";
     }).join("") + "</ol>";
     if (!overview() && all && n >= all) h += "<p class=\"finished\">Ferdig. Bra.</p>";
@@ -914,7 +959,7 @@
     var counts = (st.presence && st.presence.polls && st.presence.polls[p.id]) || {};
     var total = 0, mine = st.ans[p.id];
     p.options.forEach(function (o) { total += counts[o[0]] || 0; });
-    var revealed = !!(p.answer && st.revealed[p.id]);
+    var revealed = shown(p);
     var showResults = overview() || !!mine || revealed;
     var h = "<section class=\"poll\" data-pollbox=\"" + p.id + "\">" + (p.q && !inStep ? "<h2>" + esc(p.q) + "</h2>" : "") + "<div class=\"opts\">";
     h += p.options.map(function (o) {
@@ -925,6 +970,7 @@
       return "<button class=\"" + cls + "\" data-poll=\"" + p.id + "\" data-opt=\"" + o[0] + "\" aria-pressed=\"" + (mine === o[0]) + "\"" + (revealed ? " disabled" : "") + ">" + inner + "</button>";
     }).join("");
     h += "</div>";
+    if (p.answer && mine && !revealed && !overview()) h += "<p class=\"fine\">Fasiten kommer straks.</p>";
     if (revealed && p.explain) h += "<p class=\"explain\">" + esc(p.explain) + "</p>";
     return h + "</section>";
   }
@@ -992,11 +1038,12 @@
   }
   function statsData() {
     var p = st.presence || {}, steps = 0, posts = 0, votes = 0, fields = 0, felt = (p.polls && p.polls.felt) || {};
+    var fakes = SLIDES.filter(function (x) { return x.id === "ekte"; })[0].polls[0].options.length - 1;
     Object.keys(p.steps || {}).forEach(function (k) { (p.steps[k] || []).forEach(function (n) { steps += n || 0; }); });
     Object.keys(st.walls).forEach(function (k) { posts += (st.walls[k] || []).length; });
     Object.keys(p.polls || {}).forEach(function (k) { Object.keys(p.polls[k]).forEach(function (o) { votes += p.polls[k][o]; }); });
     Object.keys(felt).forEach(function (k) { if (k !== "annet" && felt[k] > 0) fields++; });
-    return [[Math.max(st.maxHere, p.here || 0), "deltakere"], [steps, "steg fullført"], [posts, "innlegg på veggene"], [votes, "stemmer"], [fields, "fagfelt i rommet"]];
+    return [[Math.max(st.maxHere, p.here || 0), "deltakere"], [steps, "steg fullført"], [posts, "innlegg på veggene"], [votes, "stemmer"], [fields, "fagfelt i rommet"], [fakes, "setninger Claude prøvde å snike inn i Grunnloven"]];
   }
   function statsHtml() {
     return "<div class=\"stats\" id=\"stats\">" + statsData().map(function (d) {
@@ -1014,6 +1061,7 @@
       })(t0);
     });
   }
+  function lobbyHtml() { return net.ever ? "<b>" + ((st.presence && st.presence.here) || 0) + "</b>er med" : ""; }
   function renderChapters(s) {
     var cur = CHAPTERS.indexOf(s.ch);
     $("#chapters").innerHTML = CHAPTERS.map(function (c, k) {
@@ -1026,31 +1074,38 @@
     if (st.i < 0) st.i = 0;
     var s = v[st.i];
     document.body.classList.toggle("dark-slide", !!s.dark);
+    var open = gateOpen(s), f = open && s.answered ? s.answered : s;
     var h = "";
     if (s.mode && s.id !== "start") h += "<p class=\"mode " + s.mode + "\">" + MODE[s.mode] + (s.min ? ", " + fmtMin(s.min) : "") + "</p>";
-    h += (s.kicker ? "<p class=\"kicker\">" + esc(s.kicker) + "</p>" : "") + "<h1 class=\"title\">" + esc(s.title) + "</h1>";
-    if (s.lead) h += "<p class=\"lead\">" + esc(s.lead) + "</p>";
+    h += (f.kicker ? "<p class=\"kicker\">" + esc(f.kicker) + "</p>" : "") + "<h1 class=\"title\">" + esc(f.title) + "</h1>";
+    if (f.lead) h += "<p class=\"lead\">" + esc(f.lead) + "</p>";
     // Notatene står øverst, der presentøren ser dem mens hen snakker.
     if (st.isPresenter && st.notesOpen && s.notes) h += "<aside class=\"notes\"><h2>Notater, bare for deg</h2>" + s.notes.map(function (n) { return "<p>" + esc(n) + "</p>"; }).join("") + "</aside>";
-    if (s.qr) h += "<div class=\"qr\">" + QR + "<p class=\"url\">" + COURSE_URL + "<small>Åpne lenken på PC-en, så følger du med.</small></p></div>";
+    if (s.qr) h += "<div class=\"qr\">" + QR + "<p class=\"url\">" + COURSE_URL + "<small>Åpne lenken på PC-en, så følger du med.</small></p><p class=\"lobby\" id=\"lobby\">" + lobbyHtml() + "</p></div>";
     (s.blocks || []).forEach(function (b) { h += blockHtml(b); });
     if (s.polls) h += "<div class=\"polls\">" + s.polls.map(function (p) { return pollHtml(p); }).join("") + "</div>";
-    if (s.styleprompt) h += styleHtml(s);
-    if (s.stats) h += statsHtml();
-    if (s.sim) h += simHtml();
-    if (s.steps) h += stepsHtml(s);
-    if (s.track) h += tracksHtml();
-    if (s.wall) h += (s.wall.label ? "<p class=\"wall-h\">" + esc(s.wall.label) + "</p>" : "") + "<div class=\"wall\">" + (overview() ? "" : wallFormHtml(s.wall.id, s.wall.placeholder)) + "<div id=\"posts-" + s.wall.id + "\">" + postsHtml(s.wall.id) + "</div></div>";
-    (s.steps || []).forEach(function (x) {
-      if (x.wall) h += "<p class=\"wall-h\">" + esc(x.wallLabel || "Det andre har delt") + "</p><div class=\"wall\"><div id=\"posts-" + x.wall + "\">" + postsHtml(x.wall) + "</div></div>";
-    });
-    if (s.cheat && !st.isPresenter && !SCREEN) h += "<button class=\"btn primary cheat-btn\" id=\"cheatBtn\">Ta med juksearket</button>";
-    (s.after || []).forEach(function (b) { h += blockHtml(b); });
-    var memeOk = s.revealMeme ? (s.polls || []).some(function (p) { return p.answer && st.revealed[p.id]; }) : (!s.steps || overview() || !core(s).length || progOf(s) >= core(s).length);
-    if (s.meme && memeOk) {
-      h += "<figure class=\"meme\"><img src=\"" + s.meme.src + "\" alt=\"" + esc(s.meme.alt) + "\" loading=\"lazy\"></figure>";
+    // Skjermen i rommet samler det de andre har delt, og memen, i en egen kolonne. Simulatoren er for egne hender.
+    var aside = "";
+    if (open) {
+      if (s.styleprompt) { if (SCREEN) aside += styleHtml(s); else h += styleHtml(s); }
+      if (s.stats) h += statsHtml();
+      if (s.sim && !SCREEN) h += simHtml();
+      if (s.steps) h += stepsHtml(s);
+      if (s.track) h += tracksHtml();
+      if (s.wall) h += (s.wall.label ? "<p class=\"wall-h\">" + esc(s.wall.label) + "</p>" : "") + "<div class=\"wall\">" + (overview() ? "" : wallFormHtml(s.wall.id, s.wall.placeholder)) + "<div id=\"posts-" + s.wall.id + "\">" + postsHtml(s.wall.id) + "</div></div>";
+      (s.steps || []).forEach(function (x) {
+        if (!x.wall) return;
+        var w = "<p class=\"wall-h\">" + esc(x.wallLabel || "Det andre har delt") + "</p><div class=\"wall\"><div id=\"posts-" + x.wall + "\">" + postsHtml(x.wall) + "</div></div>";
+        if (SCREEN) aside += w; else h += w;
+      });
+      if (s.cheat && !st.isPresenter && !SCREEN) h += "<button class=\"btn primary cheat-btn\" id=\"cheatBtn\">Ta med juksearket</button>";
+      (s.after || []).forEach(function (b) { h += blockHtml(b); });
     }
-    $("#slide").innerHTML = h;
+    var memeOk = open && (!s.steps || overview() || !core(s).length || progOf(s) >= core(s).length);
+    if (s.meme && memeOk) aside += "<figure class=\"meme\"><img src=\"" + s.meme.src + "\" alt=\"" + esc(s.meme.alt) + "\" loading=\"lazy\"></figure>";
+    var side = SCREEN && !!aside;
+    $("#slide").className = "slide" + (side ? " side" : "");
+    $("#slide").innerHTML = side ? "<div>" + h + "</div><aside>" + aside + "</aside>" : h + aside;
     $("#counter").textContent = (st.i + 1) + " av " + v.length;
     $("#progress").style.width = ((st.i + 1) / v.length * 100) + "%";
     $("#prevBtn").disabled = st.i === 0;
@@ -1078,6 +1133,8 @@
     wallsOf(s).forEach(function (id) { var el = $("#posts-" + id); if (el) el.innerHTML = postsHtml(id); });
     if (s.styleprompt && $("#styleprompt")) $("#styleprompt").outerHTML = styleHtml(s);
     if (s.stats && $("#stats")) $("#stats").outerHTML = statsHtml();
+    var lob = $("#lobby"), nh = lobbyHtml();
+    if (lob && lob.innerHTML !== nh) { lob.innerHTML = nh; lob.classList.remove("bump"); void lob.offsetWidth; lob.classList.add("bump"); }
     if (SCREEN && s.steps && allDone(s) && !st.celebrated[s.id]) { st.celebrated[s.id] = 1; confetti(); }
     st.fresh = {};
     renderRoster();
@@ -1254,9 +1311,16 @@
     var v = visible();
     if (n < 0 || n >= v.length) return;
     if (!st.isPresenter && opts && opts.manual && live()) st.following = false;
+    if (st.isPresenter && st.broadcasting) revealOnLeave(current());
     st.i = n;
     render();
     if (st.isPresenter && st.broadcasting) pushLive();
+  }
+  // Går presentøren videre uten å vise svaret, vises det likevel. Da står ingen fast bak gjetningen.
+  function revealOnLeave(s) {
+    (s.gate ? s.polls || [] : []).forEach(function (p) {
+      if (p.answer && !st.revealed[p.id] && send({ t: "reveal", poll: p.id, on: true })) st.revealed[p.id] = true;
+    });
   }
   function jumpTo(id) {
     var k = indexOf(id);
@@ -1322,7 +1386,7 @@
     var rp = (current().polls || []).filter(function (q) { return q.answer; })[0];
     $("#revealBtn").classList.toggle("hidden", !rp);
     if (rp) $("#revealBtn").textContent = st.revealed[rp.id] ? "Skjul svaret" : "Vis svaret";
-    $("#revealBtn").disabled = !net.open || !st.verified;
+    $("#revealBtn").disabled = net.open && !st.verified; // uten kontakt vises svaret bare her
     $("#applauseBtn").disabled = !net.open || !st.verified;
     updateTimer();
     $("#notesBtn").setAttribute("aria-pressed", String(st.notesOpen));
@@ -1497,7 +1561,7 @@
     if (t.dataset.poll) {
       vote(t.dataset.poll, t.dataset.opt);
       (s.steps || []).forEach(function (x) { if (x.poll && x.poll.id === t.dataset.poll) { var idx = core(s).indexOf(x); if (progOf(s) <= idx) setStep(s, idx + 1); } });
-      if (t.dataset.poll === "felt" && s.track) render(true); else refresh();
+      if ((t.dataset.poll === "felt" && s.track) || s.gate) render(true); else refresh();
       return;
     }
     if (t.dataset.track) { vote("felt", t.dataset.track === "_" ? "annet" : t.dataset.track); render(true); return; }
@@ -1517,7 +1581,9 @@
       case "wipeBtn": wallsOf(s).forEach(function (id) { send({ t: "wipe", wall: id }); }); break;
       case "revealBtn": (function () {
         var rp = (s.polls || []).filter(function (q) { return q.answer; })[0];
-        if (rp && send({ t: "reveal", poll: rp.id, on: !st.revealed[rp.id] })) { st.revealed[rp.id] = !st.revealed[rp.id]; render(true); }
+        if (!rp || (net.open && !send({ t: "reveal", poll: rp.id, on: !st.revealed[rp.id] }))) return;
+        st.revealed[rp.id] = !st.revealed[rp.id];
+        render(true);
       })(); break;
       case "applauseBtn": if (send({ t: "fx", kind: "applaus" })) confetti(); break;
       case "spotClose": if (st.isPresenter) send({ t: "spot", off: true }); showSpot(null); break;

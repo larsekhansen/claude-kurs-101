@@ -57,7 +57,10 @@ fanen. Lenken du deler i Teams, er derfor alltid den vanlige.
 Presentørvisningen hører hjemme på laptopen, med notater og navn. Skjermen i
 rommet får skjermvisningen (`?skjerm`): stor tekst, ingen knapper, følger
 presentøren, viser fremdrift, avstemninger og veggen, og telles ikke som
-deltaker. Claude ligger i et eget vindu som deles når du demonstrerer.
+deltaker. Den åpner bare steget flertallet står på. På skjermer fra 1200
+piksler og bredere står veggen, stilprompten og memen i en egen kolonne, så
+alt får plass uten å rulle. Simulatoren vises ikke der, den er for egne
+hender. Claude ligger i et eget vindu som deles når du demonstrerer.
 
 ## GitHub Pages
 

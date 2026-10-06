@@ -6,6 +6,23 @@ og oppsettet i [`../oppsett.md`](../oppsett.md).
 
 ## 2026-10-06
 
+- **Runde 3: hele kurset gått gjennom side for side, i alle visningene.** Det
+  som ble endret:
+  - Gjetningen på neste ord-siden var avslørt av tittelen og kapittelnavnet.
+    Nå spør siden «Hvorfor ble svarene forskjellige?», kapittelet heter
+    «Første samtale», og tittelen bytter til «Den gjetter neste ord» først når
+    presentøren viser svaret. Simulatoren kommer etter svaret.
+  - Ingen står fast bak en gjetning. Svaret vises også når presentøren går
+    videre uten å vise det, og for den som blar selv uten presentasjon, når
+    hen har svart.
+  - Skjermen i rommet bruker hele bredden. Veggen, stilprompten og memen står i
+    en egen kolonne, og bare steget flertallet står på, er åpent. Da får det
+    viktigste plass uten å rulle.
+  - Startsiden teller hvor mange som er med, og finalen har fått et sjette
+    tall som en tørr callback til åpningen.
+  - Tilgjengelighet: axe på alle sider i fem visninger, lyst og mørkt. Falmede
+    svar og steg hadde for lav kontrast. Rettet, nå null brudd.
+
 - **Versjon 3: kurset bygget for å være gøy, stilig og holde tiden.** Planen
   ble gjennomgått i tre runder før byggingen. Det som kom inn:
   - «Ekte eller Claude?» som krok mens folk kommer: én setning fra Grunnloven og

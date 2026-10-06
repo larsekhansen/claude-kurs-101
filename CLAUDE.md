@@ -25,7 +25,10 @@ Hostes på GitHub Pages, åpent for alle med lenken, uten innlogging.
 - Deltakerne velger fagfelt i starten og får eksempler fra sitt felt. Prompter
   kan derfor være et objekt med én tekst per fagfelt, der `_` er standard.
 - Avstemninger og en anonym vegg viser svarene for alle. En avstemning kan ha
-  fasit, som presentøren viser når hen vil.
+  fasit, som presentøren viser når hen vil. En side med `gate` holder resten
+  av siden tilbake til fasiten er vist, og `answered` bytter tittelen da.
+  Fasiten vises også når presentøren går videre, og for den som blar selv uten
+  presentasjon når hen har svart.
 - Fire kapitler vises i toppen. De mørke sidene er pauser med humor.
 - Presentøren har applaus (konfetti på alle skjermer), kan løfte fram innlegg
   fra veggen, og har tidtaker mot planen. Sider merket `cut` kan kuttes.
@@ -36,7 +39,8 @@ Hostes på GitHub Pages, åpent for alle med lenken, uten innlogging.
   tokenet sjekkes i Workeren. Deltakerne følger presentøren, slipper fri når
   de blar selv, og kan hente seg inn igjen. ✋ og reaksjoner.
 - `?skjerm` er visningen for skjermen i møterommet. Den følger presentøren og
-  telles ikke som deltaker.
+  telles ikke som deltaker. Den åpner bare steget flertallet står på, og på
+  brede skjermer står veggen, stilprompten og memen i en egen kolonne.
 - Deltakerne skriver bare et navn. Navn er unike blant dem som er koblet til.
 - Får siden ikke kontakt med Workeren, virker den i solo-modus.
 
@@ -59,6 +63,8 @@ Hostes på GitHub Pages, åpent for alle med lenken, uten innlogging.
   at det kommer opp i det første. Skriptene i ende-til-ende-testen ligger
   ikke i repoet. Testen kjøres med Playwright mot `wrangler dev` og en lokal
   server, med presentør, to deltakere og skjermvisningen i hver sin kontekst.
+  Tilgjengeligheten sjekkes med axe på alle sider, i presentør-, deltaker- og
+  skjermvisningen, lyst og mørkt. Målet er null brudd.
 
 ## Stil
 
