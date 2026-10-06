@@ -441,11 +441,11 @@
       ]
     },
     {
-      id: "oppsett", mode: "gjor", min: 5, kicker: "Kom i gang", title: "Har alle Claude?",
+      id: "oppsett", mode: "gjor", min: 4, kicker: "Kom i gang", title: "Har alle Claude?",
       steps: [
-        { text: "Åpne claude.ai i nettleseren, eller Claude-appen." },
+        { text: "Åpne claude.ai i nettleseren, eller Claude-appen, og legg den ved siden av denne siden." },
         { text: "Logg inn med Digdir-kontoen." },
-        { text: "La den intervjue deg om jobben din. Fyll inn det i klammer.", say: "Jeg jobber i Digdir med [det du jobber med]. Still meg tre spørsmål om jobben min, ett om gangen. Foreslå så én ting du kan hjelpe meg med denne uka." }
+        { text: "La den intervjue deg om jobben din. Fyll inn det i klammer.", say: "Jeg jobber i Digdir med [det du jobber med]. Still meg tre korte spørsmål om jobben min. Når jeg har svart, foreslå én ting du kan hjelpe meg med denne uka." }
       ],
       meme: meme("oppsett-afraid", "Mann i skjorte ser forsiktig opp. Tekst: Jeg vet ikke hvor jeg logger inn, og nå er det for sent å spørre."),
       notes: [
@@ -456,13 +456,14 @@
       ]
     },
     {
-      id: "ddos", mode: "gjor", min: 7, kicker: "Første samtale", title: "Spør om DDoS-saken",
+      id: "ddos", mode: "gjor", min: 5, kicker: "Første samtale", title: "Spør om DDoS-saken",
       lead: "Skriv med egne ord. Eksemplene er bare eksempler.",
       steps: [
         { text: "Spør om angrepene mot fellesløsningene i sommer.", say: "Hva vet du om DDoS-angrepene mot Digdir i 2026?" },
         { text: "Lim inn første setning av svaret ditt.", wall: "forste-setning", placeholder: "Første setning fra Claude", wallLabel: "Første setning hos de andre" },
         { text: "Be om kildene, og åpne én av dem.", say: "Hvilke kilder bygger du på? Gi meg lenker." },
-        { text: "Stod det Claude sa, i kilden?", poll: { id: "stod-det", options: [["ja", "Ja"], ["delvis", "Delvis"], ["nei", "Nei"], ["fant-ikke", "Fant ikke kilden"]] } }
+        { text: "Stod det Claude sa, i kilden?", poll: { id: "stod-det", options: [["ja", "Ja"], ["delvis", "Delvis"], ["nei", "Nei"], ["fant-ikke", "Fant ikke kilden"]] } },
+        { bonus: true, text: "bytt modell, hvis du har valget, og still samme spørsmål på nytt. Se på tiden og lengden." }
       ],
       notes: [
         "Si først at svarene deres vil være forskjellige fra hverandres og fra ditt. Alle spør om det samme, med egne ord. Ikke forklar noe ennå.",
@@ -492,30 +493,27 @@
       ]
     },
     {
-      id: "modeller", mode: "gjor", min: 3, kicker: "Modeller", title: "Fra rask til grundig",
+      id: "modeller", mode: "se", min: 1, kicker: "Modeller", title: "Fra rask til grundig",
       lead: "Du velger modell i Claude. I tillegg kan den få mer eller mindre tid til å tenke. Det heter effort.",
       blocks: [{ t: "models", items: [["Haiku", "Svarer fort"], ["Sonnet", "Allrounder"], ["Opus", "Tenker grundig"], ["Fable", "Tenker lengst"]] }],
-      steps: [
-        { text: "Bytt modell i velgeren, hvis du har valget, og still DDoS-spørsmålet på nytt. Se på tiden og lengden." }
-      ],
       meme: meme("modeller-gb", "Fire hjerner som lyser sterkere og sterkere, merket Haiku, Sonnet, Opus og Fable."),
       notes: [
-        "Vis modellvelgeren i din egen Claude, så prøver de selv. Å se en demo gir mer selvtillit enn ferdighet, derfor prøver de rett etter. Sjekk på forhånd hvilke modeller og effort-valg Digdir-lisensen faktisk har.",
+        "Ett minutt. Vis modellvelgeren i din egen Claude. De raske har allerede prøvd å bytte modell som ekstrasteg på DDoS-siden. Sjekk på forhånd hvilke modeller og effort-valg Digdir-lisensen faktisk har.",
         "Ett poeng er nok: standardvalget holder til det meste. Bytt opp når oppgaven er vanskelig og svaret får ta tid."
       ]
     },
     {
-      id: "hoppkanten", mode: "gjor", min: 10, kicker: "Den første prompten", title: "Hoppkanten",
+      id: "hoppkanten", mode: "gjor", min: 8, kicker: "Den første prompten", title: "Hoppkanten",
       lead: "Første prompt er hoppkanten. Bommer du på den, går resten av samtalen med til «nei, ikke sånn».",
       track: true,
       steps: [
         {
           text: "Kjør den korte først. Se på svaret.",
           say: {
-            _: "Lag en tabell med kostnader fra Digdirs årsrapport 2025.",
+            _: "Lag en tabell over DDoS-angrepene.",
             skriv: "Skriv en LinkedIn-post om KI Norge.",
             jus: "Hva sier KI-forordningen om chatboter?",
-            analyse: "Lag en tabell med kostnader fra Digdirs årsrapport 2025.",
+            analyse: "Lag en tabell over DDoS-angrepene.",
             design: "Lag et skjema for adresseendring.",
             utvikling: "Skriv en funksjon som sjekker organisasjonsnummer.",
             ledelse: "Lag en prosjektplan for et KI-prosjekt."
@@ -524,10 +522,10 @@
         {
           text: "Åpne en ny samtale. Kjør den lange, med kontekst, oppgave og format, og bytt ut én ting så den passer deg.",
           say: {
-            _: "Jeg jobber i KI Norge i Digdir. Vi trenger en oversikt over kostnadene i Digdirs årsrapport for 2025 til et internt notat. Lag en tabell med post, beløp i kroner og hvor i rapporten tallet står. Bruk bare tall som står i rapporten, og si fra hvis du ikke finner den.",
+            _: "Jeg jobber i KI Norge i Digdir og skal lage en kort oversikt over DDoS-angrepene mot Digdirs fellesløsninger i 2026 til et internt notat. Lag en tabell med dato, varighet, berørte tjenester og kilde, én rad per angrep. Bruk bare opplysninger du finner i kildene, og skriv «ukjent» der du ikke finner noe.",
             skriv: "Jeg jobber i KI Norge i Digdir. Vi skal skrive en LinkedIn-post om at offentlige virksomheter kan få veiledning om KI hos oss. Målgruppen er ledere i kommuner. Skriv tre forslag på under 80 ord, i klarspråk, uten emojier og uten superlativer.",
             jus: "Jeg er jurist i Digdir. En kommune vurderer en chatbot som svarer innbyggere om byggesaker. Forklar hva KI-forordningen betyr for dem, i fem punkter, med henvisning til artikkel for hvert punkt. Skriv tydelig hva du er usikker på.",
-            analyse: "Jeg jobber i KI Norge i Digdir. Vi trenger en oversikt over kostnadene i Digdirs årsrapport for 2025 til et internt notat. Lag en tabell med post, beløp i kroner og hvor i rapporten tallet står. Bruk bare tall som står i rapporten, og si fra hvis du ikke finner den.",
+            analyse: "Jeg jobber i KI Norge i Digdir og skal lage en kort oversikt over DDoS-angrepene mot Digdirs fellesløsninger i 2026 til et internt notat. Lag en tabell med dato, varighet, berørte tjenester og kilde, én rad per angrep. Bruk bare opplysninger du finner i kildene, og skriv «ukjent» der du ikke finner noe.",
             design: "Jeg er tjenestedesigner i Digdir. Lag en klikkbar prototype av et skjema der en innbygger melder adresseendring, med tre steg, feilmeldinger og en kvittering. Følg Designsystemet fra Digdir og WCAG 2.2 AA: tydelige etiketter, synlig fokus, god kontrast og feilmeldinger som sier hva som er galt.",
             utvikling: "Skriv en TypeScript-funksjon som sjekker om et norsk organisasjonsnummer er gyldig, med kontrollsiffer etter modulus 11. Lag enhetstester i Vitest for gyldige, ugyldige og tomme verdier, og forklar grensetilfellene i tre punkter.",
             ledelse: "Jeg leder et prosjekt i Digdir der seks personer skal teste en KI-assistent i saksbehandling i tre måneder. Lag en prosjektplan med milepæler, risikoer og hvem som må involveres. Bruk en tabell, og hold det på én side."
@@ -555,7 +553,7 @@
       ],
       meme: meme("prompt-gru", "Gru i fire ruter: Skriv lag en tabell. Få en tabell. Tabellen handler om feil ting. Tabellen handler om feil ting."),
       notes: [
-        "Den viktigste bolken. Ti minutter, ikke kutt den.",
+        "Den viktigste bolken. Åtte minutter, ikke kutt den.",
         "Si hvor bildet kommer fra: en erfaren bruker beskrev den første prompten som hoppkanten. Bommer du der, går resten av samtalen med til å rette opp.",
         "Etter steg 2: be to stykker si hva som ble forskjellig, én i rommet og én på Teams. Spør etter fagfelt, ikke etter navn: «dere som jobber med jus, hva fikk dere?»",
         "Si så prinsippet i én setning: kontekst, oppgave, format. Kontrasten først, regelen etterpå, det er rekkefølgen som virker.",
@@ -565,12 +563,11 @@
       ]
     },
     {
-      id: "sparring", mode: "gjor", min: 6, kicker: "Sparring", title: "Få den til å være uenig med deg",
+      id: "sparring", mode: "gjor", min: 4, kicker: "Sparring", title: "Få den til å være uenig med deg",
       lead: "Har du et utkast, kan den være kritikeren din før noen andre ser det.",
       track: true,
       steps: [
-        { text: "Lim inn noe du jobber med, og si hvem det er til. Offentlig, oppdiktet eller uten personopplysninger.", say: "Her er et utkast. Det skal til [hvem]. Teksten står mellom de tre anførselstegnene. \"\"\"[lim inn teksten]\"\"\"" },
-        { text: "Be den være kritisk.", say: "Vær kritisk. Hva har jeg ikke tenkt på, og hva er de sterkeste motargumentene?" },
+        { text: "Lim inn noe du jobber med, eller svaret fra hoppkanten, og be den være kritisk. Offentlig, oppdiktet eller uten personopplysninger.", say: "Her er et utkast. Det skal til [hvem]. Teksten står mellom de tre anførselstegnene. \"\"\"[lim inn teksten]\"\"\" Vær kritisk. Hva har jeg ikke tenkt på, og hva er de sterkeste motargumentene?" },
         { text: "Be om en kortere versjon, med dine egne ord.", say: "Skriv det på halve lengden, uten å miste poenget." },
         {
           bonus: true, text: "la den spille motparten.",
@@ -594,9 +591,8 @@
       ]
     },
     {
-      id: "projects", mode: "se", min: 6, kicker: "Projects", title: "En mappe som husker",
+      id: "projects", mode: "se", min: 3, kicker: "Projects", title: "En mappe som husker",
       lead: "Samle samtalene om én ting i et prosjekt, og skriv konteksten én gang. Hver ny samtale i prosjektet vet den fra før.",
-      wall: { id: "prosjekt", placeholder: "Et prosjekt for …", label: "Hvilket prosjekt ville du laget?" },
       meme: meme("projects-harold", "Eldre mann smiler anstrengt foran PC-en. Tekst: Forklarer leiligheten min til Claude, for fjortende gang."),
       notes: [
         "Vis boligjakt-prosjektet: først prosjektbeskrivelsen, så en ny samtale som vet alt uten at du sier noe.",
