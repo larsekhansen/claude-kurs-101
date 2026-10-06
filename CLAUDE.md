@@ -10,7 +10,9 @@ Hostes på GitHub Pages, åpent for alle med lenken, uten innlogging.
 1. `docs/handoff.md`: hele konteksten fra planleggingen, beslutninger og hvorfor.
 2. `docs/kurs.md`: alt kursinnhold, alle prompter, kilder og notater. Dette er fasit for innholdet.
 3. `docs/oppsett.md`: live-tjenesten, deploy, presentør-token og lokal utvikling.
-4. `index.html`: appen.
+4. `docs/rapporter/`: beslutningsloggen, og rapporten om presentasjonsteknikk som
+   ligger bak grepene i kurset.
+5. `index.html`: appen.
 
 ## Slik er det bygget
 

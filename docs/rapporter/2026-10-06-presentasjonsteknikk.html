@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="nb">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Presentasjonsteknikk for Claude-kurset</title>
+<style>
+  :root {
+    --bg: #faf8f5; --card: #ffffff; --ink: #1f1a17; --muted: #5f5650; --line: #e5ded7; --accent: #541321; --soft: #f6e9ec;
+    --green: #1d6b46; --green-bg: #e3f3ea; --amber: #7d5600; --amber-bg: #f8efd9; --blue: #1f4e8c; --blue-bg: #e3ecf7; --red: #9a3418; --red-bg: #fbeae4;
+    color-scheme: light;
+  }
+  * { box-sizing: border-box; }
+  body { margin: 0; background: var(--bg); color: var(--ink); font-family: system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif; font-size: 17px; line-height: 1.55; }
+  main { max-width: 980px; margin: 0 auto; padding: 40px 20px 80px; }
+  h1 { margin: 0 0 6px; font-size: 32px; line-height: 1.15; color: var(--accent); }
+  h2 { margin: 48px 0 12px; font-size: 22px; color: var(--accent); }
+  h3 { margin: 0 0 6px; font-size: 17px; }
+  p { margin: 0 0 10px; max-width: 72ch; }
+  a { color: var(--accent); text-underline-offset: .15em; }
+  .meta { color: var(--muted); margin-bottom: 20px; }
+  :focus-visible { outline: 3px solid var(--blue); outline-offset: 2px; }
+  ul.short { padding-left: 1.2em; max-width: 72ch; }
+  ul.short li { margin: 6px 0; }
+  .filters { display: flex; flex-wrap: wrap; gap: 8px; margin: 8px 0 18px; }
+  .filters button { font: inherit; font-size: 15px; font-weight: 600; padding: 6px 14px; border-radius: 99px; border: 1px solid var(--line); background: var(--card); color: var(--ink); cursor: pointer; }
+  .filters button[aria-pressed="true"] { background: var(--accent); border-color: var(--accent); color: #fff; }
+  .group-h { margin: 28px 0 10px; font-size: 18px; }
+  .card { background: var(--card); border: 1px solid var(--line); border-radius: 10px; padding: 16px 18px; margin: 10px 0; }
+  .card header { display: flex; gap: 10px; align-items: baseline; flex-wrap: wrap; margin-bottom: 4px; }
+  .card h3 { margin: 0; flex: 1 1 320px; }
+  .pill { display: inline-block; padding: 1px 10px; border-radius: 99px; font-size: 13px; font-weight: 700; white-space: nowrap; }
+  .sterk { background: var(--green-bg); color: var(--green); }
+  .moderat { background: var(--blue-bg); color: var(--blue); }
+  .praksis { background: var(--amber-bg); color: var(--amber); }
+  .myte { background: var(--red-bg); color: var(--red); }
+  .card .use { margin: 6px 0 4px; }
+  .card .use b { color: var(--accent); }
+  .card .src { font-size: 14px; color: var(--muted); margin: 6px 0 0; overflow-wrap: anywhere; }
+  table { width: 100%; border-collapse: collapse; background: var(--card); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; font-size: 15px; }
+  th, td { text-align: left; vertical-align: top; padding: 10px 12px; border-bottom: 1px solid var(--line); }
+  th { background: var(--soft); color: var(--accent); }
+  tr:last-child td { border-bottom: 0; }
+  .note { background: var(--amber-bg); border: 1px solid #ecd29c; border-radius: 10px; padding: 12px 16px; max-width: 76ch; }
+  [hidden] { display: none !important; }
+  @media (max-width: 640px) { th:nth-child(3), td:nth-child(3) { display: none; } }
+</style>
+</head>
+<body>
+<main>
+  <h1>Presentasjonsteknikk for Claude-kurset</h1>
+  <p class="meta">6. oktober 2026. Hva forskningen sier om gode, pedagogiske presentasjoner, og hva det betyr for kurset «Introduksjon til Claude». Alle tall er sjekket mot artikkelen, sammendraget eller den offisielle rapporten.</p>
+
+  <h2>Kort</h2>
+  <ul class="short">
+    <li>Det største problemet i første versjon var delt oppmerksomhet. Deltakerne hadde Teams, kurssiden og sin egen Claude på samme skjerm samtidig. Kurset har nå én flate om gangen, og hver side sier om du skal se, gjøre eller dele.</li>
+    <li>Aktiv læring slår lytting, men føles verre for den som lærer. Over halvparten av tiden er nå oppgaver, og det sies høyt at de skal føles rotete.</li>
+    <li>Å se en demo gir selvtillit, ikke ferdighet. Det deltakerne ser, gjør de selv rett etterpå.</li>
+    <li>Det som bærer mest: spørsmål før forklaringen, kontrasten før regelen, svar uten å se de andres først, og en plan på formen «når jeg …» til slutt.</li>
+  </ul>
+
+  <h2>Det som ikke virket i første versjon</h2>
+  <ul class="short">
+    <li><b>Tre ting å se på samtidig.</b> Skjermdelingen, den synkroniserte kurssiden og egen Claude på én laptop er et skoleeksempel på delt oppmerksomhet.</li>
+    <li><b>17 minutter med å se på før noen gjorde noe.</b> Demoer holder på oppmerksomheten, men gir falsk trygghet når ingen prøver selv rett etter.</li>
+    <li><b>Presentøren gjorde alt alene.</b> Kurssiden, skjermdelingen, Claude, chatten og hendene, samtidig.</li>
+    <li><b>Grunne interaksjoner.</b> Mest emojier, få øyeblikk der deltakerne måtte gjette eller huske noe.</li>
+    <li><b>En svak slutt.</b> Regler, så en del bare for de tekniske, så spørsmål. For mange ting å ta med seg.</li>
+  </ul>
+
+  <h2>Funnene</h2>
+  <p>Hvert funn har styrken på dokumentasjonen, hvordan kurset bruker det, og kildene.</p>
+  <div class="filters" role="group" aria-label="Vis funn etter styrke">
+    <button data-f="alle" aria-pressed="true">Alle</button>
+    <button data-f="sterk" aria-pressed="false">Sterk</button>
+    <button data-f="moderat" aria-pressed="false">Moderat</button>
+    <button data-f="praksis" aria-pressed="false">Praksis</button>
+    <button data-f="myte" aria-pressed="false">Myter</button>
+  </div>
+  <div id="items"></div>
+
+  <h2>Det kurset endret</h2>
+  <table>
+    <thead><tr><th scope="col">Før</th><th scope="col">Nå</th><th scope="col">Hvorfor</th></tr></thead>
+    <tbody>
+      <tr><td>Opptil seks prompter per side, med punkter ved siden av</td><td>Ett grep per side, og bare steget du står på er åpent</td><td>Delt oppmerksomhet og Mayers prinsipper</td></tr>
+      <tr><td>17 minutter med demo før første oppgave</td><td>Alle gjør noe fra første minutt, og demoer følges av at alle prøver</td><td>Aktiv læring, demo gir ikke ferdighet</td></tr>
+      <tr><td>Ingen måte å se om rommet var klart</td><td>Presentøren og skjermen i rommet ser hvor mange som er ferdige med hvert steg</td><td>Tempo for et blandet rom</td></tr>
+      <tr><td>Én liste med oppgaver for alle</td><td>Deltakerne velger fagfelt og får eksempler fra sitt felt, med ekstrasteg for de raske</td><td>Selvrelevans, eksempler for nybegynnere, utfordring for erfarne</td></tr>
+      <tr><td>Forklaringen av hvorfor svarene spriker kom før noen hadde sett det</td><td>Alle gjetter først, så forklarer simulatoren</td><td>Spørsmål før forklaring</td></tr>
+      <tr><td>Kildesjekk som regel på en egen side</td><td>Kildesjekk som steg i oppgaven, med svarene synlige for alle</td><td>Vis det, ikke forkynn det</td></tr>
+      <tr><td>Svar i Teams-chatten, der de første styrer de neste</td><td>Veggen viser de andres svar først når du har delt ditt eget</td><td>Flokkeffekt i åpne svar</td></tr>
+      <tr><td>Slutten var regler, en del for de tekniske, og spørsmål</td><td>Spørsmål før avslutningen, slutten er deltakernes egne «når jeg …»-planer</td><td>Topp og slutt, hvis-da-planer</td></tr>
+      <tr><td>Bare Teams</td><td>Møterom og Teams, med en egen skjermvisning for rommet</td><td>Kurset holdes hybrid</td></tr>
+    </tbody>
+  </table>
+
+  <h2>Det kurset ikke tok med</h2>
+  <div class="note">
+    <p>Researchen ble gjort mens første versjon fortsatt var gjeldende, og anbefalte å beholde satire-åpningen og «tre setninger» som ryggrad. Begge ble tatt ut fordi de virket abstrakte. Prinsippet researchen bygde på, spørsmål før forklaring, er brukt på andre sider i stedet.</p>
+    <p>Researchen anbefalte en egen side om hva man kan lime inn, før første oppgave. Kurset har det i stedet i steget der man limer inn egen tekst, og lenker til DFØ-kurset om ansvarlig bruk.</p>
+  </div>
+
+  <h2>Kurs som utfyller</h2>
+  <ul class="short">
+    <li><a href="https://laeringsplattformen.dfo.no/kursoversikt/introduksjon-til-generativ-ki">Introduksjon til generativ KI</a>, DFØ. E-læring på norsk, 30 til 45 minutter, fem moduler: hva språkmodeller er, gode instruksjoner, sparring og ansvarlig bruk i forvaltningen. Verktøynøytralt, med kursbevis. Dekker bakgrunnen og det normative, så dette kurset kan bruke tiden på å prøve.</li>
+    <li><a href="https://academy.claude.com/courses/ai-fluency-framework-foundations">AI Fluency: Framework and foundations</a>, Anthropic. Gratis, på engelsk, rundt fire timer.</li>
+  </ul>
+</main>
+<script>
+(function () {
+  "use strict";
+  var ITEMS = [
+    { s: "sterk", t: "Aktiv læring slår lytting, men føles verre", b: "Over halvparten av tiden er oppgaver. Presentøren sier i starten at oppgavene vil føles rotete, og at det er meningen.", k: [["Freeman mfl. 2014, 225 studier", "https://www.pnas.org/doi/10.1073/pnas.1319030111"], ["Deslauriers mfl. 2019", "https://www.pnas.org/doi/10.1073/pnas.1821936116"]] },
+    { s: "sterk", t: "Å se en demo gir selvtillit, ikke ferdighet", b: "Demoene er korte, og alle gjør det samme rett etter. Modellvalget er nå noe alle prøver selv.", k: [["Kardas og O'Brien 2018", "https://journals.sagepub.com/doi/abs/10.1177/0956797617740646"], ["van Gog mfl. 2011", "https://eric.ed.gov/?id=EJ927458"]] },
+    { s: "sterk", t: "Delt oppmerksomhet og multitasking koster læring", b: "Hver side er Se, Gjør eller Del. Skjermen i rommet har en egen visning. Deltakerne bes lukke e-post og andre chatter.", k: [["Schroeder og Cenkci 2018, 58 sammenligninger", "https://link.springer.com/article/10.1007/s10648-018-9435-9"], ["Sana mfl. 2013", "https://www.learntechlib.org/p/132235/"]] },
+    { s: "sterk", t: "Å hente fram slår å lese på nytt", b: "Gjettespørsmål og kildespørsmål underveis, og en plan som skrives fra hukommelsen til slutt.", k: [["Roediger og Karpicke 2006", "https://journals.sagepub.com/doi/10.1111/j.1467-9280.2006.01693.x"], ["Szpunar mfl. 2013", "https://www.pnas.org/doi/10.1073/pnas.1221764110"]] },
+    { s: "sterk", t: "Et spørsmål før forklaringen hjelper, men bare for det spørsmålet handler om", b: "«Gjett først: hvorfor ble svarene forskjellige?» før simulatoren. Generelle åpningsspørsmål gir ikke den effekten.", k: [["Metaanalyse 2025, 55 studier", "https://link.springer.com/article/10.1007/s10648-025-10075-7"], ["Gruber mfl. 2014", "https://pubmed.ncbi.nlm.nih.gov/25284006/"]] },
+    { s: "sterk", t: "Kontrast først, så regelen", b: "Kort prompt mot lang prompt, så prinsippet i én setning: kontekst, oppgave, format. I en versjon per fagfelt.", k: [["Alfieri mfl. 2013, 57 eksperimenter", "https://www.lrdc.pitt.edu/schunn/papers/ContrastingCasesMeta-AlfieriEtAl2013.pdf"], ["Rawson mfl. 2015", "https://link.springer.com/article/10.1007/s10648-014-9273-3"]] },
+    { s: "sterk", t: "Hvis-da-planer og spredning over tid", b: "Siste side ber om én setning på formen «Når jeg …, ber jeg Claude om å …». En ny oppgave i Teams-chatten to dager etter.", k: [["Gollwitzer og Sheeran 2006, 94 studier", "https://kops.uni-konstanz.de/handle/123456789/10973"], ["Cepeda mfl. 2006", "https://www.yorku.ca/ncepeda/publications/CPVWR2006.html"]] },
+    { s: "sterk", t: "Å lage noe selv huskes bedre enn å kopiere", b: "Prompter med klammer å fylle inn, «bytt ut én ting så den passer deg», og «med dine egne ord».", k: [["Bertsch mfl. 2007, 86 studier", "https://link.springer.com/article/10.3758/BF03193441"]] },
+    { s: "sterk", t: "Eksempler for nybegynnere, utfordring for de erfarne", b: "Kopierbare prompter for alle, og et ekstrasteg for dem som blir raskt ferdige.", k: [["Sweller mfl. 2019", "https://link.springer.com/article/10.1007/s10648-019-09465-5"], ["Kalyuga mfl. 2003", "https://www.tandfonline.com/doi/abs/10.1207/S15326985EP3801_4"]] },
+    { s: "moderat", t: "Oppmerksomheten glir, aktivitet henter den inn igjen", b: "Deltakerne svarer på noe hvert fjerde til sjette minutt. Ingen fast grense på ti minutter.", k: [["Bradbury 2016", "https://journals.physiology.org/doi/full/10.1152/advan.00109.2016"], ["Bunce mfl. 2010", "https://eric.ed.gov/?id=EJ772424"], ["Risko mfl. 2012", "https://onlinelibrary.wiley.com/doi/abs/10.1002/acp.1814"]] },
+    { s: "moderat", t: "Ett grep per side, stikkord, ikke les opp siden", b: "Effektene er mindre enn ofte påstått, men peker samme vei, mest for presentasjoner der presentøren styrer tempoet.", k: [["Mayer 2017", "https://onlinelibrary.wiley.com/doi/abs/10.1111/jcal.12197"], ["Noetel mfl. 2022", "https://eric.ed.gov/?id=EJ1338120"], ["Adesope og Nesbit 2012", "https://www.semanticscholar.org/paper/Verbal-redundancy-in-multimedia-learning-A-Adesope-Nesbit/f3cf19bfea0d7d51f6914cb61a7f89f49d7666dc"]] },
+    { s: "moderat", t: "Overskriften sier poenget", b: "«Den gjetter neste ord» i stedet for «Hvorfor svarene spriker».", k: [["Garner og Alley 2013", "https://pure.psu.edu/en/publications/how-the-design-of-presentation-slides-affects-audience-comprehens/"]] },
+    { s: "moderat", t: "Historier forstås og huskes bedre", b: "Projects-demoen fortelles som en sak: hva du trengte, hva Claude gjorde, hvor det gikk galt, og hvordan du oppdaget det.", k: [["Mar mfl. 2021", "https://link.springer.com/article/10.3758/s13423-020-01853-1"]] },
+    { s: "moderat", t: "Humor gir sympati, irrelevant moro trekker ned", b: "Memene hører til poenget på siden og kommer som belønning når stegene er gjort, ikke midt i oppgaven. Ingen vitser på bekostning av et fagfelt.", k: [["Banas mfl. 2011", "https://www.semanticscholar.org/paper/A-Review-of-Humor-in-Educational-Settings:-Four-of-Banas-Dunbar/ff74ea8bc030a9214512a8d3549d466a98a2ca69"], ["Sundararajan og Adesope 2020", "https://link.springer.com/article/10.1007/s10648-020-09522-4"]] },
+    { s: "moderat", t: "Toppen og slutten huskes", b: "Spørsmål tas før avslutningen. Slutten er deltakernes egne planer, ikke regler eller spørsmålsrunde.", k: [["Peak-end-metaanalyse 2022", "https://econpapers.repec.org/article/eeejobhdp/v_3a170_3ay_3a2022_3ai_3ac_3as0749597822000334.htm"], ["Finn 2010", "https://pmc.ncbi.nlm.nih.gov/articles/PMC2970645/"]] },
+    { s: "moderat", t: "Svar uten å se de andre først", b: "Veggen viser de andres svar først når du har delt ditt eget. Avstemningene gir ærlige svar uten navn.", k: [["Levy mfl. 2017", "https://scholarworks.iu.edu/journals/index.php/josotl/article/view/22068"], ["Lorenz mfl. 2011", "https://pmc.ncbi.nlm.nih.gov/articles/PMC3107299/"]] },
+    { s: "moderat", t: "Avstemninger gir engasjement", b: "Avstemninger i kurssiden, med resultatet synlig for alle. Én kanal per formål.", k: [["Hunsu mfl. 2016, 53 studier", "https://www.sciencedirect.com/science/article/abs/pii/S0360131515300853"]] },
+    { s: "moderat", t: "La folk si selv hva de kan bruke det til", b: "Fagfelt i starten, spørsmål etter fagfelt og ikke etter navn, og «Hvilket prosjekt ville du laget?».", k: [["Hulleman og Harackiewicz", "https://www.tbr.edu/sites/tbr.edu/files/media/2016/11/Promoting%20Interest.pdf"], ["Canning og Harackiewicz 2015", "https://psycnet.apa.org/manuscript/2015-25799-002.pdf"]] },
+    { s: "moderat", t: "Vent etter et spørsmål", b: "Ti til tjue sekunder, lengre på Teams enn i rommet.", k: [["Rowe om ventetid", "https://www.kent.edu/ctl/wait-time-making-space-authentic-learning"], ["Ruhl mfl. 1987", "https://core.ac.uk/outputs/108281351/"]] },
+    { s: "moderat", t: "Kamera valgfritt", b: "Sies i starten. Presentøren har kamera på.", k: [["Shockley mfl. 2021", "https://www.sciencedaily.com/releases/2021/08/210830092203.htm"], ["Bailenson 2021", "https://news.stanford.edu/stories/2021/02/four-causes-zoom-fatigue-solutions"]] },
+    { s: "praksis", t: "En medhjelper", b: "En kollega med presentørlenken på sin PC følger med på hender, på dem som står fast og på chatten.", k: [["Huggett, ti tips for virtuell opplæring", "https://www.cindyhuggett.com/wp-content/uploads/2020/04/10-Tips-for-Virtual-Training-Success-from-Cindy-Huggett.pdf"], ["Nederbragt mfl. 2020", "https://journals.plos.org/ploscompbiol/article?id=10.1371/journal.pcbi.1008090"]] },
+    { s: "praksis", t: "Varmt kall, ikke kaldt", b: "Spør etter fagfelt, og gi alltid en lett vei ut.", k: [["Dallimore mfl. 2013", "https://eric.ed.gov/?id=EJ1009746"], ["Amherst, warm calling", "https://www.amherst.edu/offices/center-teaching-learning/a---z-resources/teaching-tips/amherst-college-teaching-tips/tip-2-warm-calling"]] },
+    { s: "praksis", t: "En første øvelse som virker for alle: la Claude intervjue deg", b: "Steg 3 på «Har alle Claude?». Krever ingen promptferdigheter og ingen sensitive data, og Claude tilpasser til fagfeltet.", k: [["White mfl. 2023, flipped interaction", "https://arxiv.org/pdf/2302.11382"], ["Nielsen Norman Group", "https://www.nngroup.com/articles/facilitating-ai-workshops/"]] },
+    { s: "praksis", t: "Start der folk er eksperter", b: "Sparring med egen tekst, og kildesjekk i DDoS-oppgaven. Der ser man selv hvor den tar feil.", k: [["Dell'Acqua mfl. 2023", "https://mitsloan.mit.edu/sites/default/files/2023-10/SSRN-id4573321.pdf"], ["Mollick, Getting started with AI", "https://www.oneusefulthing.org/p/getting-started-with-ai-good-enough"]] },
+    { s: "praksis", t: "Kurset skal sette i gang øving, ikke dekke innhold", b: "Det meste av tiden er praktisk, og slutten er en plan for i morgen. Vanen er det som stopper folk.", k: [["DBT Copilot-evaluering", "https://assets.publishing.service.gov.uk/media/68adbe409e1cebdd2c96a19d/dbt-microsoft-365-copilot-evaluation.pdf"], ["Pennsylvania ChatGPT-pilot", "https://www.pa.gov/content/dam/copapwp-pagov/en/oa/documents/programs/information-technology/documents/openai-pilot-report-2025.pdf"], ["Australias Copilot-forsøk", "https://www.digital.gov.au/initiatives/copilot-trial/summary-evaluation-findings"]] },
+    { s: "myte", t: "Læringsstiler", b: "Ingen gyldig dokumentasjon for å tilpasse undervisning til «visuelle» eller «auditive» personer.", k: [["Pashler mfl.", "https://digitalcommons.usf.edu/psy_facpub/1765/"]] },
+    { s: "myte", t: "Læringspyramiden", b: "Prosentene, 10 prosent av det vi leser og så videre, er oppdiktet og feilaktig tilskrevet Edgar Dale.", k: [["Kilde", "https://www.tandfonline.com/doi/pdf/10.1080/2331186X.2018.1518638"]] },
+    { s: "myte", t: "7-38-55", b: "Gjelder bare følelser når ord og tonefall sier hvert sitt, ikke kommunikasjon generelt.", k: [["Kilde", "https://bigthink.com/the-learning-curve/the-7-38-55-rule-debunking-the-golden-ratio-of-conversation/"]] },
+    { s: "myte", t: "Oppmerksomhet på åtte sekunder", b: "Tallet har ingen kilde som lar seg spore.", k: [["BBC", "https://www.bbc.com/news/health-38896790"]] },
+    { s: "myte", t: "En fast grense på 10 til 15 minutter", b: "Primærdataene støtter ikke en fast grense. Oppmerksomheten glir hele tiden, og aktivitet hjelper.", k: [["Bradbury 2016", "https://journals.physiology.org/doi/full/10.1152/advan.00109.2016"], ["Wilson og Korn 2007", "https://www.learntechlib.org/p/51852/"]] }
+  ];
+  var LABEL = { sterk: "Sterk", moderat: "Moderat", praksis: "Praksis", myte: "Myte" };
+  var GROUP = { sterk: "Sterk dokumentasjon", moderat: "Moderat dokumentasjon", praksis: "Erfaring fra praksis", myte: "Myter kurset ikke bygger på" };
+  function esc(s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;" }[c]; }); }
+  var el = document.getElementById("items");
+  el.innerHTML = ["sterk", "moderat", "praksis", "myte"].map(function (g) {
+    return "<section data-g=\"" + g + "\"><h3 class=\"group-h\">" + GROUP[g] + "</h3>" + ITEMS.filter(function (x) { return x.s === g; }).map(function (x) {
+      return "<article class=\"card\"><header><h3>" + esc(x.t) + "</h3><span class=\"pill " + x.s + "\">" + LABEL[x.s] + "</span></header>" +
+        "<p class=\"use\"><b>" + (x.s === "myte" ? "Hvorfor ikke:" : "Slik bruker kurset det:") + "</b> " + esc(x.b) + "</p>" +
+        "<p class=\"src\">" + x.k.map(function (k) { return "<a href=\"" + esc(k[1]) + "\">" + esc(k[0]) + "</a>"; }).join(" · ") + "</p></article>";
+    }).join("") + "</section>";
+  }).join("");
+  document.querySelector(".filters").addEventListener("click", function (e) {
+    var b = e.target.closest("button");
+    if (!b) return;
+    document.querySelectorAll(".filters button").forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); });
+    document.querySelectorAll("#items section").forEach(function (s) { s.hidden = b.dataset.f !== "alle" && s.dataset.g !== b.dataset.f; });
+  });
+})();
+</script>
+</body>
+</html>

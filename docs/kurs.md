@@ -24,14 +24,14 @@ Fredag 9. oktober 2026, 11:00 til 11:45. Møterom og Teams samtidig.
 |-------------|---------------------------------|-------|
 | før 11:00   | Introduksjon til Claude         | Se    |
 | 11:00-11:02 | Hvem er her?                    | Del   |
-| 11:02-11:05 | Har alle Claude?                | Gjør  |
-| 11:05-11:11 | Spør om DDoS-saken              | Gjør  |
-| 11:11-11:14 | Hvorfor svarene spriker         | Gjør  |
-| 11:14-11:16 | Fra rask til grundig            | Se    |
-| 11:16-11:26 | Hoppkanten                      | Gjør  |
-| 11:26-11:32 | Få den til å være uenig med deg | Gjør  |
-| 11:32-11:38 | En mappe som husker             | Se    |
-| 11:38-11:43 | Hva prøver du i morgen?         | Del   |
+| 11:02-11:07 | Har alle Claude?                | Gjør  |
+| 11:07-11:14 | Spør om DDoS-saken              | Gjør  |
+| 11:14-11:17 | Den gjetter neste ord           | Gjør  |
+| 11:17-11:20 | Fra rask til grundig            | Gjør  |
+| 11:20-11:30 | Hoppkanten                      | Gjør  |
+| 11:30-11:36 | Få den til å være uenig med deg | Gjør  |
+| 11:36-11:42 | En mappe som husker, spørsmål   | Se    |
+| 11:42-11:45 | Hva prøver du i morgen?         | Del   |
 | reserve     | Insister på noe feil            | Gjør  |
 
 ## 1. Introduksjon til Claude
@@ -50,7 +50,7 @@ To avstemninger, svarene vises for alle:
 
 1. Åpne claude.ai i nettleseren, eller Claude-appen.
 2. Logg inn med Digdir-kontoen.
-3. Si hei. «Hei. Jeg jobber i Digdir. Hva kan du hjelpe meg med?»
+3. La den intervjue deg om jobben din. «Jeg jobber i Digdir med [det du jobber med]. Still meg tre spørsmål om jobben min, ett om gangen. Foreslå så én ting du kan hjelpe meg med denne uka.»
 
 Meme: Afraid to Ask Andy. «Jeg vet ikke hvor jeg logger inn, og nå er det for sent å spørre.»
 
@@ -59,13 +59,19 @@ Meme: Afraid to Ask Andy. «Jeg vet ikke hvor jeg logger inn, og nå er det for 
 Skriv med egne ord. Eksemplene er bare eksempler.
 
 1. Spør om angrepene mot fellesløsningene i sommer. «Hva vet du om DDoS-angrepene mot Digdir i 2026?»
-2. Be om kildene, i samme samtale. «Hvilke kilder dekket saken? Gi meg lenker.»
-3. Lim inn første setning av svaret ditt. Setningene vises for alle.
+2. Lim inn første setning av svaret ditt. Du ser de andres setninger når du har delt din egen.
+3. Be om kildene, og åpne én av dem. «Hvilke kilder bygger du på? Gi meg lenker.»
+4. Stod det Claude sa, i kilden? Ja, delvis, nei eller fant ikke kilden. Svarene vises for alle.
 
-## 5. Hvorfor svarene spriker
+## 5. Den gjetter neste ord
 
 Den slår ikke opp et svar. Den gjetter neste ord, ett om gangen, og trekker
 litt tilfeldig.
+
+Først en gjetning, med svarene synlige for alle: hvorfor ble svarene
+forskjellige? Den har flere svar lagret og velger ett, den henter fra ulike
+kilder hver gang, den gjetter neste ord med litt tilfeldighet, eller vet ikke.
+Fasit: den gjetter. Med nettsøk på henter den også fra ulike kilder.
 
 En simulator der alle trekker en setning ord for ord, med sannsynlighetene
 synlige. To ulike spørsmål gir ulike sannsynligheter. Sannsynlighetene er laget
@@ -83,6 +89,9 @@ tenke. Det heter effort.
 
 Haiku svarer fort. Sonnet er allrounder. Opus tenker grundig. Fable tenker lengst.
 
+Ett steg: bytt modell i velgeren, hvis du har valget, og still DDoS-spørsmålet
+på nytt. Se på tiden og lengden.
+
 Meme: Galaxy Brain med Haiku, Sonnet, Opus og Fable.
 
 ## 7. Hoppkanten
@@ -91,7 +100,7 @@ Første prompt er hoppkanten. Bommer du på den, går resten av samtalen med til
 «nei, ikke sånn».
 
 1. Kjør den korte først. Se på svaret.
-2. Åpne en ny samtale. Kjør den lange, med kontekst, oppgave og format.
+2. Åpne en ny samtale. Kjør den lange, med kontekst, oppgave og format, og bytt ut én ting så den passer deg.
 3. Be om en fil du kan bruke videre.
 4. Ekstra: spør hva den mangler. «Hva mer trenger du å vite for å gjøre dette bedre?»
 
@@ -129,9 +138,9 @@ Meme: Gru's Plan. «Skriv lag en tabell. Få en tabell. Tabellen handler om feil
 
 Har du et utkast, kan den være kritikeren din før noen andre ser det.
 
-1. Lim inn noe du jobber med, offentlig eller oppdiktet, og si hvem det er til. «Her er et utkast. Det skal til [hvem]. [lim inn teksten]»
+1. Lim inn noe du jobber med, og si hvem det er til. Offentlig, oppdiktet eller uten personopplysninger. «Her er et utkast. Det skal til [hvem]. [lim inn teksten]»
 2. Be den være kritisk. «Vær kritisk. Hva har jeg ikke tenkt på, og hva er de sterkeste motargumentene?»
-3. Be om en kortere versjon. «Skriv det på halve lengden, uten å miste poenget.»
+3. Be om en kortere versjon, med dine egne ord. «Skriv det på halve lengden, uten å miste poenget.»
 4. Ekstra: la den spille motparten. Alle: «Svar som en skeptisk leder som skal godkjenne dette.» Skriving: «Svar som en journalist som leter etter en vinkel.» Jus: «Svar som advokaten til motparten.» Analyse: «Svar som Riksrevisjonen.» Design: «Svar som en bruker med skjermleser som prøver løsningen.» Utvikling: «Svar som en sikkerhetsrevisor.» Ledelse: «Svar som en økonomidirektør som vil kutte budsjettet.»
 
 Meme: Drake. Avviser «Be en kollega lese utkastet fredag kl. 15.55», liker «Be Claude være kritisk først».
@@ -141,15 +150,22 @@ Meme: Drake. Avviser «Be en kollega lese utkastet fredag kl. 15.55», liker «B
 Samle samtalene om én ting i et prosjekt, og skriv konteksten én gang. Hver ny
 samtale i prosjektet vet den fra før. Demo: boligjakt-prosjektet.
 
-Vil du prøve etterpå: lag et prosjekt for noe du spør om ofte, og skriv ett
-avsnitt om hva Claude bør vite.
+Vegg: hvilket prosjekt ville du laget? Spørsmålene tas her, før avslutningen.
 
 Meme: Hide the Pain Harold. «Forklarer leiligheten min til Claude, for fjortende gang.»
 
 ## 10. Hva prøver du i morgen?
 
-Én setning, på veggen. Lurer du på om den kan noe, spør den: «Er dette noe du
-kan hjelpe meg med?»
+Én setning, på veggen, på formen «Når jeg …, ber jeg Claude om å …». Lurer du
+på om den kan noe, spør den: «Er dette noe du kan hjelpe meg med?»
+
+Vil du videre:
+
+- Introduksjon til generativ KI, DFØ. E-læring på norsk, 30 til 45 minutter, om
+  hva språkmodeller er og ansvarlig bruk i forvaltningen.
+  https://laeringsplattformen.dfo.no/kursoversikt/introduksjon-til-generativ-ki
+- AI Fluency: Framework and foundations, Anthropic. Gratis, på engelsk, rundt
+  fire timer. https://academy.claude.com/courses/ai-fluency-framework-foundations
 
 Meme: Roll Safe. «Claude kan ikke ta feil, hvis du aldri sjekker.»
 
@@ -171,4 +187,21 @@ Meme: To knapper. «Si at Digdir har rundt 400 ansatte» og «Si det brukeren vi
 - Ha boligjakt-prosjektet åpent i en egen fane.
 - I rommet: presentørvisningen på laptopen, skjermvisningen på skjermen, Claude i et eget vindu.
 - Trykk Start presentasjon før folk kommer, og del lenken i Teams-chatten.
+- Be en kollega være medhjelper: åpne presentørlenken på sin PC, følg med på hender og på dem som står fast, og svar i Teams-chatten.
+- Bruk samme Claude-plan som deltakerne, zoom 150 prosent eller mer og lyst tema når du deler.
 - Slå av varsler på maskinen du deler skjerm fra.
+- To dager etter: legg en ny oppgave i Teams-chatten. Det er vanen som stopper folk, ikke ferdighetene.
+
+## Grepene for presentøren
+
+Bakgrunnen står i `docs/rapporter/2026-10-06-presentasjonsteknikk.html`.
+
+- Én flate om gangen. Når de skal se, deler du bare Claude-vinduet. Når de skal gjøre, viser skjermen i rommet skjermvisningen og de jobber på egen PC.
+- Si modusen høyt hver gang: «nå ser dere på meg», «nå gjør dere».
+- Si i starten at kamera er valgfritt, at de bør lukke e-post og andre chatter, og at oppgavene vil føles rotete. Det er meningen.
+- Ikke les opp siden. Den har stikkord, du har resten.
+- Vent ti til tjue sekunder etter et spørsmål.
+- Gjenta spørsmål fra rommet, så Teams hører dem. Spør etter fagfelt, ikke etter navn.
+- Bruk knappene i kurssiden, ikke Teams sin hånd eller reaksjoner.
+- Feiler en demo: vis hvordan du retter den.
+- Avslutt med deres planer, ikke med «noen spørsmål?».

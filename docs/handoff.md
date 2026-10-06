@@ -70,5 +70,6 @@ Oppsett og deploy står i `docs/oppsett.md`.
   sparringspartner, og Projects er som mapper.
 - En deltaker fra design ønsker eksempler på prototyper og universell
   utforming. Derfor eget fagfelt for design og universell utforming.
-- Beslutningene står i `beslutningslogg.md`.
+- Beslutningene står i `docs/rapporter/beslutningslogg.md`, og researchen på
+  presentasjonsteknikk i `docs/rapporter/`.
 

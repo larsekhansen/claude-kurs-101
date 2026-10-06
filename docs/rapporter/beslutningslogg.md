@@ -1,9 +1,29 @@
 # Beslutningslogg
 
-Nyeste øverst. Ett punkt per beslutning, med hvorfor. Detaljene står i
-`docs/kurs.md` og `docs/oppsett.md`.
+Beslutninger og milepæler for kurset, med den nyeste øverst. Hvordan loggen
+føres, står i [README](README.md). Innholdet står i [`../kurs.md`](../kurs.md)
+og oppsettet i [`../oppsett.md`](../oppsett.md).
 
 ## 2026-10-06
+
+- **Research på presentasjonsteknikk er flettet inn**
+  ([rapporten](2026-10-06-presentasjonsteknikk.html)). Det som ble endret:
+  - Alle gjetter før forklaringen av hvorfor svarene spriker.
+  - Kildesjekken er et steg i DDoS-oppgaven, med svarene synlige for alle.
+  - Første oppgave er at Claude intervjuer deg om jobben din, som virker for
+    alle fagfelt.
+  - Modellvalget prøver alle selv.
+  - Veggen viser de andres svar først når du har delt ditt eget.
+  - Slutten er en plan på formen «når jeg …, ber jeg Claude om å …», og
+    spørsmålene tas før den.
+  - Presentørnotatene har grepene der de skal brukes.
+- **Satire-åpningen og «tre setninger» kommer ikke tilbake,** selv om researchen
+  anbefalte dem. De ble tatt ut fordi de var abstrakte, og prinsippet bak
+  (spørsmål før forklaring) er brukt andre steder.
+- **Ingen egen side om hva man kan lime inn.** Det står i steget der man limer
+  inn egen tekst. Ansvarlig bruk dekkes av DFØ-kurset «Introduksjon til
+  generativ KI», som det lenkes til fra siste side sammen med Anthropics «AI
+  Fluency».
 
 - Kurset er bygget om rundt ett grep per side, med modusene Se, Gjør og Del.
   Hvorfor: første versjon hadde opptil seks prompter per side og ble for tett.

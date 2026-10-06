@@ -14,6 +14,6 @@ Skjermen i møterommet: https://larsekhansen.github.io/claude-kurs-101/?skjerm
 - `docs/kurs.md`: alt kursinnhold og alle prompter.
 - `docs/oppsett.md`: deploy, presentør-token og lokal utvikling.
 - `docs/handoff.md`: kontekst og beslutninger fra planleggingen.
-- `beslutningslogg.md`: beslutningene, nyeste øverst.
+- `docs/rapporter/`: beslutningsloggen og rapportene, nyeste øverst.
 - `memer/`: memene, laget med memegen.link.
 - `CLAUDE.md`: hvordan det er bygget, og reglene for å endre det.
