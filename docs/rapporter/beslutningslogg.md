@@ -6,6 +6,28 @@ og oppsettet i [`../oppsett.md`](../oppsett.md).
 
 ## 2026-10-06
 
+- **Versjon 3: kurset bygget for å være gøy, stilig og holde tiden.** Planen
+  ble gjennomgått i tre runder før byggingen. Det som kom inn:
+  - «Ekte eller Claude?» som krok mens folk kommer: én setning fra Grunnloven og
+    to fra Claude, med fasit og meme etterpå. Poenget er at overbevisende ikke
+    er det samme som sant.
+  - «Velg stilen» som pause: alle stemmer, presentøren kjører vinneren live.
+    Poenget er at rolle og format styrer svaret.
+  - «Dagens tall» som finale, med applaus.
+  - Kapittelkart i toppen, mørke sider for pausene, og en glidebryter for
+    tilfeldighet i neste ord-simulatoren.
+  - Presentøren kan vise fasit, sende applaus, løfte fram innlegg fra veggen,
+    og har tidtaker mot planen.
+  - Juksearket, med eksempler fra deltakerens fagfelt og planen deltakeren
+    skrev.
+- **Tidsplanen er kortet til rundt 35 minutter.** En gjennomkjøring med målte
+  svartider (10 til 76 sekunder per prompt) viste at den forrige planen gikk
+  over 45 minutter. Intervjuet er én runde, modellsiden ett minutt, og
+  sparringen har lim inn og kritikk i samme steg.
+- **Årsrapport-eksempelet er byttet ut** med en tabell over DDoS-angrepene.
+  Årsrapporten for 2025 finnes bare som en PDF på 24 MB, og både henting og
+  vedlegg feilet i test. Den nye prompten virket.
+
 - **Tre grep er tatt fra DFØ-kurset «Introduksjon til generativ KI»:** et
   eksempel på det du vil ha (E-en i KORE) som ekstrasteg på hoppkanten,
   skilletegn rundt innlimt tekst i sparringen, og et KI-minutt på

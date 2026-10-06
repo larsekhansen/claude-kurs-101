@@ -91,6 +91,11 @@ localhost.
   teksten, maks 240 tegn og 80 innlegg per vegg. Presentøren tømmer en vegg
   med `wipe`.
 - Skjermvisningen sier `screen: true` i `hello`, og telles ikke.
+- Presentøren kan sende `reveal` (vis eller skjul fasiten i en avstemning,
+  lagres så de som kommer sent ser den), `fx` (applaus til alle andre) og
+  `spot` (løfter fram et innlegg fra veggen, uten navn, eller lukker det).
+- `live` har `since`, tidspunktet presentasjonen ble startet. Det brukes av
+  tidtakeren og nullstilles når presentasjonen stoppes.
 - Navn er unike blant dem som er koblet til nå, uansett store og små
   bokstaver. Flere faner i samme nettleser er samme person, med samme navn,
   hånd og ferdig.

@@ -20,41 +20,59 @@ Fredag 9. oktober 2026, 11:00 til 11:45. Møterom og Teams samtidig.
 
 ## Kjøreplan
 
-| Tid         | Side                            | Modus |
-|-------------|---------------------------------|-------|
-| før 11:00   | Introduksjon til Claude         | Se    |
-| 11:00-11:02 | Hvem er her?                    | Del   |
-| 11:02-11:07 | Har alle Claude?                | Gjør  |
-| 11:07-11:14 | Spør om DDoS-saken              | Gjør  |
-| 11:14-11:17 | Den gjetter neste ord           | Gjør  |
-| 11:17-11:20 | Fra rask til grundig            | Gjør  |
-| 11:20-11:30 | Hoppkanten                      | Gjør  |
-| 11:30-11:36 | Få den til å være uenig med deg | Gjør  |
-| 11:36-11:42 | En mappe som husker, spørsmål   | Se    |
-| 11:42-11:45 | Hva prøver du i morgen?         | Del   |
-| reserve     | Insister på noe feil            | Gjør  |
+Rundt 35 minutter planlagt. Resten av de 45 er buffer for somling og
+spørsmål. Fire kapitler, vist i toppen av siden. De mørke sidene er pauser med
+humor.
 
-## 1. Introduksjon til Claude
+| Kapittel    | Side                               | Modus | Min |
+|-------------|------------------------------------|-------|-----|
+| Start       | Introduksjon til Claude            | Se    | før |
+| Kom i gang  | Ekte eller Claude? (pause)         | Del   | 1,5 |
+| Kom i gang  | Hvem er her?                       | Del   | 1   |
+| Kom i gang  | Har alle Claude?                   | Gjør  | 4   |
+| Den gjetter | Spør om DDoS-saken                 | Gjør  | 5   |
+| Den gjetter | Den gjetter neste ord              | Gjør  | 3   |
+| Den gjetter | Fra rask til grundig (kan kuttes)  | Se    | 1   |
+| Hoppkanten  | Hoppkanten                         | Gjør  | 8   |
+| Hoppkanten  | Velg stilen (pause, kan kuttes)    | Del   | 1,5 |
+| Videre      | Få den til å være uenig med deg    | Gjør  | 4   |
+| Videre      | En mappe som husker, og spørsmål   | Se    | 3   |
+| Videre      | Hva prøver du i morgen? Jukseark   | Del   | 3   |
+| Videre      | Dagens tall                        | Del   | 0,5 |
+| Reserve     | Insister på noe feil               | Gjør  | 3   |
+
+## Introduksjon til Claude
 
 Alt vi gjør i dag, gjør vi samtidig. Du trenger PC, nettleser og et spørsmål.
 QR-kode og lenken larsekhansen.github.io/claude-kurs-101.
 
-## 2. Hvem er her?
+## Ekte eller Claude?
+
+Mens folk kommer inn. Én av disse står i Grunnloven, de to andre skrev Claude:
+
+- «Staten skal sørge for at alle kan bruke offentlige digitale tjenester.» (Claude)
+- «Det skal være ytringsfrihet.» (Grunnloven § 100)
+- «Enhver har rett til et klart og forståelig språk fra det offentlige.» (Claude)
+
+Presentøren viser svaret når de fleste har stemt. Så kommer memen: Pam fra The
+Office med «Grunnloven § 100» og «Noe Claude fant på». De er samme bilde.
+
+## Hvem er her?
 
 To avstemninger, svarene vises for alle:
 
 - Hva jobber du mest med? Fagfeltene over. Svaret styrer eksemplene senere.
 - Har du brukt Claude før? Aldri, litt eller mye.
 
-## 3. Har alle Claude?
+## Har alle Claude?
 
-1. Åpne claude.ai i nettleseren, eller Claude-appen.
+1. Åpne claude.ai i nettleseren, eller Claude-appen, og legg den ved siden av kurssiden.
 2. Logg inn med Digdir-kontoen.
-3. La den intervjue deg om jobben din. «Jeg jobber i Digdir med [det du jobber med]. Still meg tre spørsmål om jobben min, ett om gangen. Foreslå så én ting du kan hjelpe meg med denne uka.»
+3. La den intervjue deg om jobben din. «Jeg jobber i Digdir med [det du jobber med]. Still meg tre korte spørsmål om jobben min. Når jeg har svart, foreslå én ting du kan hjelpe meg med denne uka.»
 
 Meme: Afraid to Ask Andy. «Jeg vet ikke hvor jeg logger inn, og nå er det for sent å spørre.»
 
-## 4. Spør om DDoS-saken
+## Spør om DDoS-saken
 
 Skriv med egne ord. Eksemplene er bare eksempler.
 
@@ -62,8 +80,9 @@ Skriv med egne ord. Eksemplene er bare eksempler.
 2. Lim inn første setning av svaret ditt. Du ser de andres setninger når du har delt din egen.
 3. Be om kildene, og åpne én av dem. «Hvilke kilder bygger du på? Gi meg lenker.»
 4. Stod det Claude sa, i kilden? Ja, delvis, nei eller fant ikke kilden. Svarene vises for alle.
+5. Ekstra: bytt modell, hvis du har valget, og still samme spørsmål på nytt.
 
-## 5. Den gjetter neste ord
+## Den gjetter neste ord
 
 Den slår ikke opp et svar. Den gjetter neste ord, ett om gangen, og trekker
 litt tilfeldig.
@@ -74,7 +93,8 @@ kilder hver gang, den gjetter neste ord med litt tilfeldighet, eller vet ikke.
 Fasit: den gjetter. Med nettsøk på henter den også fra ulike kilder.
 
 En simulator der alle trekker en setning ord for ord, med sannsynlighetene
-synlige. To ulike spørsmål gir ulike sannsynligheter. Sannsynlighetene er laget
+synlige. To ulike spørsmål gir ulike sannsynligheter. En glidebryter går fra
+forutsigbar, der alle får samme setning, til vill. Sannsynlighetene er laget
 for hånd, som illustrasjon.
 
 1. Trekk en hel setning.
@@ -82,19 +102,18 @@ for hånd, som illustrasjon.
 
 Meme: Philosoraptor. «Hvis alle spurte om det samme, hvorfor fikk vi ti forskjellige svar?»
 
-## 6. Fra rask til grundig
+## Fra rask til grundig
 
 Du velger modell i Claude. I tillegg kan den få mer eller mindre tid til å
 tenke. Det heter effort.
 
 Haiku svarer fort. Sonnet er allrounder. Opus tenker grundig. Fable tenker lengst.
 
-Ett steg: bytt modell i velgeren, hvis du har valget, og still DDoS-spørsmålet
-på nytt. Se på tiden og lengden.
+Ett minutt, bare presentøren. Modellbyttet er ekstrasteg på DDoS-siden.
 
 Meme: Galaxy Brain med Haiku, Sonnet, Opus og Fable.
 
-## 7. Hoppkanten
+## Hoppkanten
 
 Første prompt er hoppkanten. Bommer du på den, går resten av samtalen med til
 «nei, ikke sånn».
@@ -107,8 +126,8 @@ Første prompt er hoppkanten. Bommer du på den, går resten av samtalen med til
 Promptene per fagfelt, kort, lang og fil:
 
 - Alle, og analyse og utredning:
-  «Lag en tabell med kostnader fra Digdirs årsrapport 2025.»
-  «Jeg jobber i KI Norge i Digdir. Vi trenger en oversikt over kostnadene i Digdirs årsrapport for 2025 til et internt notat. Lag en tabell med post, beløp i kroner og hvor i rapporten tallet står. Bruk bare tall som står i rapporten, og si fra hvis du ikke finner den.»
+  «Lag en tabell over DDoS-angrepene.»
+  «Jeg jobber i KI Norge i Digdir og skal lage en kort oversikt over DDoS-angrepene mot Digdirs fellesløsninger i 2026 til et internt notat. Lag en tabell med dato, varighet, berørte tjenester og kilde, én rad per angrep. Bruk bare opplysninger du finner i kildene, og skriv «ukjent» der du ikke finner noe.»
   «Lag tabellen som en Excel-fil jeg kan laste ned.»
 - Skriving og formidling:
   «Skriv en LinkedIn-post om KI Norge.»
@@ -134,30 +153,41 @@ Promptene per fagfelt, kort, lang og fil:
 
 Meme: Gru's Plan. «Skriv lag en tabell. Få en tabell. Tabellen handler om feil ting. Tabellen handler om feil ting.»
 
-## 8. Få den til å være uenig med deg
+## Velg stilen
+
+Pause. Alle stemmer på en stil, og presentøren kjører vinneren live:
+«Forklar DDoS-angrepene mot Digdir i sommer som [stil]. Maks 80 ord.»
+Stilene: fotballkommentator i overtid, haiku (diktet og ikke modellen),
+pressemelding fra 1985, brukerstøtte som har gitt opp, barnebok. Prompten på
+siden følger stilen som leder.
+
+## Få den til å være uenig med deg
 
 Har du et utkast, kan den være kritikeren din før noen andre ser det.
 
-1. Lim inn noe du jobber med, og si hvem det er til. Offentlig, oppdiktet eller uten personopplysninger. «Her er et utkast. Det skal til [hvem]. Teksten står mellom de tre anførselstegnene. """[lim inn teksten]"""»
-2. Be den være kritisk. «Vær kritisk. Hva har jeg ikke tenkt på, og hva er de sterkeste motargumentene?»
-3. Be om en kortere versjon, med dine egne ord. «Skriv det på halve lengden, uten å miste poenget.»
-4. Ekstra: la den spille motparten. Alle: «Svar som en skeptisk leder som skal godkjenne dette.» Skriving: «Svar som en journalist som leter etter en vinkel.» Jus: «Svar som advokaten til motparten.» Analyse: «Svar som Riksrevisjonen.» Design: «Svar som en bruker med skjermleser som prøver løsningen.» Utvikling: «Svar som en sikkerhetsrevisor.» Ledelse: «Svar som en økonomidirektør som vil kutte budsjettet.»
+1. Lim inn noe du jobber med, eller svaret fra hoppkanten, og be den være kritisk. Offentlig, oppdiktet eller uten personopplysninger. «Her er et utkast. Det skal til [hvem]. Teksten står mellom de tre anførselstegnene. """[lim inn teksten]""" Vær kritisk. Hva har jeg ikke tenkt på, og hva er de sterkeste motargumentene?»
+2. Be om en kortere versjon, med dine egne ord. «Skriv det på halve lengden, uten å miste poenget.»
+3. Ekstra: la den spille motparten. Alle: «Svar som en skeptisk leder som skal godkjenne dette.» Skriving: «Svar som en journalist som leter etter en vinkel.» Jus: «Svar som advokaten til motparten.» Analyse: «Svar som Riksrevisjonen.» Design: «Svar som en bruker med skjermleser som prøver løsningen.» Utvikling: «Svar som en sikkerhetsrevisor.» Ledelse: «Svar som en økonomidirektør som vil kutte budsjettet.»
 
 Meme: Drake. Avviser «Be en kollega lese utkastet fredag kl. 15.55», liker «Be Claude være kritisk først».
 
-## 9. En mappe som husker
+## En mappe som husker
 
 Samle samtalene om én ting i et prosjekt, og skriv konteksten én gang. Hver ny
 samtale i prosjektet vet den fra før. Demo: boligjakt-prosjektet.
 
-Vegg: hvilket prosjekt ville du laget? Spørsmålene tas her, før avslutningen.
+Spørsmålene tas her, før avslutningen.
 
 Meme: Hide the Pain Harold. «Forklarer leiligheten min til Claude, for fjortende gang.»
 
-## 10. Hva prøver du i morgen?
+## Hva prøver du i morgen?
 
 Én setning, på veggen, på formen «Når jeg …, ber jeg Claude om å …». Lurer du
 på om den kan noe, spør den: «Er dette noe du kan hjelpe meg med?»
+
+Knappen «Ta med juksearket» lager et jukseark med formelen, eksemplene fra
+deltakerens fagfelt, sparringsprompten, motparten og planen deltakeren skrev på
+veggen. Det kan skrives ut eller lagres som PDF.
 
 Vil du videre:
 
@@ -170,6 +200,11 @@ Vil du videre:
   fire timer. https://academy.claude.com/courses/ai-fluency-framework-foundations
 
 Meme: Roll Safe. «Claude kan ikke ta feil, hvis du aldri sjekker.»
+
+## Dagens tall
+
+Finalen: antall deltakere, steg fullført, innlegg på veggene, stemmer og
+fagfelt i rommet, telt opp live. Presentøren trykker Applaus.
 
 ## Reserve: Insister på noe feil
 
@@ -200,6 +235,14 @@ Tre grep er tatt fra DFØ-kurset «Introduksjon til generativ KI»: et eksempel 
 det du vil ha (E-en i KORE: kontekst, oppgave, retningslinjer, eksempel),
 skilletegn rundt innlimt tekst, og et KI-minutt på avdelingsmøtene. Resten er
 grunnlag og ansvarlig bruk, som det lenkes til fra siste side.
+
+## Presentørens verktøy
+
+- **Vis svaret** på «Ekte eller Claude?».
+- **👏 Applaus:** konfetti på alle skjermer.
+- **Vis for alle:** løfter fram et innlegg fra veggen på alle skjermer, uten navn.
+- **Tidtaker:** tid siden start mot planen, og hvilke sider som kan kuttes hvis det går tregt.
+- Skjermen i rommet feirer når alle er ferdige med stegene.
 
 ## Grepene for presentøren
 

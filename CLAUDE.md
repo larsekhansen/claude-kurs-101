@@ -24,7 +24,13 @@ Hostes på GitHub Pages, åpent for alle med lenken, uten innlogging.
   ferdige med hvert steg.
 - Deltakerne velger fagfelt i starten og får eksempler fra sitt felt. Prompter
   kan derfor være et objekt med én tekst per fagfelt, der `_` er standard.
-- Avstemninger og en anonym vegg viser svarene for alle.
+- Avstemninger og en anonym vegg viser svarene for alle. En avstemning kan ha
+  fasit, som presentøren viser når hen vil.
+- Fire kapitler vises i toppen. De mørke sidene er pauser med humor.
+- Presentøren har applaus (konfetti på alle skjermer), kan løfte fram innlegg
+  fra veggen, og har tidtaker mot planen. Sider merket `cut` kan kuttes.
+- Juksearket på siste side lages i nettleseren fra deltakerens fagfelt og
+  egne innlegg.
 - Live-laget er en WebSocket mot en Cloudflare Worker med én Durable Object,
   `worker/index.js`. Presentøren åpner siden med `#presenter=<token>`, og
   tokenet sjekkes i Workeren. Deltakerne følger presentøren, slipper fri når
@@ -50,7 +56,9 @@ Hostes på GitHub Pages, åpent for alle med lenken, uten innlogging.
   andre, se at det slipper fri og at knappen for å hente seg inn igjen virker.
   Fullfør steg i det andre, se tellerne under stegene i det første. Rekk opp
   hånda, trykk Nullstill hender, se at den går ned. Del noe på en vegg, og se
-  at det kommer opp i det første.
+  at det kommer opp i det første. Skriptene i ende-til-ende-testen ligger
+  ikke i repoet. Testen kjøres med Playwright mot `wrangler dev` og en lokal
+  server, med presentør, to deltakere og skjermvisningen i hver sin kontekst.
 
 ## Stil
 
