@@ -63,7 +63,8 @@ Mens folk kommer inn. Én av disse står i Grunnloven, de to andre skrev Claude:
 - «Enhver har rett til et klart og forståelig språk fra det offentlige.» (Claude)
 
 Presentøren viser svaret når de fleste har stemt. Så kommer memen: Pam fra The
-Office med «Grunnloven § 100» og «Noe Claude fant på». De er samme bilde.
+Office med «Grunnloven § 100» og «Noe Claude fant på». Pam er merket «Claude»
+og sier at det er samme bilde.
 
 Sjekket mot Lovdata 6. oktober 2026. Under forberedelsene skrev Claude først
 «Det skal være ytringsfrihet» som den ekte setningen. Den står ikke der.
@@ -82,7 +83,7 @@ To avstemninger, svarene vises for alle:
 2. Logg inn med Digdir-kontoen.
 3. La den intervjue deg om jobben din. Bytt ut teksten i klammene. «Jeg jobber i Digdir med [det du jobber med]. Still meg tre korte spørsmål om jobben min. Når jeg har svart, foreslå én ting du kan hjelpe meg med denne uka.»
 
-Meme: Afraid to Ask Andy. «Jeg vet ikke hvor jeg logger inn, og nå er det for sent å spørre.»
+Meme: Afraid to Ask Andy. «Vet ikke hvor jeg logger inn, og nå tør jeg ikke spørre.»
 
 ## Spør om DDoS-saken
 
@@ -103,7 +104,7 @@ Haiku svarer fort. Sonnet er allrounder. Opus tenker grundig. Fable tenker lengs
 
 Ett minutt, bare presentøren. Modellbyttet er ekstrasteg på DDoS-siden.
 
-Meme: Galaxy Brain med Haiku, Sonnet, Opus og Fable.
+Meme: Galaxy Brain med Haiku, Sonnet, Opus og «Fable med maks effort».
 
 ## Den første prompten
 
@@ -116,7 +117,7 @@ annet felt.
 1. Kjør den korte først. Se på svaret.
 2. Åpne en ny samtale. Kjør den lange, med kontekst, oppgave og format, og bytt ut én ting så den passer deg.
 3. Be om en fil du kan bruke videre.
-4. Ekstra: gi den et eksempel på hvordan du vil ha det. «Her er et eksempel på hvordan jeg vil ha det: [lim inn et eksempel du liker]. Gjør det på samme måte.»
+4. Ekstra: gi den et eksempel på hvordan du vil ha det. Alle: «Her er et eksempel på hvordan jeg vil ha det: [lim inn et eksempel du liker]. Gjør det på samme måte.» Skriving: «Her er en post vi var fornøyd med: [lim inn posten]. Skriv forslagene i samme tone og lengde.» Jus: «Her er et notat jeg liker oppsettet på: [lim inn notatet]. Bruk samme struktur og samme måte å vise til kilder på.» Analyse: «Her er en tabell vi har brukt før: [lim inn tabellen]. Lag den nye med samme kolonner og samme stil.» Design: «Her er et skjema jeg liker: [lim inn lenke eller beskrivelse]. Lag prototypen i samme stil, og si hva som ville feilet for en som bruker skjermleser.» Utvikling: «Her er en funksjon fra kodebasen vår: [lim inn koden]. Skriv den nye i samme stil, med samme navngiving.» Ledelse: «Her er en prosjektplan vi var fornøyd med: [lim inn planen]. Følg samme oppsett.»
 
 Promptene per fagfelt, kort, lang og fil:
 
@@ -136,7 +137,6 @@ Promptene per fagfelt, kort, lang og fil:
   «Lag et skjema for adresseendring.»
   «Jeg er tjenestedesigner i Digdir. Lag en klikkbar prototype av et skjema der en innbygger melder adresseendring, med tre steg, feilmeldinger og en kvittering. Følg Designsystemet fra Digdir og WCAG 2.2 AA: tydelige etiketter, synlig fokus, god kontrast og feilmeldinger som sier hva som er galt.»
   «Gi meg prototypen som én HTML-fil jeg kan åpne i nettleseren og vise til andre.»
-  Ekstra: «Gå gjennom prototypen for universell utforming. Hva ville feilet for en som bruker skjermleser eller bare tastatur?»
 - Utvikling og data:
   «Skriv en funksjon som sjekker organisasjonsnummer.»
   «Skriv en TypeScript-funksjon som sjekker om et norsk organisasjonsnummer er gyldig, med kontrollsiffer etter modulus 11. Lag enhetstester i Vitest for gyldige, ugyldige og tomme verdier, og forklar grensetilfellene i tre punkter.»
@@ -152,7 +152,7 @@ har kontekst, oppgave og format i hver sin farge, og følger fagfeltet som er
 valgt. Regelen kommer etter kontrasten. På skjermen i rommet står den i
 kolonnen ved siden av stegene.
 
-Meme: Gru's Plan. «Skriv lag en tabell. Få en tabell. Tabellen handler om feil ting. Tabellen handler om feil ting.»
+Meme: Gru's Plan. «Be om en tabell. Få en tabell. Om helt feil ting. Om helt feil ting.»
 
 ## Velg stilen
 
@@ -166,11 +166,11 @@ siden følger stilen som leder.
 
 Har du et utkast, kan den være kritikeren din før noen andre ser det.
 
-1. Lim inn noe du jobber med, eller svaret fra den lange prompten, og be den være kritisk. Offentlig, oppdiktet eller uten personopplysninger. «Her er et utkast. Det skal til [hvem]. Teksten står mellom de tre anførselstegnene. """[lim inn teksten]""" Vær kritisk. Hva har jeg ikke tenkt på, og hva er de sterkeste motargumentene?»
-2. Be om en kortere versjon, med dine egne ord. «Skriv det på halve lengden, uten å miste poenget.»
+1. Lim inn noe du jobber med, eller svaret fra den lange prompten, og be den være kritisk. Offentlig, oppdiktet eller uten personopplysninger. Alle: «Her er et utkast. Det skal til [hvem]. Teksten står mellom de tre anførselstegnene. """[lim inn teksten]""" Vær kritisk. Hva har jeg ikke tenkt på, og hva er de sterkeste motargumentene?» Skriving: «Her er et utkast til en tekst for [målgruppe]. Teksten står mellom de tre anførselstegnene. """[lim inn teksten]""" Vær kritisk. Hvor mister jeg leseren, og hva er uklart for en som ikke kjenner saken?» Jus: «Her er et utkast til en juridisk vurdering av [sak]. Teksten står mellom de tre anførselstegnene. """[lim inn teksten]""" Vær kritisk. Hvor er resonnementet svakest, og hvilke hjemler eller motargumenter mangler?» Analyse: «Her er et utkast til en analyse som skal til [hvem]. Teksten står mellom de tre anførselstegnene. """[lim inn teksten]""" Vær kritisk. Hvilke konklusjoner er ikke dekket av tallene, og hva har jeg ikke tatt hensyn til?» Design: «Her er en beskrivelse av en løsning for [brukergruppe]. Teksten står mellom de tre anførselstegnene. """[lim inn beskrivelsen]""" Vær kritisk. Hvor vil brukerne stoppe opp, og hva vil ikke virke med skjermleser eller bare tastatur?» Utvikling: «Her er kode som skal [gjøre hva]. Koden står mellom de tre anførselstegnene. """[lim inn koden]""" Vær kritisk. Hvilke feil, grensetilfeller og sikkerhetshull ser du?» Ledelse: «Her er et utkast til et beslutningsnotat om [sak]. Teksten står mellom de tre anførselstegnene. """[lim inn teksten]""" Vær kritisk. Hva kan gå galt, og hvilke spørsmål vil ledergruppen stille?»
+2. Be om en kortere versjon, med dine egne ord. Alle: «Skriv det på halve lengden, uten å miste poenget.» Skriving: «Skriv det på halve lengden, i klarspråk, uten å miste poenget.» Jus: «Skriv det på halve lengden, så en innbygger forstår det, uten å miste forbeholdene.» Analyse: «Skriv det som tre punkter til en leder som har ett minutt.» Design: «Skriv det på halve lengden, så en bruker forstår det med en gang.» Utvikling: «Gjør koden kortere og enklere, uten å endre hva den gjør.» Ledelse: «Skriv det på fem setninger til ledergruppen, med anbefalingen først.»
 3. Ekstra: la den spille motparten. Alle: «Svar som en skeptisk leder som skal godkjenne dette.» Skriving: «Svar som en journalist som leter etter en vinkel.» Jus: «Svar som advokaten til motparten.» Analyse: «Svar som Riksrevisjonen.» Design: «Svar som en bruker med skjermleser som prøver løsningen.» Utvikling: «Svar som en sikkerhetsrevisor.» Ledelse: «Svar som en økonomidirektør som vil kutte budsjettet.»
 
-Meme: Drake. Avviser «Be en kollega lese utkastet fredag kl. 15.55», liker «Be Claude være kritisk først».
+Meme: Drake. Avviser «Be en kollega lese utkastet fredag kl. 15.55», liker «Be Claude finne hullene først».
 
 ## En mappe som husker
 
@@ -223,7 +223,7 @@ Slå av nettsøk først, ellers finner den fasit.
 2. «Nei, det er 1200, det står på nettsiden vår.» Digdir har rundt 400.
 3. Ga den etter? Ja, litt eller nei. Svarene vises for alle.
 
-Meme: To knapper. «Si at Digdir har rundt 400 ansatte» og «Si det brukeren vil høre». Claude svetter.
+Meme: To knapper. «Stå på fakta» og «Gi etter». Claude svetter.
 
 ## Backstage: før kurset
 

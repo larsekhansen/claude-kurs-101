@@ -630,7 +630,7 @@
         explain: "Grunnloven § 100 begynner sånn. De to andre skrev Claude på noen sekunder, og de høres mer riktige ut enn originalen."
       }],
       gate: true,
-      meme: meme("ekte-same", "Pam fra The Office med to bilder, merket Grunnloven paragraf 100 og Noe Claude fant på. De er samme bilde."),
+      meme: meme("ekte-same", "Pam fra The Office holder to ark, merket Grunnloven paragraf 100 og Noe Claude fant på. Pam er merket Claude og sier at det er samme bilde."),
       notes: [
         "Kjør dette mens folk kommer inn. Trykk Vis svaret når de fleste har stemt.",
         "Replikk etter avsløringen, og den er sann: «Da jeg lagde kurset med Claude, ga den meg feil fasit her. Den mente Grunnloven sier \"Det skal være ytringsfrihet\". Det gjør den ikke. Lovdata hadde rett.»",
@@ -659,7 +659,7 @@
         { text: "Logg inn med Digdir-kontoen." },
         { text: "La den intervjue deg om jobben din. Bytt ut teksten i klammene.", say: "Jeg jobber i Digdir med [det du jobber med]. Still meg tre korte spørsmål om jobben min. Når jeg har svart, foreslå én ting du kan hjelpe meg med denne uka." }
       ],
-      meme: meme("oppsett-afraid", "Mann i skjorte ser forsiktig opp. Tekst: Jeg vet ikke hvor jeg logger inn, og nå er det for sent å spørre."),
+      meme: meme("oppsett-afraid", "Mann i skjorte ser forsiktig opp. Tekst: Vet ikke hvor jeg logger inn, og nå tør jeg ikke spørre."),
       notes: [
         "Følg tallene under hvert steg. Gå videre når de fleste er på steg 3, ikke når alle er det.",
         "Steg 3 virker for alle fagfelt og krever ingen promptferdigheter. Claude gjør tilpasningen. De som er raskt inne, har noe å holde på med mens resten logger inn.",
@@ -690,7 +690,7 @@
       id: "modeller", ch: "Første samtale", cut: true, mode: "se", min: 1, kicker: "Modeller", title: "Fra rask til grundig",
       lead: "Du velger modell i Claude. I tillegg kan den få mer eller mindre tid til å tenke. Det heter effort.",
       blocks: [{ t: "models", items: [["Haiku", "Svarer fort"], ["Sonnet", "Allrounder"], ["Opus", "Tenker grundig"], ["Fable", "Tenker lengst"]] }],
-      meme: meme("modeller-gb", "Fire hjerner som lyser sterkere og sterkere, merket Haiku, Sonnet, Opus og Fable."),
+      meme: meme("modeller-gb", "Fire hjerner som lyser sterkere og sterkere, merket Haiku, Sonnet, Opus og Fable med maks effort."),
       notes: [
         "Ett minutt. Vis modellvelgeren i din egen Claude. De raske har allerede prøvd å bytte modell som ekstrasteg på DDoS-siden. Sjekk på forhånd hvilke modeller og effort-valg Digdir-lisensen faktisk har.",
         "Ett poeng er nok: standardvalget holder til det meste. Bytt opp når oppgaven er vanskelig og svaret får ta tid."
@@ -741,13 +741,18 @@
           bonus: true, text: "gi den et eksempel på hvordan du vil ha det.",
           say: {
             _: "Her er et eksempel på hvordan jeg vil ha det: [lim inn et eksempel du liker]. Gjør det på samme måte.",
-            design: "Gå gjennom prototypen for universell utforming. Hva ville feilet for en som bruker skjermleser eller bare tastatur?"
+            skriv: "Her er en post vi var fornøyd med: [lim inn posten]. Skriv forslagene i samme tone og lengde.",
+            jus: "Her er et notat jeg liker oppsettet på: [lim inn notatet]. Bruk samme struktur og samme måte å vise til kilder på.",
+            analyse: "Her er en tabell vi har brukt før: [lim inn tabellen]. Lag den nye med samme kolonner og samme stil.",
+            design: "Her er et skjema jeg liker: [lim inn lenke eller beskrivelse]. Lag prototypen i samme stil, og si hva som ville feilet for en som bruker skjermleser.",
+            utvikling: "Her er en funksjon fra kodebasen vår: [lim inn koden]. Skriv den nye i samme stil, med samme navngiving.",
+            ledelse: "Her er en prosjektplan vi var fornøyd med: [lim inn planen]. Følg samme oppsett."
           }
         }
       ],
       // Etter steg 2 kommer promptene fargekodet: kontekst, oppgave og format. Regelen etter kontrasten.
       art: "prompt", artAfter: 2, artAside: true,
-      meme: meme("prompt-gru", "Gru i fire ruter: Skriv lag en tabell. Få en tabell. Tabellen handler om feil ting. Tabellen handler om feil ting."),
+      meme: meme("prompt-gru", "Gru i fire ruter: Be om en tabell. Få en tabell. Om helt feil ting. Om helt feil ting."),
       notes: [
         "Den viktigste bolken. Åtte minutter, ikke kutt den.",
         "Fagfeltene står øverst. Trykk på et felt for å vise eksemplene derfra, også den fargekodede prompten.",
@@ -789,8 +794,30 @@
       lead: "Har du et utkast, kan den være kritikeren din før noen andre ser det.",
       track: true,
       steps: [
-        { key: "kritikk", text: "Lim inn noe du jobber med, eller svaret fra den lange prompten, og be den være kritisk. Offentlig, oppdiktet eller uten personopplysninger.", say: "Her er et utkast. Det skal til [hvem]. Teksten står mellom de tre anførselstegnene. \"\"\"[lim inn teksten]\"\"\" Vær kritisk. Hva har jeg ikke tenkt på, og hva er de sterkeste motargumentene?" },
-        { text: "Be om en kortere versjon, med dine egne ord.", say: "Skriv det på halve lengden, uten å miste poenget." },
+        {
+          key: "kritikk", text: "Lim inn noe du jobber med, eller svaret fra den lange prompten, og be den være kritisk. Offentlig, oppdiktet eller uten personopplysninger.",
+          say: {
+            _: "Her er et utkast. Det skal til [hvem]. Teksten står mellom de tre anførselstegnene. \"\"\"[lim inn teksten]\"\"\" Vær kritisk. Hva har jeg ikke tenkt på, og hva er de sterkeste motargumentene?",
+            skriv: "Her er et utkast til en tekst for [målgruppe]. Teksten står mellom de tre anførselstegnene. \"\"\"[lim inn teksten]\"\"\" Vær kritisk. Hvor mister jeg leseren, og hva er uklart for en som ikke kjenner saken?",
+            jus: "Her er et utkast til en juridisk vurdering av [sak]. Teksten står mellom de tre anførselstegnene. \"\"\"[lim inn teksten]\"\"\" Vær kritisk. Hvor er resonnementet svakest, og hvilke hjemler eller motargumenter mangler?",
+            analyse: "Her er et utkast til en analyse som skal til [hvem]. Teksten står mellom de tre anførselstegnene. \"\"\"[lim inn teksten]\"\"\" Vær kritisk. Hvilke konklusjoner er ikke dekket av tallene, og hva har jeg ikke tatt hensyn til?",
+            design: "Her er en beskrivelse av en løsning for [brukergruppe]. Teksten står mellom de tre anførselstegnene. \"\"\"[lim inn beskrivelsen]\"\"\" Vær kritisk. Hvor vil brukerne stoppe opp, og hva vil ikke virke med skjermleser eller bare tastatur?",
+            utvikling: "Her er kode som skal [gjøre hva]. Koden står mellom de tre anførselstegnene. \"\"\"[lim inn koden]\"\"\" Vær kritisk. Hvilke feil, grensetilfeller og sikkerhetshull ser du?",
+            ledelse: "Her er et utkast til et beslutningsnotat om [sak]. Teksten står mellom de tre anførselstegnene. \"\"\"[lim inn teksten]\"\"\" Vær kritisk. Hva kan gå galt, og hvilke spørsmål vil ledergruppen stille?"
+          }
+        },
+        {
+          key: "kortere", text: "Be om en kortere versjon, med dine egne ord.",
+          say: {
+            _: "Skriv det på halve lengden, uten å miste poenget.",
+            skriv: "Skriv det på halve lengden, i klarspråk, uten å miste poenget.",
+            jus: "Skriv det på halve lengden, så en innbygger forstår det, uten å miste forbeholdene.",
+            analyse: "Skriv det som tre punkter til en leder som har ett minutt.",
+            design: "Skriv det på halve lengden, så en bruker forstår det med en gang.",
+            utvikling: "Gjør koden kortere og enklere, uten å endre hva den gjør.",
+            ledelse: "Skriv det på fem setninger til ledergruppen, med anbefalingen først."
+          }
+        },
         {
           key: "motpart", bonus: true, text: "la den spille motparten.",
           say: {
@@ -804,7 +831,7 @@
           }
         }
       ],
-      meme: meme("sparring-drake", "Drake avviser: Be en kollega lese utkastet fredag kl. 15.55. Drake liker: Be Claude være kritisk først."),
+      meme: meme("sparring-drake", "Drake avviser: Be en kollega lese utkastet fredag kl. 15.55. Drake liker: Be Claude finne hullene først."),
       notes: [
         "Har de ikke noe å lime inn, kan de bruke svaret fra den lange prompten. Folk lærer mest av tekst de kjenner godt, for der ser de selv hvor den tar feil.",
         "De tre anførselstegnene skiller beskjeden fra teksten. Da blander den ikke det som står i teksten, med det du ber den om.",
@@ -861,7 +888,7 @@
         { text: "Påstå noe feil.", say: "Nei, det er 1200, det står på nettsiden vår." },
         { text: "Ga den etter?", poll: { id: "ga-etter", options: [["ja", "Ja"], ["litt", "Litt"], ["nei", "Nei"]] } }
       ],
-      meme: meme("insistering-ds", "To knapper: Si at Digdir har rundt 400 ansatte, og Si det brukeren vil høre. Claude svetter."),
+      meme: meme("insistering-ds", "To knapper: Stå på fakta, og Gi etter. Claude svetter."),
       notes: [
         "Digdir har rundt 400 ansatte. 1200 er feil med vilje.",
         "Begge utfall er interessante. Gir den etter, er hjelpsom ofte det samme som enig. Står den på sitt, kan den likevel ikke sjekke nettsiden uten søk."

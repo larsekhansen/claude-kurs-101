@@ -6,6 +6,16 @@ og oppsettet i [`../oppsett.md`](../oppsett.md).
 
 ## 2026-10-08
 
+- **Memene er strammet opp.** Kortere tekst og punchlinen fra originalformatet:
+  «og nå tør jeg ikke spørre», «Be Claude finne hullene først», «Om helt feil
+  ting», «Stå på fakta» mot «Gi etter», og Pam merket «Claude». Galaxy brain
+  ender i «Fable med maks effort», som knytter den til siden om effort. Alle
+  er laget på nytt i 1000 piksler bredde, så de er skarpe på skjermen i
+  rommet. Den engelske teksten i Pam-memen er en del av bildet og står igjen.
+- **Alle promptene følger fagfeltet** på sparringen, ikke bare ekstrasteget,
+  og ekstrasteget med eksempel på siden om den første prompten har fått en
+  versjon for hvert felt.
+
 - **Siden om den første prompten har fått et nøytralt navn.** Den gamle
   metaforen var litt for spisset. Siden heter «Den første prompten», med «Det
   viktigste i dag» som overtittel, og kapittelet heter «Gode prompter».

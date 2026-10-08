@@ -92,6 +92,9 @@ Slik lager du en ny:
 
 - Laget med memegen.link, lagret som komprimert JPEG i `memer/`.
 - Norsk tekst, kjente maler, og tørr humor som hører til poenget.
+- Kort tekst, helst under seks ord per felt, og punchlinen fra originalformatet,
+  sånn at den kjennes igjen.
+- Lag dem i minst 1000 piksler bredde, så de er skarpe på en stor skjerm.
 - Alt-tekst som beskriver både bildet og teksten.
 
 ## Tilgjengelighet
