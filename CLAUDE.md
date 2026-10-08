@@ -80,6 +80,9 @@ Hostes på GitHub Pages, åpent for alle med lenken, uten innlogging.
   server, med presentør, to deltakere og skjermvisningen i hver sin kontekst.
   Tilgjengeligheten sjekkes med axe på alle sider, i presentør-, deltaker- og
   skjermvisningen, lyst og mørkt. Målet er null brudd.
+- Kjør aldri tester som endrer tilstand mot produksjonsrommet mens folk er
+  koblet til. Se først, som skjermvisning, som ikke telles og ikke endrer noe.
+  Fra localhost kobler siden til `wrangler dev`, ikke til produksjon.
 
 ## Stil
 
