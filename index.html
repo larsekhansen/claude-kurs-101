@@ -312,6 +312,8 @@
     body.screen .slide.side .meme { max-width: none; }
     body.screen .slide.side .meme img { width: auto; max-width: 100%; max-height: calc(100dvh - var(--head-h, 60px) - 96px); }
     body.screen .slide.side aside > * + .meme img { max-height: 36vh; }
+    body.screen .slide.side aside .polls { margin: 0; grid-template-columns: 1fr; }
+    body.screen .slide.side aside .opt { font-size: 18px; padding: 10px 16px; }
     body.screen aside .styleprompt .wall-h { font-family: var(--serif); font-weight: 700; font-size: 30px; line-height: 1.2; color: inherit; }
   }
 
@@ -413,6 +415,82 @@
   .allset { display: inline-flex; align-items: center; gap: 8px; margin: 32px 0 -16px; padding: 8px 16px; border-radius: 999px; background: var(--ok-bg); color: var(--ok); font-weight: 600; }
   .cheat-btn { margin-top: 36px; }
 
+  /* ---------- Oversikten over sidene ---------- */
+  .sorter { position: fixed; inset: 0; z-index: 22; background: var(--scrim); overflow: auto; padding: 24px 16px; }
+  .sorter-in { width: min(1240px, 100%); margin: 0 auto; background: var(--paper); border-radius: 24px; padding: 22px 26px 30px; box-shadow: var(--shadow); }
+  .sorter-head { display: flex; align-items: center; gap: 14px; flex-wrap: wrap; }
+  .sorter-head h2 { margin: 0; font-family: var(--serif); font-size: 30px; color: var(--heading); }
+  .sorter-sum { margin: 0; flex: 1 1 260px; color: var(--muted); font-size: 16px; }
+  .sorter-hint { margin: 6px 0 0; color: var(--muted); font-size: 14px; }
+  .sorter-group h3 { margin: 22px 0 10px; font-size: 14px; font-weight: 600; color: var(--muted); }
+  .cards { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(auto-fill, minmax(200px, 1fr)); gap: 16px; }
+  @media (max-width: 640px) { .cards { grid-template-columns: 1fr 1fr; gap: 10px; } .sorter-in { padding: 18px 14px 24px; } }
+  .card { display: grid; gap: 6px; position: relative; }
+  .card-go { display: flex; flex-direction: column; gap: 4px; width: 100%; aspect-ratio: 16 / 10; text-align: left; padding: 11px 13px; border-radius: 14px; border: 1px solid var(--line); background: var(--surface); overflow: hidden; }
+  .card-go:hover { border-color: var(--accent); }
+  .card.dark .card-go { background: var(--dark-bg); border-color: var(--dark-bg); color: var(--dark-ink); }
+  .card.cur .card-go { outline: 3px solid var(--accent); outline-offset: 2px; }
+  .card-top { display: flex; justify-content: space-between; align-items: center; gap: 6px; font-size: 12px; }
+  .card-no { font-family: var(--serif); font-weight: 700; font-size: 15px; color: var(--accent); }
+  .card.dark .card-no { color: var(--dark-mark); }
+  .card-mode { padding: 1px 8px; border-radius: 99px; font-weight: 600; background: var(--blush); color: var(--heading); }
+  .card-mode.gjor { background: var(--accent); color: var(--accent-ink); }
+  .card-mode.del { background: var(--bubble); color: var(--bubble-ink); }
+  .card-kick { font-size: 12px; font-weight: 600; color: var(--accent); }
+  .card.dark .card-kick { color: var(--dark-soft); }
+  .card-title { font-family: var(--serif); font-weight: 700; font-size: 17px; line-height: 1.15; color: var(--heading); display: -webkit-box; -webkit-line-clamp: 3; -webkit-box-orient: vertical; overflow: hidden; }
+  .card.dark .card-title { color: var(--dark-ink); }
+  .card-foot { margin-top: auto; display: flex; justify-content: space-between; gap: 8px; font-size: 12px; color: var(--muted); }
+  .card.dark .card-foot { color: var(--dark-soft); }
+  .card-foot b { font-weight: 700; color: var(--heading); white-space: nowrap; }
+  .card.dark .card-foot b { color: var(--dark-ink); }
+  .card.off .card-go, .card.off.dark .card-go { background: transparent; border: 1.5px dashed var(--line-strong); color: var(--muted); }
+  .card.off .card-title, .card.off .card-kick, .card.off .card-no, .card.off .card-foot, .card.off .card-foot b { color: var(--muted); }
+  .card-badge { position: absolute; top: -9px; left: 10px; padding: 2px 9px; border-radius: 99px; background: var(--ok); color: var(--ok-bg); font-size: 11px; font-weight: 700; }
+  .card-toggle { min-height: 32px; border-radius: 99px; border: 1px solid transparent; background: transparent; color: var(--muted); font-size: 13px; font-weight: 600; }
+  .card-toggle:hover:not(:disabled) { border-color: var(--line-strong); color: var(--ink); }
+  .card-toggle[aria-pressed="false"] { border-color: var(--line-strong); background: var(--surface); color: var(--accent); }
+  .card-toggle:disabled { opacity: .7; cursor: default; }
+
+  /* ---------- Illustrasjoner ---------- */
+  .art { margin: 36px 0 0; max-width: 1040px; }
+  .art-ord { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 16px; }
+  @media (max-width: 760px) { .art-ord { grid-template-columns: 1fr; } }
+  .art-panel, .art-prompt { background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 16px 18px; display: grid; gap: 12px; align-content: start; }
+  .art-step { margin: 0; font-weight: 600; color: var(--heading); display: flex; gap: 10px; align-items: baseline; }
+  .art-step b { display: inline-grid; place-items: center; flex: none; width: 26px; height: 26px; border-radius: 50%; background: var(--accent); color: var(--accent-ink); font-size: 14px; }
+  .art-cap { margin: 0; font-size: 15px; color: var(--muted); }
+  .phone { border: 2px solid var(--line-strong); border-radius: 22px; padding: 14px 12px 12px; background: var(--paper); }
+  .phone-text { margin: 0 0 12px; font-size: 17px; }
+  .caret { display: inline-block; width: 2px; height: 1.1em; margin-left: 4px; vertical-align: -0.18em; background: var(--accent); animation: blink 1s steps(1) infinite; }
+  @keyframes blink { 50% { opacity: 0; } }
+  .phone-sugg { margin: 0; display: grid; grid-template-columns: repeat(3, auto); justify-content: space-between; gap: 6px; padding: 9px 8px; border-radius: 10px; background: var(--line); font-size: 15px; font-weight: 600; }
+  .phone-sugg span + span { border-left: 1px solid var(--line-strong); padding-left: 8px; }
+  .die { width: 54px; height: 54px; }
+  .die rect { fill: var(--bubble); stroke: var(--apricot); stroke-width: 2.5; }
+  .die circle { fill: var(--heading); }
+  .odds { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 2px 10px; align-items: center; font-size: 14px; }
+  .odds .meter { grid-column: 1 / -1; margin-bottom: 6px; }
+  .art-bub { margin: 0; padding: 10px 14px; border-radius: 16px 16px 4px 16px; background: var(--bubble); color: var(--bubble-ink); font-size: 15px; }
+  .art-bub mark { background: none; color: var(--accent); font-weight: 700; }
+  .art-bub small { display: block; margin-top: 2px; font-size: 12px; color: var(--bubble-ink); }
+  .art-prompt { max-width: 820px; display: block; }
+  .art-prompt .legend { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 4px; }
+  .art-prompt mark { border-radius: 6px; padding: 1px 4px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
+  mark.k { background: var(--bubble); color: var(--bubble-ink); }
+  mark.o { background: var(--coral); color: var(--coral-ink); }
+  mark.f { background: var(--blush); color: var(--heading); }
+  .art-label { margin: 14px 0 4px; font-size: 13px; font-weight: 600; color: var(--muted); }
+  .art-prompt-text { margin: 0; font-size: 17px; line-height: 1.75; }
+  .art-mappe { max-width: 680px; }
+  .folder-tab { display: inline-block; margin: 0; padding: 8px 16px; border-radius: 14px 14px 0 0; background: var(--apricot); color: var(--coral-ink); font-weight: 700; }
+  .folder-body { border: 2px solid var(--apricot); border-radius: 0 18px 18px 18px; padding: 16px; display: grid; gap: 12px; background: var(--surface); }
+  .folder-item { margin: 0; font-size: 15px; }
+  .folder-item b { display: block; color: var(--heading); }
+  .folder-chats { display: grid; gap: 8px; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); }
+  body.screen .art-step, body.screen .phone-text, body.screen .art-prompt-text { font-size: 21px; }
+  body.screen .art-cap, body.screen .art-bub, body.screen .phone-sugg, body.screen .odds, body.screen .folder-item { font-size: 18px; }
+
   /* ---------- Spotlight og jukseark ---------- */
   .spot { position: fixed; inset: 0; z-index: 25; display: grid; place-items: center; padding: 24px; background: var(--scrim); }
   .spot-card { width: min(920px, 100%); background: var(--surface); border-radius: 24px; padding: 36px 40px 28px; box-shadow: var(--shadow); }
@@ -449,6 +527,7 @@
     .float { animation: fade 1.6s ease forwards; }
     @keyframes fade { from { opacity: 1; } to { opacity: 0; } }
     .stage, .progress, .toast, .bubble, .meter i, .opt .fill, .net line, .net circle { transition: none; }
+    .caret { animation: none; }
     .posts li.fresh, .lobby.bump b { animation: none; }
   }
 </style>
@@ -470,7 +549,13 @@
   <span class="progress" id="progress"></span>
 </header>
 
-<nav id="overview" class="panel hidden" aria-label="Alle sider"></nav>
+<div class="sorter hidden" id="overview" role="dialog" aria-modal="true" aria-labelledby="sorterTitle">
+  <div class="sorter-in">
+    <div class="sorter-head"><h2 id="sorterTitle">Alle sider</h2><p class="sorter-sum" id="sorterSum"></p><button class="btn" id="closeSorter">Lukk</button></div>
+    <p class="sorter-hint" id="sorterHint"></p>
+    <div id="sorterBody"></div>
+  </div>
+</div>
 <div id="roster" class="panel hidden"></div>
 <div id="qpanel" class="panel hidden"></div>
 <div class="stage" id="stage"><main><article id="slide" class="slide"></article></main></div>
@@ -631,15 +716,26 @@
       ]
     },
     {
-      id: "hvorfor", ch: "Første samtale", mode: "gjor", min: 3, gate: true, kicker: "Gjett først", title: "Hvorfor ble svarene forskjellige?",
+      id: "hvorfor", ch: "Første samtale", mode: "del", min: 1, gate: true, kicker: "Gjett først", title: "Hvorfor ble svarene forskjellige?",
       lead: "Alle spurte om det samme.",
-      // Svaret står ikke på siden før presentøren viser det. Da bytter tittelen, og simulatoren kommer fram.
-      answered: { kicker: "Hvorfor svarene spriker", title: "Den gjetter neste ord", lead: "Den slår ikke opp et svar. Den gjetter ett ord om gangen og trekker litt tilfeldig." },
+      // Svaret står ikke på siden før presentøren viser det. Da bytter tittelen, og bildet kommer fram.
+      answered: { kicker: "Hvorfor svarene spriker", title: "Den gjetter neste ord", lead: "Som forslagene over tastaturet på mobilen, bare mye bedre. Den velger ett ord om gangen og trekker litt tilfeldig." },
       polls: [{
         id: "hvorfor-gjett", answer: "gjetter",
         options: [["lagret", "Den har flere svar lagret og velger ett"], ["kilder", "Den henter fra ulike kilder hver gang"], ["gjetter", "Den gjetter neste ord, med litt tilfeldighet"]],
         explain: "Med nettsøk på henter den også fra ulike kilder, så nummer to er delvis riktig. Men svarene ligger aldri ferdige."
       }],
+      art: "neste-ord",
+      notes: [
+        "La alle gjette før du forklarer. Et spørsmål før forklaringen hjelper folk å huske akkurat det spørsmålet handler om. Trykk Vis svaret når de fleste har stemt. Da bytter tittelen til svaret, og bildet kommer fram.",
+        "Forklar bildet på tjue sekunder, fra venstre: den foreslår neste ord som mobilen, den trekker litt tilfeldig, og ord for ord blir svarene ulike.",
+        "Fasit: den gjetter. Med nettsøk på henter den også fra ulike kilder, så nummer to er delvis riktig. Svarene ligger aldri ferdige.",
+        "Bildet er forenklet, hvis noen spør. Modellen ser hele samtalen og er trent på enormt mye mer enn mobilen, og den velger egentlig biter av ord. Men den skriver fortsatt én bit om gangen."
+      ]
+    },
+    {
+      id: "trekk", ch: "Første samtale", mode: "gjor", min: 2, kicker: "Prøv selv", title: "Trekk neste ord",
+      lead: "Samme start gir ulike setninger. Dra glidebryteren og se hva som skjer.",
       sim: true,
       steps: [
         { text: "Trekk en hel setning.", auto: "Trykk Trekk neste ord til setningen er ferdig." },
@@ -647,8 +743,6 @@
       ],
       meme: meme("samtale-philosoraptor", "Dinosaur i tenkepositur. Tekst: Hvis alle spurte om det samme, hvorfor fikk vi ti forskjellige svar?"),
       notes: [
-        "La alle gjette før du forklarer. Et spørsmål før forklaringen hjelper folk å huske akkurat det spørsmålet handler om. Trykk Vis svaret når de fleste har stemt. Da bytter tittelen til svaret, og simulatoren kommer fram.",
-        "Fasit: den gjetter. Med nettsøk på henter den også fra ulike kilder, så nummer to er delvis riktig. Svarene ligger aldri ferdige.",
         "Alle trekker selv. Samme start gir ulike setninger, og det ser de på veggen.",
         "Glidebryteren viser hva temperatur betyr: helt til venstre får alle samme setning, helt til høyre blir det vilt.",
         "Bytt spørsmål øverst, så flytter sannsynlighetene seg. Det er det som skjer når du endrer ordlyden i Claude.",
@@ -714,12 +808,14 @@
           }
         }
       ],
+      // Etter steg 2 kommer promptene fargekodet: kontekst, oppgave og format. Regelen etter kontrasten.
+      art: "prompt", artAfter: 2, artAside: true,
       meme: meme("prompt-gru", "Gru i fire ruter: Skriv lag en tabell. Få en tabell. Tabellen handler om feil ting. Tabellen handler om feil ting."),
       notes: [
         "Den viktigste bolken. Åtte minutter, ikke kutt den.",
         "Si hvor bildet kommer fra: en erfaren bruker beskrev den første prompten som hoppkanten. Bommer du der, går resten av samtalen med til å rette opp.",
         "Etter steg 2: be to stykker si hva som ble forskjellig, én i rommet og én på Teams. Spør etter fagfelt, ikke etter navn: «dere som jobber med jus, hva fikk dere?»",
-        "Si så prinsippet i én setning: kontekst, oppgave, format. Kontrasten først, regelen etterpå, det er rekkefølgen som virker.",
+        "Si så prinsippet i én setning: kontekst, oppgave, format. Kontrasten først, regelen etterpå, det er rekkefølgen som virker. Når de fleste er ferdige med steg 2, kommer begge promptene fargekodet på skjermen. Pek på den.",
         "Har noen tatt DFØ-kurset, kjenner de dette som KORE: kontekst, oppgave, retningslinjer, eksempel. Ekstrasteget er E-en: et eksempel på det du vil ha sier mer enn en lang beskrivelse.",
         "Steg 3 er det mange ikke vet: ber du om en fil, får du en fil. Ellers får du en tabell midt i teksten.",
         "Replikk: «Den korte prompten er som å be en kollega om noe om DDoS, og så bli overrasket over hva du fikk.»",
@@ -782,10 +878,11 @@
     {
       id: "projects", ch: "Videre", mode: "se", min: 3, kicker: "Projects", title: "En mappe som husker",
       lead: "Samle samtalene om én ting i et prosjekt, og skriv konteksten én gang. Hver ny samtale i prosjektet vet den fra før.",
+      art: "mappe",
       meme: meme("projects-harold", "Eldre mann smiler anstrengt foran PC-en. Tekst: Forklarer leiligheten min til Claude, for fjortende gang."),
       notes: [
         "Vis boligjakt-prosjektet: først prosjektbeskrivelsen, så en ny samtale som vet alt uten at du sier noe.",
-        "Sammenligningen som treffer: det er en mappe, men en mappe som husker hva som står i den.",
+        "Sammenligningen som treffer: det er en mappe, men en mappe som husker hva som står i den. Bildet på siden viser det samme som demoen.",
         "Fortell demoen som en sak: hva du trengte, hva Claude gjorde, hvor det gikk galt, og hvordan du oppdaget det.",
         "Ha skjermbilder klare i tilfelle demoen henger.",
         "Ta spørsmålene her, før avslutningen. Da blir slutten deres planer og ikke en stille spørsmålsrunde.",
@@ -912,13 +1009,14 @@
     prog: loadJson("kurs.prog"), ans: loadJson("kurs.ans"), posted: loadJson("kurs.posted"), walls: {}, fresh: {},
     sim: { phrase: "a", words: [], picked: null, sentence: null, temp: 1 },
     revealed: {}, celebrated: {}, maxHere: 0, myPosts: loadJson("kurs.myposts"),
-    count: null, skew: 0, questions: [], liked: loadJson("kurs.liked"), handsSeen: null
+    count: null, skew: 0, questions: [], liked: loadJson("kurs.liked"), handsSeen: null, hidden: {}
   };
   var net = { ws: null, open: false, ever: false, failed: false, asked: false, retry: 0, last: 0, timer: null };
 
   function $(s) { return document.querySelector(s); }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]; }); }
-  function visible() { return SLIDES.filter(function (s) { return !s.backstage || st.isPresenter; }); }
+  // Sider presentøren har skrudd av, hoppes over for alle.
+  function visible() { return SLIDES.filter(function (s) { return (!s.backstage || st.isPresenter) && !st.hidden[s.id]; }); }
   function indexOf(id) { var v = visible(); for (var k = 0; k < v.length; k++) if (v[k].id === id) return k; return -1; }
   function current() { return visible()[st.i]; }
   function live() { return !!(st.live && st.live.on); }
@@ -1062,6 +1160,39 @@
     }
     return "";
   }
+  // ---------- Illustrasjoner ----------
+  // Tegnet i HTML, så de følger fargene, mørk modus og skjermstørrelsen, og kan leses av skjermlesere.
+  var DIE = "<svg class=\"die\" viewBox=\"0 0 64 64\" aria-hidden=\"true\"><g transform=\"rotate(-12 32 32)\"><rect x=\"7\" y=\"7\" width=\"50\" height=\"50\" rx=\"12\"/><circle cx=\"20\" cy=\"20\" r=\"4.5\"/><circle cx=\"44\" cy=\"20\" r=\"4.5\"/><circle cx=\"32\" cy=\"32\" r=\"4.5\"/><circle cx=\"20\" cy=\"44\" r=\"4.5\"/><circle cx=\"44\" cy=\"44\" r=\"4.5\"/></g></svg>";
+  function artHtml(id) {
+    if (id === "neste-ord") return "<figure class=\"art art-ord\" aria-label=\"Slik blir svarene forskjellige: den foreslår neste ord, trekker litt tilfeldig, og ord for ord blir setningene ulike.\">" +
+      "<div class=\"art-panel\"><p class=\"art-step\"><b>1</b>Den foreslår neste ord</p>" +
+      "<div class=\"phone\"><p class=\"phone-text\">Digdir ble rammet av<span class=\"caret\"></span></p><p class=\"phone-sugg\"><span>et</span><span>flere</span><span>DDoS-angrep</span></p></div>" +
+      "<p class=\"art-cap\">Som forslagene over tastaturet på mobilen, bare trent på enormt mye mer tekst.</p></div>" +
+      "<div class=\"art-panel\"><p class=\"art-step\"><b>2</b>Den trekker, litt tilfeldig</p>" + DIE +
+      "<div class=\"odds\">" + [["et", 40], ["flere", 25], ["tjenestenektangrep", 15], ["DDoS-angrep", 12], ["hackere", 8]].map(function (o) {
+        return "<span>" + o[0] + "</span><span>" + o[1] + " %</span><span class=\"meter\"><i style=\"width:" + Math.round(o[1] * 2.2) + "%\"></i></span>";
+      }).join("") + "</div><p class=\"art-cap\">Oftest det mest sannsynlige ordet. Ikke alltid.</p></div>" +
+      "<div class=\"art-panel\"><p class=\"art-step\"><b>3</b>Ord for ord blir svarene ulike</p>" +
+      ["et DDoS-angrep i sommer.", "flere angrep mot ID-porten.", "hackere som ville stenge tjenestene."].map(function (t) { return "<p class=\"art-bub\">Digdir ble rammet av <mark>" + t + "</mark></p>"; }).join("") +
+      "<p class=\"art-cap\">Samme spørsmål, ti kolleger, ti versjoner.</p></div></figure>";
+    if (id === "prompt") return "<figure class=\"art art-prompt\" aria-label=\"Hva den lange prompten har som den korte mangler: kontekst, oppgave og format.\">" +
+      "<p class=\"art-step\">Hva hadde den lange som den korte manglet?</p>" +
+      "<p class=\"legend\"><mark class=\"k\">Kontekst</mark><mark class=\"o\">Oppgave</mark><mark class=\"f\">Format</mark></p>" +
+      "<p class=\"art-label\">Kort</p><p class=\"art-prompt-text\"><mark class=\"o\">Lag en tabell over DDoS-angrepene.</mark></p>" +
+      "<p class=\"art-label\">Lang</p><p class=\"art-prompt-text\"><mark class=\"k\">Jeg jobber i KI Norge i Digdir og skal lage en kort oversikt over DDoS-angrepene mot Digdirs fellesløsninger i 2026 til et internt notat.</mark> <mark class=\"o\">Lag en tabell</mark> <mark class=\"f\">med dato, varighet, berørte tjenester og kilde, én rad per angrep. Bruk bare opplysninger du finner i kildene, og skriv «ukjent» der du ikke finner noe.</mark></p></figure>";
+    if (id === "mappe") return "<figure class=\"art art-mappe\" aria-label=\"Et prosjekt er en mappe med instruksjoner og filer. Hver ny samtale i mappa vet alt som står der.\">" +
+      "<p class=\"folder-tab\">Prosjekt: Boligjakt</p><div class=\"folder-body\">" +
+      "<p class=\"folder-item\"><b>Instruksjoner</b>Hva prosjektet handler om, og hvordan du vil ha svarene. Skrives én gang.</p>" +
+      "<p class=\"folder-item\"><b>Filer</b>Dokumenter Claude kan lese, som en ønskeliste eller et prospekt.</p>" +
+      "<div class=\"folder-chats\">" + ["Visning lørdag", "Sammenlign to leiligheter", "Hva bør jeg by?"].map(function (c) { return "<p class=\"art-bub\">" + c + "<small>vet alt over</small></p>"; }).join("") + "</div></div></figure>";
+    return "";
+  }
+  // Noen bilder kommer først når de fleste er ferdige med et steg, sånn at regelen kommer etter kontrasten.
+  function artOk(s) {
+    if (!s.artAfter) return true;
+    if (SCREEN) return roomStep(s) >= s.artAfter;
+    return st.isPresenter || progOf(s) >= s.artAfter;
+  }
   function styleHtml(s) {
     var sp = s.styleprompt, poll = s.polls.filter(function (p) { return p.id === sp.poll; })[0];
     var counts = (st.presence && st.presence.polls && st.presence.polls[sp.poll]) || {}, lead = poll.options[0], best = 0;
@@ -1117,9 +1248,13 @@
       "<p class=\"next\">Neste side: " + esc(v[st.i + 1] ? v[st.i + 1].title : "ingen, dette er den siste") + "</p></aside>";
     if (s.qr) h += "<div class=\"qr\">" + QR + "<p class=\"url\">" + COURSE_URL + "<small>Åpne lenken på PC-en, så følger du med.</small></p><p class=\"lobby\" id=\"lobby\">" + lobbyHtml() + "</p></div>";
     (s.blocks || []).forEach(function (b) { h += blockHtml(b); });
-    if (s.polls) h += "<div class=\"polls\">" + s.polls.map(function (p) { return pollHtml(p); }).join("") + "</div>";
     // Skjermen i rommet samler det de andre har delt, og memen, i en egen kolonne. Simulatoren er for egne hender.
+    // Er et bilde selve svaret, får bildet hovedplassen og avstemningen står ved siden av.
     var aside = "";
+    if (s.polls) {
+      var ph = "<div class=\"polls\">" + s.polls.map(function (p) { return pollHtml(p); }).join("") + "</div>";
+      if (SCREEN && open && s.art && !s.artAside) aside += ph; else h += ph;
+    }
     if (open) {
       if (s.styleprompt) { if (SCREEN) aside += styleHtml(s); else h += styleHtml(s); }
       if (s.stats) h += statsHtml();
@@ -1132,6 +1267,7 @@
         var w = "<p class=\"wall-h\">" + esc(x.wallLabel || "Det andre har delt") + "</p><div class=\"wall\"><div id=\"posts-" + x.wall + "\">" + postsHtml(x.wall) + "</div></div>";
         if (SCREEN) aside += w; else h += w;
       });
+      if (s.art && artOk(s)) { if (SCREEN && s.artAside) aside = artHtml(s.art) + aside; else h += artHtml(s.art); }
       if (s.cheat && !st.isPresenter && !SCREEN) h += "<button class=\"btn primary cheat-btn\" id=\"cheatBtn\">Ta med juksearket</button>";
       (s.after || []).forEach(function (b) { h += blockHtml(b); });
     }
@@ -1170,14 +1306,90 @@
     var lob = $("#lobby"), nh = lobbyHtml();
     if (lob && lob.innerHTML !== nh) { lob.innerHTML = nh; lob.classList.remove("bump"); void lob.offsetWidth; lob.classList.add("bump"); }
     if (SCREEN && s.steps && allDone(s) && !st.celebrated[s.id]) { st.celebrated[s.id] = 1; confetti(); }
+    if (SCREEN && s.artAfter && artOk(s) !== !!document.querySelector(".art")) { render(true); return; }
     st.fresh = {};
     renderRoster();
     updateBar();
   }
+  // ---------- Oversikten ----------
+  // Alle sider som kort, gruppert etter kapittel. Presentøren kan skru sider av og på og ser tall fra rommet.
+  var MODE_SHORT = { se: "Se", gjor: "Gjør", del: "Del" };
+  function cardStat(s) {
+    var p = st.presence;
+    if (!p || !live()) return "";
+    if (s.steps && core(s).length) { var agg = (p.steps && p.steps[s.id]) || []; return (agg[core(s).length - 1] || 0) + " av " + p.here + " ferdige"; }
+    if (s.polls) { var c = (p.polls && p.polls[s.polls[0].id]) || {}, n = 0; Object.keys(c).forEach(function (k) { n += c[k]; }); return n + " svar"; }
+    var posts = 0; wallsOf(s).forEach(function (id) { posts += (st.walls[id] || []).length; });
+    return posts ? posts + " innlegg" : "";
+  }
+  function cardHtml(s, vis) {
+    var off = !!st.hidden[s.id], k = vis.indexOf(s), cur = s === current(), here = live() && st.live.slide === s.id;
+    var bits = [];
+    if (s.polls) bits.push("avstemning");
+    if (s.steps && core(s).length) bits.push(core(s).length + " steg");
+    if (wallsOf(s).length) bits.push("vegg");
+    if (s.art) bits.push("bilde");
+    if (s.meme) bits.push("meme");
+    var stat = st.isPresenter ? cardStat(s) : "";
+    return "<li class=\"card" + (s.dark ? " dark" : "") + (cur ? " cur" : "") + (off ? " off" : "") + "\">" +
+      "<button class=\"card-go\" data-goid=\"" + s.id + "\"" + (cur ? " aria-current=\"page\"" : "") + ">" +
+      "<span class=\"card-top\"><span class=\"card-no\">" + (off ? "Skjult" : k + 1) + "</span>" +
+      (s.mode && s.id !== "start" ? "<span class=\"card-mode " + s.mode + "\">" + MODE_SHORT[s.mode] + (s.min ? " " + fmtMin(s.min) : "") + "</span>" : "") + "</span>" +
+      (s.kicker ? "<span class=\"card-kick\">" + esc(s.kicker) + "</span>" : "") +
+      "<span class=\"card-title\">" + esc(s.title) + "</span>" +
+      "<span class=\"card-foot\"><span>" + esc(bits.join(", ")) + "</span>" + (stat ? "<b>" + esc(stat) + "</b>" : "") + "</span></button>" +
+      (here ? "<span class=\"card-badge\">Publikum er her</span>" : "") +
+      (st.isPresenter && !s.backstage ? "<button class=\"card-toggle\" data-hide=\"" + s.id + "\" aria-pressed=\"" + !off + "\" aria-label=\"" + esc((off ? "Ta med " : "Skjul ") + s.title) + "\"" + (cur ? " disabled title=\"Du står på denne siden\"" : "") + ">" + (off ? "Skjult. Ta med" : "✓ Med") + "</button>" : "") +
+      "</li>";
+  }
   function renderOverview() {
-    $("#overview").innerHTML = visible().map(function (s, k) {
-      return "<button class=\"go\" data-go=\"" + k + "\"" + (k === st.i ? " aria-current=\"page\"" : "") + "><span>" + (k + 1) + "</span>" + esc(s.title) + "</button>";
+    if ($("#overview").classList.contains("hidden")) return;
+    var vis = visible(), all = SLIDES.filter(function (s) { return st.isPresenter || vis.indexOf(s) >= 0; }), order = [], by = {};
+    all.forEach(function (s) {
+      var g = s.backstage ? "Backstage, bare for deg" : s.reserve ? "Reserve" : s.ch || "Start";
+      if (!by[g]) { by[g] = []; order.push(g); }
+      by[g].push(s);
+    });
+    $("#sorterBody").innerHTML = order.map(function (g) {
+      return "<section class=\"sorter-group\"><h3>" + esc(g) + "</h3><ol class=\"cards\">" + by[g].map(function (s) { return cardHtml(s, vis); }).join("") + "</ol></section>";
     }).join("");
+    var plan = 0, n = 0, cuts = [];
+    vis.forEach(function (s) { if (s.backstage) return; n++; if (!s.reserve && s.min) plan += s.min; if (s.cut) cuts.push(s.title); });
+    var sum = n + " sider";
+    if (st.isPresenter) {
+      sum += ", planlagt " + fmtMin(plan);
+      if (live() && st.live.since) sum += ". Nå " + Math.floor((Date.now() - st.live.since) / 60000) + " min inn";
+      var hid = Object.keys(st.hidden).length;
+      if (hid) sum += ". " + hid + " skjult";
+    }
+    $("#sorterSum").textContent = sum + ".";
+    $("#sorterHint").textContent = st.isPresenter ? "Trykk på et kort for å gå dit. Skjulte sider hoppes over for alle, og tiden regnes om." + (cuts.length ? " Kan kuttes: " + cuts.join(", ") + "." : "") : "Trykk på et kort for å gå dit.";
+  }
+  function openSorter(show) {
+    var el = $("#overview");
+    if (show === undefined) show = el.classList.contains("hidden");
+    if (show === !el.classList.contains("hidden")) return;
+    if (show) { togglePanel("roster", false); togglePanel("qpanel", false); }
+    el.classList.toggle("hidden", !show);
+    $("#menuBtn").setAttribute("aria-expanded", String(show));
+    setInert(show);
+    if (show) { renderOverview(); var c = el.querySelector(".card.cur .card-go") || el.querySelector(".card-go"); if (c) c.focus(); }
+    else $("#menuBtn").focus();
+  }
+  function applyHidden(h) {
+    var was = current() ? current().id : null;
+    st.hidden = h || {};
+    if (!was) return;
+    var k = indexOf(was);
+    if (k < 0) {
+      // Siden du står på ble skjult: gå til nærmeste synlige side etter.
+      var at = SLIDES.map(function (x) { return x.id; }).indexOf(was), v = visible();
+      k = v.length - 1;
+      for (var j = 0; j < v.length; j++) if (SLIDES.indexOf(v[j]) > at) { k = j; break; }
+      if (st.broadcasting) { st.i = k; render(); pushLive(); return; }
+    }
+    st.i = k;
+    render(true);
   }
   // Alle ser hvem som er her og køen av hender. Presentøren ser også fagfelt, steg og hvem som blar selv.
   function renderRoster() {
@@ -1324,7 +1536,7 @@
     send({ t: "step", slide: s.id, n: n });
     var el = $("#steps");
     if (el) el.outerHTML = stepsHtml(s);
-    if (s.meme && n >= core(s).length) render(true); // memen er belønningen når alle stegene er gjort
+    if ((s.meme && n >= core(s).length) || (s.artAfter && artOk(s) !== !!document.querySelector(".art"))) render(true); // memen og bildet kommer når stegene er gjort
   }
   function vote(poll, opt) {
     st.ans[poll] = opt;
@@ -1636,7 +1848,7 @@
   });
 
   // ---------- Klikk og taster ----------
-  var PANELS = { overview: "#menuBtn", roster: "#roomChip", qpanel: "#qChip" };
+  var PANELS = { roster: "#roomChip", qpanel: "#qChip" };
   function togglePanel(id, show) {
     var el = $("#" + id);
     if (show === undefined) show = el.classList.contains("hidden");
@@ -1667,14 +1879,28 @@
   }
 
   document.addEventListener("click", function (e) {
-    if (!e.target.closest("#overview, #menuBtn")) togglePanel("overview", false);
+    if (e.target.id === "overview") { openSorter(false); return; }
     if (!e.target.closest("#roster, #roomChip")) togglePanel("roster", false);
     if (!e.target.closest("#qpanel, #qChip, #askBtn")) togglePanel("qpanel", false);
     var t = e.target.closest("button");
     if (!t) return;
     var s = current();
     if (t.dataset.copy !== undefined) { copyText(t.dataset.copy, t); return; }
-    if (t.dataset.go !== undefined) { togglePanel("overview", false); go(parseInt(t.dataset.go, 10), { manual: true }); return; }
+    if (t.dataset.goid) {
+      var gid = t.dataset.goid;
+      if (st.hidden[gid] && st.isPresenter) { var nh = Object.assign({}, st.hidden); delete nh[gid]; send({ t: "hide", slide: gid, on: false }); applyHidden(nh); }
+      openSorter(false);
+      if (indexOf(gid) >= 0) go(indexOf(gid), { manual: true });
+      return;
+    }
+    if (t.dataset.hide) {
+      var hid = Object.assign({}, st.hidden), sid = t.dataset.hide, on = !hid[sid];
+      if (net.open && !send({ t: "hide", slide: sid, on: on })) return;
+      if (on) hid[sid] = true; else delete hid[sid];
+      applyHidden(hid);
+      renderOverview();
+      return;
+    }
     if (t.dataset.react) { react(t.dataset.react); return; }
     if (t.dataset.spot) { send({ t: "spot", wall: t.dataset.spot, id: t.dataset.id }); return; }
     if (t.dataset.qspot) { send({ t: "spot", q: t.dataset.qspot }); return; }
@@ -1704,7 +1930,8 @@
     switch (t.id) {
       case "prevBtn": go(st.i - 1, { manual: true }); break;
       case "nextBtn": go(st.i + 1, { manual: true }); break;
-      case "menuBtn": togglePanel("overview"); break;
+      case "menuBtn": openSorter(); break;
+      case "closeSorter": openSorter(false); break;
       case "roomChip": togglePanel("roster"); break;
       case "followBtn": if (!st.following) { setFollowing(true); followLive(); updateBar(); } break;
       case "handBtn":
@@ -1770,6 +1997,7 @@
   document.addEventListener("keydown", function (e) {
     if (joinOpen) { if (e.key === "Escape") closeJoin(true); return; }
     if (!$("#cheatWrap").classList.contains("hidden")) { if (e.key === "Escape") closeCheat(); return; }
+    if (!$("#overview").classList.contains("hidden")) { if (e.key === "Escape" || e.key === "o" || e.key === "O") openSorter(false); return; }
     if (e.key === "Escape" && !$("#spot").classList.contains("hidden")) { showSpot(null); return; }
     if (e.key === "Escape" && !$("#qpanel").classList.contains("hidden")) { togglePanel("qpanel", false); return; }
     var tag = (e.target && e.target.tagName) || "";
@@ -1779,7 +2007,8 @@
     else if (e.key === "Home") go(0, { manual: true });
     else if (e.key === "End") go(visible().length - 1, { manual: true });
     else if ((e.key === "f" || e.key === "F") && (st.isPresenter || SCREEN)) toggleFull();
-    else if (e.key === "Escape") { togglePanel("overview", false); togglePanel("roster", false); }
+    else if ((e.key === "o" || e.key === "O") && !SCREEN) openSorter(true);
+    else if (e.key === "Escape") { togglePanel("roster", false); togglePanel("qpanel", false); }
   });
 
   // ---------- Live ----------
@@ -1845,6 +2074,7 @@
       case "count": st.count = m.count || null; st.skew = (m.now || Date.now()) - Date.now(); updateCount(); break;
       case "q": upsertQ(m.item); renderQ(); updateBar(); break;
       case "q-wipe": st.questions = []; renderQ(); updateBar(); break;
+      case "hidden": applyHidden(m.hidden); renderOverview(); break;
       case "me": applyMe(m, false); break;
       case "name-taken": joinError(m.name); break;
       case "react": burst(m.e); break;
@@ -1876,6 +2106,7 @@
     st.skew = (m.now || Date.now()) - Date.now();
     st.questions = m.questions || [];
     renderQ();
+    applyHidden(m.hidden || {});
     st.walls = m.walls || {};
     st.revealed = m.revealed || {};
     var was = st.isPresenter;

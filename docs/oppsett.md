@@ -113,6 +113,9 @@ aldri til produksjonsrommet. `?live=` overstyrer adressen, bare på localhost.
   stemmer eller trekker stemmen, `answered` merker som besvart, og `qwipe`
   tømmer. Serveren husker hvem som har stemt, men sender bare antallet. `spot`
   med `q` løfter et spørsmål fram.
+- `hide` med `slide` og `on` skrur en side av eller på. Det lagres, sendes til
+  alle som `hidden`, og står i `welcome`. Skjulte sider hoppes over i
+  navigasjonen for alle.
 - Navn er unike blant dem som er koblet til nå, uansett store og små
   bokstaver. Flere faner i samme nettleser er samme person, med samme navn,
   hånd og ferdig.

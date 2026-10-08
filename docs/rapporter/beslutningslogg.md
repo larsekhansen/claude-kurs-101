@@ -6,6 +6,23 @@ og oppsettet i [`../oppsett.md`](../oppsett.md).
 
 ## 2026-10-08
 
+- **Illustrasjoner som forklarer svarene.** «Hvorfor ble svarene forskjellige?»
+  har fått et bilde i tre ruter: forslagene over tastaturet på mobilen, en
+  terning med sannsynligheter, og tre setninger som starter likt. Autofullføring
+  på mobilen er bildet som oftest brukes for å forklare språkmodeller for folk
+  flest (blant annet [Simon Willison](https://simonwillison.net/2023/Aug/3/weird-world-of-llms/)
+  og [Store norske leksikon](https://snl.no/språkmodell)). Bildene er tegnet i
+  kurssiden, ikke hentet, så det er ingen spørsmål om rettigheter, og de virker
+  i mørk modus, på mobil og med skjermleser. Hoppkanten har fått promptene
+  fargekodet etter kontekst, oppgave og format, og Projects en mappe som
+  husker.
+- **Neste ord-siden er delt i to:** svaret med bildet (Del, ett minutt), så en
+  egen side der alle trekker selv (Gjør, to minutter). Én flate om gangen, og
+  samme tid som før.
+- **Oversikt over sidene, som i PowerPoint.** «Sider» viser alle sidene som
+  kort. Presentøren kan skru sider av og på for alle, ser planlagt tid regnet
+  om, og ser tall fra rommet på hvert kort.
+
 - **Navnene vises for alle, ikke bare for presentøren.** Bestilleren ville at
   alle skulle kunne trykke på «N her» og se hvem som er her. Hender står først,
   i køen. Fagfelt, fremdrift og svar per person er fortsatt bare for

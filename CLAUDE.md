@@ -43,6 +43,11 @@ Hostes på GitHub Pages, åpent for alle med lenken, uten innlogging.
   presentøren ser fagfelt, fremdrift og hvem som blar selv, og kan ta alle
   med seg.
 - Spørsmål fra salen med stemmer, og nedtelling som presentøren starter.
+- «Sider» åpner en oversikt med alle sidene som kort. Presentøren kan skru
+  sider av og på for alle, og ser tall fra rommet på hvert kort.
+- Illustrasjonene er tegnet i HTML og CSS i `artHtml`, ikke bilder, så de
+  følger fargene, mørk modus og skjermstørrelsen. `art` på en side viser en,
+  og `artAfter` holder den igjen til flertallet er ferdig med et steg.
 - `?skjerm` er visningen for skjermen i møterommet. Den følger presentøren og
   telles ikke som deltaker. Den åpner bare steget flertallet står på, og på
   brede skjermer står veggen, stilprompten og memen i en egen kolonne.

@@ -44,6 +44,7 @@ export class Room extends DurableObject {
     this.revealed = {};
     this.count = null;
     this.questions = [];
+    this.hidden = {};
     this.flood = new Map();
     this.presenceTimer = null;
     // Svarer på ping uten å vekke objektet. Tidspunktet brukes til å finne døde forbindelser.
@@ -55,6 +56,7 @@ export class Room extends DurableObject {
       this.revealed = (await ctx.storage.get("revealed")) || {};
       this.count = (await ctx.storage.get("count")) || null;
       this.questions = (await ctx.storage.get("questions")) || [];
+      this.hidden = (await ctx.storage.get("hidden")) || {};
     });
   }
 
@@ -101,6 +103,7 @@ export class Room extends DurableObject {
       case "like": if (viewer) await this.like(a, m.id, m.on); break;
       case "answered": if (presenter) await this.answered(m.id, m.done); break;
       case "qwipe": if (presenter) await this.qwipe(); break;
+      case "hide": if (presenter) await this.hide(m.slide, m.on); break;
     }
   }
 
@@ -171,6 +174,7 @@ export class Room extends DurableObject {
       revealed: this.revealed,
       count: this.count,
       questions: this.questions.map(publicQ),
+      hidden: this.hidden,
       now: Date.now(),
       me: { name: next.name, hand: next.hand, prog: next.prog, ans: next.ans },
       nameTaken,
@@ -302,6 +306,17 @@ export class Room extends DurableObject {
     this.questions = [];
     await this.ctx.storage.put("questions", this.questions);
     this.broadcast({ t: "q-wipe" });
+  }
+
+  // Presentøren kan skru sider av og på. Skjulte sider hoppes over for alle.
+  async hide(slide, on) {
+    if (typeof slide !== "string" || !ID.test(slide)) return;
+    if (on === true) {
+      if (!this.hidden[slide] && Object.keys(this.hidden).length >= 40) return;
+      this.hidden[slide] = true;
+    } else delete this.hidden[slide];
+    await this.ctx.storage.put("hidden", this.hidden);
+    this.broadcast({ t: "hidden", hidden: this.hidden });
   }
 
   react(ws, e) {
