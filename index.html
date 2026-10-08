@@ -24,6 +24,9 @@
     --note: #FCF0D9; --note-line: #ECD29C; --note-ink: #3D2B0B;
     --dark-bg: #541321; --dark-ink: #FBF3F1; --dark-soft: #FCC9A9; --dark-mark: #F5898D; --dark-line: rgba(252, 201, 169, .3);
     --scrim: rgba(52, 14, 22, .5); --shadow: 0 12px 32px rgba(84, 19, 33, .16);
+    --mk-k: #FCDCC6; --mk-k-ink: #3B2417; --mk-k-line: #DE9D72;
+    --mk-o: #F5898D; --mk-o-ink: #3F0D17; --mk-o-line: #B9404D;
+    --mk-f: #EFC6D6; --mk-f-ink: #541321; --mk-f-line: #B86F8C;
     --serif: "PT Serif", Georgia, "Times New Roman", serif;
     --sans: "Instrument Sans", system-ui, -apple-system, "Segoe UI", Roboto, Arial, sans-serif;
     color-scheme: light;
@@ -38,6 +41,9 @@
       --note: #342A1A; --note-line: #6E5630; --note-ink: #F5E6C4;
       --dark-bg: #3F0E19; --dark-ink: #FBF3F1; --dark-soft: #FCC9A9; --dark-mark: #F5898D; --dark-line: rgba(252, 201, 169, .22);
       --scrim: rgba(0, 0, 0, .6); --shadow: 0 12px 32px rgba(0, 0, 0, .5);
+      --mk-k: #4D3520; --mk-k-ink: #F9E7DB; --mk-k-line: #D19A6E;
+      --mk-o: #F5898D; --mk-o-ink: #3F0D17; --mk-o-line: #FFC2C4;
+      --mk-f: #5A2A44; --mk-f-ink: #FBDDE8; --mk-f-line: #E296B2;
       color-scheme: dark;
     }
   }
@@ -50,6 +56,9 @@
     --note: #342A1A; --note-line: #6E5630; --note-ink: #F5E6C4;
     --dark-bg: #3F0E19; --dark-ink: #FBF3F1; --dark-soft: #FCC9A9; --dark-mark: #F5898D; --dark-line: rgba(252, 201, 169, .22);
     --scrim: rgba(0, 0, 0, .6); --shadow: 0 12px 32px rgba(0, 0, 0, .5);
+    --mk-k: #4D3520; --mk-k-ink: #F9E7DB; --mk-k-line: #D19A6E;
+    --mk-o: #F5898D; --mk-o-ink: #3F0D17; --mk-o-line: #FFC2C4;
+    --mk-f: #5A2A44; --mk-f-ink: #FBDDE8; --mk-f-line: #E296B2;
     color-scheme: dark;
   }
 
@@ -242,6 +251,9 @@
   .notes p { margin: 0 0 8px; }
   .notes p:last-child { margin: 0; }
   .notes .next { margin-top: 12px; font-weight: 600; }
+  .notes h2 small { font-weight: 400; }
+  .notes textarea { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--note-line); background: var(--surface); color: var(--ink); font: inherit; font-size: 15px; line-height: 1.5; resize: vertical; }
+  .notes-tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
 
   /* ---------- Bunnlinje ---------- */
   footer.bar {
@@ -438,9 +450,10 @@
   .art-bub small { display: block; margin-top: 2px; font-size: 12px; color: var(--bubble-ink); }
   .art-prompt .legend { display: flex; gap: 8px; flex-wrap: wrap; margin: 10px 0 4px; }
   .art-prompt mark { border-radius: 6px; padding: 1px 4px; box-decoration-break: clone; -webkit-box-decoration-break: clone; }
-  mark.k { background: var(--bubble); color: var(--bubble-ink); }
-  mark.o { background: var(--coral); color: var(--coral-ink); }
-  mark.f { background: var(--blush); color: var(--heading); }
+  /* Hver del har sin egen tone og en understrek i en sterkere variant, så grensene synes. */
+  mark.k { background: var(--mk-k); color: var(--mk-k-ink); box-shadow: inset 0 -2px 0 var(--mk-k-line); }
+  mark.o { background: var(--mk-o); color: var(--mk-o-ink); box-shadow: inset 0 -2px 0 var(--mk-o-line); }
+  mark.f { background: var(--mk-f); color: var(--mk-f-ink); box-shadow: inset 0 -2px 0 var(--mk-f-line); }
   .art-label { margin: 14px 0 4px; font-size: 13px; font-weight: 600; color: var(--muted); }
   .art-prompt-text { margin: 0; font-size: 17px; line-height: 1.75; }
   .art-mappe { max-width: 680px; }
@@ -636,7 +649,7 @@
         "Still spørsmålet høyt, og vent til tallene står stille. Det tar sjelden mer enn et halvt minutt.",
         "Les fordelingen høyt, for eksempel «tre jurister og én designer i dag». Det viser at du ser dem, og forklarer hvorfor eksemplene senere er forskjellige.",
         "Valget styrer hvilke eksempler hver enkelt får i oppgavene. De kan bytte underveis.",
-        "Gi kartet på ti sekunder: først prøver vi, så lærer vi hoppkanten, så sparrer vi, og til slutt en mappe som husker. Si fra hver gang dere bytter mellom å se og å gjøre."
+        "Gi kartet på ti sekunder: først prøver vi, så lærer vi å skrive en god første prompt, så sparrer vi, og til slutt en mappe som husker. Si fra hver gang dere bytter mellom å se og å gjøre."
       ]
     },
     {
@@ -684,12 +697,12 @@
       ]
     },
     {
-      id: "hoppkanten", ch: "Hoppkanten", mode: "gjor", min: 8, kicker: "Den første prompten", title: "Hoppkanten",
-      lead: "Første prompt er hoppkanten. Bommer du på den, går resten av samtalen med til «nei, ikke sånn».",
+      id: "forste-prompt", ch: "Gode prompter", mode: "gjor", min: 8, kicker: "Det viktigste i dag", title: "Den første prompten",
+      lead: "Den første prompten avgjør mye. Bommer du, går resten av samtalen med til «nei, ikke sånn».",
       track: true,
       steps: [
         {
-          text: "Kjør den korte først. Se på svaret.",
+          key: "kort", text: "Kjør den korte først. Se på svaret.",
           say: {
             _: "Lag en tabell over DDoS-angrepene.",
             skriv: "Skriv en LinkedIn-post om KI Norge.",
@@ -737,7 +750,7 @@
       meme: meme("prompt-gru", "Gru i fire ruter: Skriv lag en tabell. Få en tabell. Tabellen handler om feil ting. Tabellen handler om feil ting."),
       notes: [
         "Den viktigste bolken. Åtte minutter, ikke kutt den.",
-        "Si hvor bildet kommer fra: en erfaren bruker beskrev den første prompten som hoppkanten. Bommer du der, går resten av samtalen med til å rette opp.",
+        "Fagfeltene står øverst. Trykk på et felt for å vise eksemplene derfra, også den fargekodede prompten.",
         "Etter steg 2: be to stykker si hva som ble forskjellig, én i rommet og én på Teams. Spør etter fagfelt, ikke etter navn: «dere som jobber med jus, hva fikk dere?»",
         "Si så prinsippet i én setning: kontekst, oppgave, format. Kontrasten først, regelen etterpå, det er rekkefølgen som virker. Når de fleste er ferdige med steg 2, kommer begge promptene fargekodet på skjermen. Pek på den.",
         "Har noen tatt DFØ-kurset, kjenner de dette som KORE: kontekst, oppgave, retningslinjer, eksempel. Ekstrasteget er E-en: et eksempel på det du vil ha sier mer enn en lang beskrivelse.",
@@ -747,7 +760,7 @@
       ]
     },
     {
-      id: "stil", ch: "Hoppkanten", cut: true, mode: "del", min: 1.5, dark: true, kicker: "Pause", title: "Velg stilen",
+      id: "stil", ch: "Gode prompter", cut: true, mode: "del", min: 1.5, dark: true, kicker: "Pause", title: "Velg stilen",
       lead: "Samme fakta, helt annen tekst. Stem, så kjører Lars vinneren.",
       polls: [{
         id: "stil", q: "Forklar DDoS-angrepene mot Digdir som …",
@@ -776,7 +789,7 @@
       lead: "Har du et utkast, kan den være kritikeren din før noen andre ser det.",
       track: true,
       steps: [
-        { key: "kritikk", text: "Lim inn noe du jobber med, eller svaret fra hoppkanten, og be den være kritisk. Offentlig, oppdiktet eller uten personopplysninger.", say: "Her er et utkast. Det skal til [hvem]. Teksten står mellom de tre anførselstegnene. \"\"\"[lim inn teksten]\"\"\" Vær kritisk. Hva har jeg ikke tenkt på, og hva er de sterkeste motargumentene?" },
+        { key: "kritikk", text: "Lim inn noe du jobber med, eller svaret fra den lange prompten, og be den være kritisk. Offentlig, oppdiktet eller uten personopplysninger.", say: "Her er et utkast. Det skal til [hvem]. Teksten står mellom de tre anførselstegnene. \"\"\"[lim inn teksten]\"\"\" Vær kritisk. Hva har jeg ikke tenkt på, og hva er de sterkeste motargumentene?" },
         { text: "Be om en kortere versjon, med dine egne ord.", say: "Skriv det på halve lengden, uten å miste poenget." },
         {
           key: "motpart", bonus: true, text: "la den spille motparten.",
@@ -793,7 +806,7 @@
       ],
       meme: meme("sparring-drake", "Drake avviser: Be en kollega lese utkastet fredag kl. 15.55. Drake liker: Be Claude være kritisk først."),
       notes: [
-        "Har de ikke noe å lime inn, kan de bruke svaret fra hoppkanten. Folk lærer mest av tekst de kjenner godt, for der ser de selv hvor den tar feil.",
+        "Har de ikke noe å lime inn, kan de bruke svaret fra den lange prompten. Folk lærer mest av tekst de kjenner godt, for der ser de selv hvor den tar feil.",
         "De tre anførselstegnene skiller beskjeden fra teksten. Da blander den ikke det som står i teksten, med det du ber den om.",
         "Poenget: du kan få motstand uten å involvere noen andre, og komme bedre forberedt til dem du skal vise det til.",
         "Ekstrasteget gir ofte latter. La det skje."
@@ -858,7 +871,7 @@
       id: "backstage", backstage: true, mode: "se", kicker: "Backstage, bare for deg", title: "Før kurset", dark: true,
       blocks: [{ t: "list", items: [
         "Send en melding til deltakerne i forkant: ta med PC, og sjekk at du kommer inn på Claude.",
-        "Kvelden før: kjør hoppkanten-promptene for alle fagfelt med nettsøk på, og ta skjermbilder.",
+        "Kvelden før: kjør de korte og lange promptene for alle fagfelt med nettsøk på, og ta skjermbilder.",
         "Sjekk hvilke modeller og effort-valg Digdir-lisensen viser.",
         "Ha boligjakt-prosjektet åpent i en egen fane.",
         "I rommet: presentørvisningen på laptopen, skjermvisningen på skjermen i fullskjerm (trykk F), Claude i et eget vindu.",
@@ -932,7 +945,7 @@
     hand: false, name: load("localStorage", "kurs.name") || "", seen: 0, presence: null,
     prog: loadJson("kurs.prog"), ans: loadJson("kurs.ans"), posted: loadJson("kurs.posted"), walls: {}, fresh: {},
     revealed: {}, celebrated: {}, maxHere: 0, myPosts: loadJson("kurs.myposts"),
-    count: null, skew: 0, questions: [], liked: loadJson("kurs.liked"), handsSeen: null, hidden: {}
+    count: null, skew: 0, questions: [], liked: loadJson("kurs.liked"), handsSeen: null, hidden: {}, notes: {}, editNotes: false
   };
   var net = { ws: null, open: false, ever: false, failed: false, asked: false, retry: 0, last: 0, timer: null };
 
@@ -957,7 +970,7 @@
 
   // ---------- Rendering ----------
   var MODE = { se: "Se på skjermen", gjor: "Gjør", del: "Del" };
-  var CHAPTERS = ["Kom i gang", "Første samtale", "Hoppkanten", "Videre"];
+  var CHAPTERS = ["Kom i gang", "Første samtale", "Gode prompter", "Videre"];
   var reduced = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
   function fmtMin(m) { return m < 1 ? Math.round(m * 60) + " sek" : String(m).replace(".", ",") + " min"; }
   function stepByKey(id, key) {
@@ -1049,6 +1062,26 @@
     (s.steps || []).forEach(function (x) { if (x.wall && ids.indexOf(x.wall) < 0) ids.push(x.wall); });
     return ids;
   }
+  // Notatene fra SLIDES, eller presentørens egne, lagret i live-tjenesten. Ett avsnitt per linje.
+  function noteList(s) {
+    if (st.notes[s.id] == null) return s.notes || [];
+    return st.notes[s.id].split("\n").map(function (x) { return x.trim(); }).filter(Boolean);
+  }
+  function notesHtml(s, v) {
+    var list = noteList(s), mine = st.notes[s.id] != null;
+    var h = "<aside class=\"notes\" id=\"notes\"><h2>Notater, bare for deg" + (mine ? " <small>endret i kurssiden</small>" : "") + "</h2>";
+    if (st.editNotes) {
+      h += "<label class=\"vh\" for=\"notesEdit\">Notatene, ett avsnitt per linje</label>" +
+        "<textarea id=\"notesEdit\" rows=\"" + Math.max(6, Math.min(24, list.length * 3 + 2)) + "\">" + esc(list.join("\n\n")) + "</textarea>" +
+        "<div class=\"notes-tools\"><button class=\"btn primary\" id=\"notesSave\">Lagre</button><button class=\"btn\" id=\"notesCancel\">Avbryt</button>" +
+        (mine ? "<button class=\"btn quiet\" id=\"notesReset\">Tilbake til originalen</button>" : "") + "</div>";
+    } else {
+      h += list.map(function (n) { return "<p>" + esc(n) + "</p>"; }).join("") +
+        "<p class=\"next\">Neste side: " + esc(v[st.i + 1] ? v[st.i + 1].title : "ingen, dette er den siste") + "</p>" +
+        "<div class=\"notes-tools\"><button class=\"small-btn\" id=\"notesEditBtn\"" + (net.open && st.verified ? "" : " disabled title=\"Krever kontakt med live-tjenesten\"") + ">Rediger notatene</button></div>";
+    }
+    return h + "</aside>";
+  }
   function tracksHtml() {
     var cur = field();
     return "<div class=\"tracks\" role=\"group\" aria-label=\"Eksempler for fagfelt\"><span>Eksempler for</span>" +
@@ -1071,13 +1104,26 @@
     return "";
   }
   // ---------- Illustrasjoner ----------
+  // Den lange prompten for hvert fagfelt, delt i kontekst (k), oppgave (o) og format (f). Satt sammen med mellomrom
+  // blir den nøyaktig lik prompten i steg 2. Analyse og «noe annet» bruker standarden.
+  var ANATOMY = {
+    _: [["k", "Jeg jobber i KI Norge i Digdir og skal lage en kort oversikt over DDoS-angrepene mot Digdirs fellesløsninger i 2026 til et internt notat."], ["o", "Lag en tabell"], ["f", "med dato, varighet, berørte tjenester og kilde, én rad per angrep. Bruk bare opplysninger du finner i kildene, og skriv «ukjent» der du ikke finner noe."]],
+    skriv: [["k", "Jeg jobber i KI Norge i Digdir. Vi skal skrive en LinkedIn-post om at offentlige virksomheter kan få veiledning om KI hos oss. Målgruppen er ledere i kommuner."], ["o", "Skriv tre forslag"], ["f", "på under 80 ord, i klarspråk, uten emojier og uten superlativer."]],
+    jus: [["k", "Jeg er jurist i Digdir. En kommune vurderer en chatbot som svarer innbyggere om byggesaker."], ["o", "Forklar hva KI-forordningen betyr for dem,"], ["f", "i fem punkter, med henvisning til artikkel for hvert punkt. Skriv tydelig hva du er usikker på."]],
+    design: [["k", "Jeg er tjenestedesigner i Digdir."], ["o", "Lag en klikkbar prototype av et skjema der en innbygger melder adresseendring,"], ["f", "med tre steg, feilmeldinger og en kvittering. Følg Designsystemet fra Digdir og WCAG 2.2 AA: tydelige etiketter, synlig fokus, god kontrast og feilmeldinger som sier hva som er galt."]],
+    utvikling: [["o", "Skriv en TypeScript-funksjon som sjekker om et norsk organisasjonsnummer er gyldig,"], ["k", "med kontrollsiffer etter modulus 11."], ["f", "Lag enhetstester i Vitest for gyldige, ugyldige og tomme verdier, og forklar grensetilfellene i tre punkter."]],
+    ledelse: [["k", "Jeg leder et prosjekt i Digdir der seks personer skal teste en KI-assistent i saksbehandling i tre måneder."], ["o", "Lag en prosjektplan"], ["f", "med milepæler, risikoer og hvem som må involveres. Bruk en tabell, og hold det på én side."]]
+  };
   // Tegnet i HTML, så de følger fargene, mørk modus og skjermstørrelsen, og kan leses av skjermlesere.
   function artHtml(id) {
-    if (id === "prompt") return "<figure class=\"art art-prompt\" aria-label=\"Hva den lange prompten har som den korte mangler: kontekst, oppgave og format.\">" +
-      "<p class=\"art-step\">Hva hadde den lange som den korte manglet?</p>" +
-      "<p class=\"legend\"><mark class=\"k\">Kontekst</mark><mark class=\"o\">Oppgave</mark><mark class=\"f\">Format</mark></p>" +
-      "<p class=\"art-label\">Kort</p><p class=\"art-prompt-text\"><mark class=\"o\">Lag en tabell over DDoS-angrepene.</mark></p>" +
-      "<p class=\"art-label\">Lang</p><p class=\"art-prompt-text\"><mark class=\"k\">Jeg jobber i KI Norge i Digdir og skal lage en kort oversikt over DDoS-angrepene mot Digdirs fellesløsninger i 2026 til et internt notat.</mark> <mark class=\"o\">Lag en tabell</mark> <mark class=\"f\">med dato, varighet, berørte tjenester og kilde, én rad per angrep. Bruk bare opplysninger du finner i kildene, og skriv «ukjent» der du ikke finner noe.</mark></p></figure>";
+    if (id === "prompt") {
+      var fk = ANATOMY[field()] ? field() : "_";
+      return "<figure class=\"art art-prompt\" aria-label=\"Hva den lange prompten har som den korte mangler: kontekst, oppgave og format.\">" +
+        "<p class=\"art-step\">Hva hadde den lange som den korte manglet?</p>" +
+        "<p class=\"legend\"><mark class=\"k\">Kontekst</mark><mark class=\"o\">Oppgave</mark><mark class=\"f\">Format</mark></p>" +
+        "<p class=\"art-label\">Kort</p><p class=\"art-prompt-text\"><mark class=\"o\">" + esc(pick(stepByKey("forste-prompt", "kort").say)) + "</mark></p>" +
+        "<p class=\"art-label\">Lang</p><p class=\"art-prompt-text\">" + ANATOMY[fk].map(function (x) { return "<mark class=\"" + x[0] + "\">" + esc(x[1]) + "</mark>"; }).join(" ") + "</p></figure>";
+    }
     if (id === "mappe") return "<figure class=\"art art-mappe\" aria-label=\"Et prosjekt er en mappe med instruksjoner og filer. Hver ny samtale i mappa vet alt som står der.\">" +
       "<p class=\"folder-tab\">Prosjekt: Boligjakt</p><div class=\"folder-body\">" +
       "<p class=\"folder-item\"><b>Instruksjoner</b>Hva prosjektet handler om, og hvordan du vil ha svarene. Skrives én gang.</p>" +
@@ -1141,9 +1187,9 @@
     if (s.mode && s.id !== "start") h += "<p class=\"mode " + s.mode + "\">" + MODE[s.mode] + (s.min ? ", " + fmtMin(s.min) : "") + "</p>";
     h += (s.kicker ? "<p class=\"kicker\">" + esc(s.kicker) + "</p>" : "") + "<h1 class=\"title\">" + esc(s.title) + "</h1>";
     if (s.lead) h += "<p class=\"lead\">" + esc(s.lead) + "</p>";
-    // Notatene står øverst, der presentøren ser dem mens hen snakker.
-    if (st.isPresenter && st.notesOpen && s.notes) h += "<aside class=\"notes\"><h2>Notater, bare for deg</h2>" + s.notes.map(function (n) { return "<p>" + esc(n) + "</p>"; }).join("") +
-      "<p class=\"next\">Neste side: " + esc(v[st.i + 1] ? v[st.i + 1].title : "ingen, dette er den siste") + "</p></aside>";
+    // Notatene står øverst, der presentøren ser dem mens hen snakker. Endringer lagres i live-tjenesten.
+    if (st.isPresenter && st.notesOpen) h += notesHtml(s, v);
+    if (s.track && open) h += tracksHtml();
     if (s.qr) h += "<div class=\"qr\">" + QR + "<p class=\"url\">" + COURSE_URL + "<small>Åpne lenken på PC-en, så følger du med.</small></p><p class=\"lobby\" id=\"lobby\">" + lobbyHtml() + "</p></div>";
     (s.blocks || []).forEach(function (b) { h += blockHtml(b); });
     if (s.polls) h += "<div class=\"polls\">" + s.polls.map(function (p) { return pollHtml(p); }).join("") + "</div>";
@@ -1153,7 +1199,6 @@
       if (s.styleprompt) { if (SCREEN) aside += styleHtml(s); else h += styleHtml(s); }
       if (s.stats) h += statsHtml();
       if (s.steps) h += stepsHtml(s);
-      if (s.track) h += tracksHtml();
       if (s.wall) h += (s.wall.label ? "<p class=\"wall-h\">" + esc(s.wall.label) + "</p>" : "") + "<div class=\"wall\">" + (overview() ? "" : wallFormHtml(s.wall.id, s.wall.placeholder)) + "<div id=\"posts-" + s.wall.id + "\">" + postsHtml(s.wall.id) + "</div></div>";
       (s.steps || []).forEach(function (x) {
         if (!x.wall) return;
@@ -1345,6 +1390,7 @@
     if (n < 0 || n >= v.length) return;
     if (!st.broadcasting && opts && opts.manual && live()) setFollowing(false);
     if (st.isPresenter && st.broadcasting) revealOnLeave(current());
+    st.editNotes = false;
     st.i = n;
     render();
     if (st.isPresenter && st.broadcasting) pushLive();
@@ -1545,9 +1591,9 @@
   function cheatParts() {
     var f = field(), label = f === "_" || f === "annet" ? "alle" : fieldLabel(f).toLowerCase(), plan = st.myPosts["i-morgen"];
     var parts = [
-      ["Hoppkanten", "Kontekst, oppgave, format. Og gjerne et eksempel på det du vil ha.", true],
-      ["En god første prompt", pick(stepByKey("hoppkanten", "lang").say)],
-      ["Be om en fil", pick(stepByKey("hoppkanten", "fil").say)],
+      ["Huskeregel", "Kontekst, oppgave, format. Og gjerne et eksempel på det du vil ha.", true],
+      ["En god første prompt", pick(stepByKey("forste-prompt", "lang").say)],
+      ["Be om en fil", pick(stepByKey("forste-prompt", "fil").say)],
       ["Sparring", pick(stepByKey("sparring", "kritikk").say)],
       ["La den spille motparten", pick(stepByKey("sparring", "motpart").say)],
       ["Når du lurer", "Er dette noe du kan hjelpe meg med?"]
@@ -1731,7 +1777,22 @@
       case "meBtn": openJoin(); break;
       case "joinSkip": closeJoin(true); break;
       case "liveBtn": toggleLive(); break;
-      case "notesBtn": st.notesOpen = !st.notesOpen; render(); break;
+      case "notesBtn": st.notesOpen = !st.notesOpen; st.editNotes = false; render(); break;
+      case "notesEditBtn": st.editNotes = true; render(true); if ($("#notesEdit")) $("#notesEdit").focus(); break;
+      case "notesCancel": st.editNotes = false; render(true); break;
+      case "notesSave": (function () {
+        var text = $("#notesEdit").value.replace(/\r/g, "").split("\n").map(function (x) { return x.trim(); }).filter(Boolean).join("\n");
+        var same = text === (s.notes || []).join("\n");
+        if (!send({ t: "note", slide: s.id, text: same ? "" : text })) { toast("Får ikke kontakt akkurat nå. Notatene er ikke lagret."); return; }
+        if (same) delete st.notes[s.id]; else st.notes[s.id] = text;
+        st.editNotes = false;
+        render(true);
+        toast("Notatene er lagret.");
+      })(); break;
+      case "notesReset":
+        if (!send({ t: "note", slide: s.id, text: "" })) { toast("Får ikke kontakt akkurat nå."); return; }
+        delete st.notes[s.id]; st.editNotes = false; render(true); toast("Tilbake til originalen.");
+        break;
       case "clearBtn": if (send({ t: "clear" })) toast("Alle hender er tatt ned."); break;
       case "wipeBtn": wallsOf(s).forEach(function (id) { send({ t: "wipe", wall: id }); }); break;
       case "revealBtn": (function () {
@@ -1847,6 +1908,7 @@
       case "q": upsertQ(m.item); renderQ(); updateBar(); break;
       case "q-wipe": st.questions = []; renderQ(); updateBar(); break;
       case "hidden": applyHidden(m.hidden); renderOverview(); break;
+      case "notes": st.notes = m.notes || {}; if (st.notesOpen && !st.editNotes) render(true); break;
       case "me": applyMe(m, false); break;
       case "name-taken": joinError(m.name); break;
       case "react": burst(m.e); break;
@@ -1879,6 +1941,7 @@
     st.questions = m.questions || [];
     renderQ();
     applyHidden(m.hidden || {});
+    st.notes = m.notes || {};
     st.walls = m.walls || {};
     st.revealed = m.revealed || {};
     var was = st.isPresenter;

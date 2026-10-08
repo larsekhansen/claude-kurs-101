@@ -13,6 +13,7 @@ const MAX_SOCKETS = 400;
 const MAX_WALL = 80; // innlegg per vegg
 const MAX_POST = 240; // tegn per innlegg
 const MAX_QUESTIONS = 60;
+const MAX_NOTE = 6000; // tegn i notatene til én side
 const OPEN = 1;
 const ID = /^[a-z0-9-]{1,40}$/;
 
@@ -45,6 +46,7 @@ export class Room extends DurableObject {
     this.count = null;
     this.questions = [];
     this.hidden = {};
+    this.notes = {};
     this.flood = new Map();
     this.presenceTimer = null;
     // Svarer på ping uten å vekke objektet. Tidspunktet brukes til å finne døde forbindelser.
@@ -57,6 +59,7 @@ export class Room extends DurableObject {
       this.count = (await ctx.storage.get("count")) || null;
       this.questions = (await ctx.storage.get("questions")) || [];
       this.hidden = (await ctx.storage.get("hidden")) || {};
+      this.notes = (await ctx.storage.get("notes")) || {};
     });
   }
 
@@ -75,7 +78,7 @@ export class Room extends DurableObject {
   }
 
   async webSocketMessage(ws, raw) {
-    if (typeof raw !== "string" || raw.length > 4000) return;
+    if (typeof raw !== "string" || raw.length > 16000) return;
     let m;
     try { m = JSON.parse(raw); } catch { return; }
     if (!m || typeof m !== "object") return;
@@ -104,6 +107,7 @@ export class Room extends DurableObject {
       case "answered": if (presenter) await this.answered(m.id, m.done); break;
       case "qwipe": if (presenter) await this.qwipe(); break;
       case "hide": if (presenter) await this.hide(m.slide, m.on); break;
+      case "note": if (presenter) await this.setNote(m.slide, m.text); break;
     }
   }
 
@@ -175,6 +179,7 @@ export class Room extends DurableObject {
       count: this.count,
       questions: this.questions.map(publicQ),
       hidden: this.hidden,
+      notes: presenter ? this.notes : undefined,
       now: Date.now(),
       me: { name: next.name, hand: next.hand, prog: next.prog, ans: next.ans },
       nameTaken,
@@ -317,6 +322,21 @@ export class Room extends DurableObject {
     } else delete this.hidden[slide];
     await this.ctx.storage.put("hidden", this.hidden);
     this.broadcast({ t: "hidden", hidden: this.hidden });
+  }
+
+  // Presentøren kan redigere notatene i kurssiden. De lagres her og går bare til presentører.
+  async setNote(slide, text) {
+    if (typeof slide !== "string" || !ID.test(slide) || typeof text !== "string") return;
+    const t = cleanNote(text);
+    if (t) {
+      if (!(slide in this.notes) && Object.keys(this.notes).length >= 40) return;
+      this.notes[slide] = t;
+    } else delete this.notes[slide];
+    await this.ctx.storage.put("notes", this.notes);
+    const msg = JSON.stringify({ t: "notes", notes: this.notes });
+    for (const [s, a] of this.sockets()) {
+      if (a.role === "presenter") { try { s.send(msg); } catch {} }
+    }
   }
 
   react(ws, e) {
@@ -483,6 +503,11 @@ function cleanText(s) {
   if (typeof s !== "string") return "";
   const t = s.normalize("NFC").replace(/[\p{Cc}\p{Cf}]/gu, " ").replace(/\s+/g, " ").trim();
   return Array.from(t).slice(0, MAX_POST).join("").trim();
+}
+
+function cleanNote(s) {
+  const t = s.normalize("NFC").replace(/\r\n?/g, "\n").replace(/[\u0000-\u0009\u000B-\u001F\u007F\p{Cf}]/gu, "").replace(/\n{3,}/g, "\n\n").trim();
+  return Array.from(t).slice(0, MAX_NOTE).join("").trim();
 }
 
 function nameKey(s) {

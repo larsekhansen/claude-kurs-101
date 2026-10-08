@@ -6,6 +6,17 @@ og oppsettet i [`../oppsett.md`](../oppsett.md).
 
 ## 2026-10-08
 
+- **Siden om den første prompten har fått et nøytralt navn.** Den gamle
+  metaforen var litt for spisset. Siden heter «Den første prompten», med «Det
+  viktigste i dag» som overtittel, og kapittelet heter «Gode prompter».
+- **Fagfeltene står øverst** på siden om den første prompten og på sparringen,
+  og den fargekodede prompten følger fagfeltet som er valgt.
+- **Tydeligere markeringer.** Kontekst, oppgave og format har fått hver sin
+  tone og en understrek, så grensene synes, også i mørk modus.
+- **Notatene kan redigeres i kurssiden.** De lagres i live-tjenesten, blir
+  stående etter en ny innlasting og nye versjoner, og går bare til
+  presentører.
+
 - **Sidene om neste ord er tatt ut.** «Hvorfor ble svarene forskjellige?» og
   «Trekk neste ord» forklarte hvordan språkmodeller virker, men var ikke
   relevante nok for opplæring i Claude. Simulatoren, bildet av forslagene på

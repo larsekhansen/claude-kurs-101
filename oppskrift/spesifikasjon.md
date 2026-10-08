@@ -42,7 +42,8 @@ For deltakerne:
 
 For presentøren:
 
-- Notater øverst på siden, med neste side nederst.
+- Notater øverst på siden, med neste side nederst. De kan redigeres i
+  kurssiden og lagres i live-tjenesten, bare for presentører.
 - Tidtaker mot planen, og hvilke sider som kan kuttes hvis det går tregt.
 - Vis svaret, applaus med konfetti, løft fram et innlegg eller et spørsmål på
   alle skjermer.

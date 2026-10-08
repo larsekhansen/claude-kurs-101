@@ -61,6 +61,8 @@ kant, ikke med gjennomsiktighet. Gjennomsiktighet ga for lav kontrast.
 - **Oversikten:** alle sider som kort, mørke kort for mørke sider, med modus,
   minutter og tall fra rommet.
 - **Spotlight:** ett innlegg eller spørsmål stort på alle skjermer.
+- **Fargekodet prompt:** kontekst, oppgave og format har hver sin bakgrunn og
+  en understrek i en sterkere variant, så grensene synes i begge temaer.
 - **Juksearket:** kan skrives ut eller lagres som PDF.
 
 ## Skjermen i rommet

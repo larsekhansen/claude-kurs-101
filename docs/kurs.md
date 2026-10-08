@@ -40,8 +40,8 @@ humor.
 | Kom i gang     | Har alle Claude?                    | Gjør  | 4   |
 | Første samtale | Spør om DDoS-saken                  | Gjør  | 5   |
 | Første samtale | Fra rask til grundig (kan kuttes)   | Se    | 1   |
-| Hoppkanten     | Hoppkanten                          | Gjør  | 8   |
-| Hoppkanten     | Velg stilen (pause, kan kuttes)     | Del   | 1,5 |
+| Gode prompter  | Den første prompten                 | Gjør  | 8   |
+| Gode prompter  | Velg stilen (pause, kan kuttes)     | Del   | 1,5 |
 | Videre         | Få den til å være uenig med deg     | Gjør  | 4   |
 | Videre         | En mappe som husker, og spørsmål    | Se    | 3   |
 | Videre         | Hva prøver du i morgen? Jukseark    | Del   | 3   |
@@ -105,10 +105,13 @@ Ett minutt, bare presentøren. Modellbyttet er ekstrasteg på DDoS-siden.
 
 Meme: Galaxy Brain med Haiku, Sonnet, Opus og Fable.
 
-## Hoppkanten
+## Den første prompten
 
-Første prompt er hoppkanten. Bommer du på den, går resten av samtalen med til
-«nei, ikke sånn».
+Overtittel: Det viktigste i dag. Den første prompten avgjør mye. Bommer du, går
+resten av samtalen med til «nei, ikke sånn».
+
+Fagfeltene står øverst på siden, så alle kan bytte og se eksemplene for et
+annet felt.
 
 1. Kjør den korte først. Se på svaret.
 2. Åpne en ny samtale. Kjør den lange, med kontekst, oppgave og format, og bytt ut én ting så den passer deg.
@@ -145,8 +148,9 @@ Promptene per fagfelt, kort, lang og fil:
 
 Når de fleste er ferdige med steg 2, kommer begge promptene fargekodet: «Hva
 hadde den lange som den korte manglet?» Den korte er bare oppgave. Den lange
-har kontekst, oppgave og format i hver sin farge. Regelen kommer etter
-kontrasten. På skjermen i rommet står den i kolonnen ved siden av stegene.
+har kontekst, oppgave og format i hver sin farge, og følger fagfeltet som er
+valgt. Regelen kommer etter kontrasten. På skjermen i rommet står den i
+kolonnen ved siden av stegene.
 
 Meme: Gru's Plan. «Skriv lag en tabell. Få en tabell. Tabellen handler om feil ting. Tabellen handler om feil ting.»
 
@@ -162,7 +166,7 @@ siden følger stilen som leder.
 
 Har du et utkast, kan den være kritikeren din før noen andre ser det.
 
-1. Lim inn noe du jobber med, eller svaret fra hoppkanten, og be den være kritisk. Offentlig, oppdiktet eller uten personopplysninger. «Her er et utkast. Det skal til [hvem]. Teksten står mellom de tre anførselstegnene. """[lim inn teksten]""" Vær kritisk. Hva har jeg ikke tenkt på, og hva er de sterkeste motargumentene?»
+1. Lim inn noe du jobber med, eller svaret fra den lange prompten, og be den være kritisk. Offentlig, oppdiktet eller uten personopplysninger. «Her er et utkast. Det skal til [hvem]. Teksten står mellom de tre anførselstegnene. """[lim inn teksten]""" Vær kritisk. Hva har jeg ikke tenkt på, og hva er de sterkeste motargumentene?»
 2. Be om en kortere versjon, med dine egne ord. «Skriv det på halve lengden, uten å miste poenget.»
 3. Ekstra: la den spille motparten. Alle: «Svar som en skeptisk leder som skal godkjenne dette.» Skriving: «Svar som en journalist som leter etter en vinkel.» Jus: «Svar som advokaten til motparten.» Analyse: «Svar som Riksrevisjonen.» Design: «Svar som en bruker med skjermleser som prøver løsningen.» Utvikling: «Svar som en sikkerhetsrevisor.» Ledelse: «Svar som en økonomidirektør som vil kutte budsjettet.»
 
@@ -224,7 +228,7 @@ Meme: To knapper. «Si at Digdir har rundt 400 ansatte» og «Si det brukeren vi
 ## Backstage: før kurset
 
 - Send en melding til deltakerne i forkant: ta med PC, og sjekk at du kommer inn på Claude.
-- Kvelden før: kjør hoppkanten-promptene for alle fagfelt med nettsøk på, og ta skjermbilder.
+- Kvelden før: kjør de korte og lange promptene for alle fagfelt med nettsøk på, og ta skjermbilder.
 - Sjekk hvilke modeller og effort-valg Digdir-lisensen viser.
 - Ha boligjakt-prosjektet åpent i en egen fane.
 - I rommet: presentørvisningen på laptopen, skjermvisningen på skjermen i fullskjerm (trykk F), Claude i et eget vindu.
@@ -243,6 +247,9 @@ grunnlag og ansvarlig bruk, som det lenkes til fra siste side.
 
 ## Presentørens verktøy
 
+- **Notatene** kan redigeres i kurssiden. De lagres i live-tjenesten, blir
+  stående etter en ny innlasting og nye versjoner av tjenesten, og går bare
+  til presentører. «Tilbake til originalen» henter teksten fra kurssiden.
 - **Oversikten:** «Sider» i toppen, eller O. Alle sidene som kort, gruppert
   etter kapittel, med modus, minutter og tall fra rommet. Presentøren kan
   skru sider av og på. Skjulte sider hoppes over for alle, og planlagt tid

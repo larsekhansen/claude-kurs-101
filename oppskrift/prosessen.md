@@ -97,7 +97,8 @@ var koblet til. Siden kobler nå aldri til produksjon fra en lokal maskin.
 
 En oversikt over sidene som i PowerPoint, der presentøren kan skru sider av
 og på. Illustrasjoner som forklarer svarene visuelt: forslagene på mobilen for
-neste ord, fargekodede prompter for hoppkanten, og en mappe for Projects.
+neste ord, fargekodede prompter for den første prompten, og en mappe for
+Projects.
 
 **Lærdom:** Et bilde av noe folk kjenner fra før, forklarer raskere enn tekst.
 
@@ -109,6 +110,16 @@ ble rundt 32 minutter planlagt.
 
 **Lærdom:** Hold kurset på det deltakerne skal gjøre i verktøyet. Generell
 teori kan lenkes til.
+
+## 12. Siste finpuss
+
+Siden om den første prompten fikk et nøytralt navn, fordi metaforen den hadde
+var litt for spisset. Fagfeltene flyttet øverst, og den fargekodede prompten
+følger fagfeltet. Markeringene fikk tydeligere farger. Presentøren kan
+redigere notatene i kurssiden, og de lagres i live-tjenesten.
+
+**Lærdom:** Ord som er morsomme i en planleggingssamtale, kan virke feil foran
+publikum. Les titlene høyt før kurset.
 
 ## Testene
 

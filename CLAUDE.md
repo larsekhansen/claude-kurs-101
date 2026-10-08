@@ -45,6 +45,9 @@ Hostes på GitHub Pages, åpent for alle med lenken, uten innlogging.
   presentøren ser fagfelt, fremdrift og hvem som blar selv, og kan ta alle
   med seg.
 - Spørsmål fra salen med stemmer, og nedtelling som presentøren starter.
+- Presentøren kan redigere notatene i kurssiden. De lagres i Workeren og går
+  bare til presentører. Skal endringene inn i repoet, hent dem med en
+  presentørforbindelse og oppdater `SLIDES` og `docs/kurs.md`.
 - «Sider» åpner en oversikt med alle sidene som kort. Presentøren kan skru
   sider av og på for alle, og ser tall fra rommet på hvert kort.
 - Illustrasjonene er tegnet i HTML og CSS i `artHtml`, ikke bilder, så de

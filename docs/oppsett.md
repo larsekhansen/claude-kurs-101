@@ -116,6 +116,11 @@ aldri til produksjonsrommet. `?live=` overstyrer adressen, bare på localhost.
 - `hide` med `slide` og `on` skrur en side av eller på. Det lagres, sendes til
   alle som `hidden`, og står i `welcome`. Skjulte sider hoppes over i
   navigasjonen for alle.
+- `note` med `slide` og `text` lagrer presentørens egne notater for en side,
+  maks 6000 tegn. Tom tekst går tilbake til notatene i kurssiden. Notatene
+  sendes som `notes` bare til presentører, også i `welcome`. De ligger i
+  Durable Object-lagringen og overlever nye versjoner av Workeren.
+  Ryddeskriptet rører dem ikke.
 - Navn er unike blant dem som er koblet til nå, uansett store og små
   bokstaver. Flere faner i samme nettleser er samme person, med samme navn,
   hånd og ferdig.
