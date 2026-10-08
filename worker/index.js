@@ -1,6 +1,7 @@
 // Live-tjenesten for Claude-kurset. Ett rom, én Durable Object.
 // Presentøren styrer siden. Deltakerne følger, rekker opp hånda, krysser av
-// steg i oppgavene, svarer på avstemninger og deler korte svar på en vegg.
+// steg i oppgavene, svarer på avstemninger, deler korte svar på en vegg og
+// stiller spørsmål som de andre kan stemme på.
 // Protokollen er JSON over WebSocket, se docs/oppsett.md.
 import { DurableObject } from "cloudflare:workers";
 
@@ -11,6 +12,7 @@ const SWEEP_MS = 60_000;
 const MAX_SOCKETS = 400;
 const MAX_WALL = 80; // innlegg per vegg
 const MAX_POST = 240; // tegn per innlegg
+const MAX_QUESTIONS = 60;
 const OPEN = 1;
 const ID = /^[a-z0-9-]{1,40}$/;
 
@@ -40,6 +42,8 @@ export class Room extends DurableObject {
     this.clearAt = 0;
     this.walls = {};
     this.revealed = {};
+    this.count = null;
+    this.questions = [];
     this.flood = new Map();
     this.presenceTimer = null;
     // Svarer på ping uten å vekke objektet. Tidspunktet brukes til å finne døde forbindelser.
@@ -49,6 +53,8 @@ export class Room extends DurableObject {
       this.clearAt = (await ctx.storage.get("clearAt")) || 0;
       this.walls = (await ctx.storage.get("walls")) || {};
       this.revealed = (await ctx.storage.get("revealed")) || {};
+      this.count = (await ctx.storage.get("count")) || null;
+      this.questions = (await ctx.storage.get("questions")) || [];
     });
   }
 
@@ -78,7 +84,7 @@ export class Room extends DurableObject {
     const viewer = a.role === "viewer";
     switch (m.t) {
       case "name": if (viewer) this.rename(ws, a, m.name); break;
-      case "me": if (viewer) this.setHand(ws, a, m.hand); break;
+      case "me": if (viewer) { this.setHand(ws, a, m.hand); this.setFollow(ws, m.follow); } break;
       case "step": if (viewer) this.setStep(ws, a, m.slide, m.n); break;
       case "vote": if (viewer) this.vote(ws, a, m.poll, m.opt); break;
       case "post": if (viewer || presenter) await this.post(ws, m.wall, m.text); break;
@@ -89,6 +95,12 @@ export class Room extends DurableObject {
       case "reveal": if (presenter) await this.reveal(m.poll, m.on); break;
       case "fx": if (presenter && FX.includes(m.kind) && !this.flooded(ws, "fx", 3, 5000)) this.broadcast({ t: "fx", kind: m.kind }, ws); break;
       case "spot": if (presenter) this.spot(m); break;
+      case "pull": if (presenter && this.live.on && !this.flooded(ws, "pull", 3, 5000)) this.broadcast({ t: "pull" }, ws); break;
+      case "count": if (presenter) await this.setCount(m); break;
+      case "ask": if (viewer || presenter) await this.ask(ws, m.text); break;
+      case "like": if (viewer) await this.like(a, m.id, m.on); break;
+      case "answered": if (presenter) await this.answered(m.id, m.done); break;
+      case "qwipe": if (presenter) await this.qwipe(); break;
     }
   }
 
@@ -138,6 +150,8 @@ export class Room extends DurableObject {
         next.prog = cleanMap(m.prog, (v) => Number.isInteger(v) && v >= 0 && v <= 20);
         next.ans = cleanMap(m.ans, (v) => typeof v === "string" && ID.test(v));
       }
+      // Følger fanen presentasjonen, eller blar den selv? Gjelder fanen, ikke personen.
+      next.follow = m.follow !== false;
       const wanted = cleanName(m.name);
       if (!next.name && wanted) {
         if (this.nameFree(wanted, cid)) next.name = wanted;
@@ -155,6 +169,9 @@ export class Room extends DurableObject {
       clearAt: this.clearAt,
       walls: this.walls,
       revealed: this.revealed,
+      count: this.count,
+      questions: this.questions.map(publicQ),
+      now: Date.now(),
       me: { name: next.name, hand: next.hand, prog: next.prog, ans: next.ans },
       nameTaken,
     });
@@ -174,6 +191,14 @@ export class Room extends DurableObject {
   setHand(ws, a, hand) {
     if (typeof hand !== "boolean" || hand === a.hand) return;
     this.updateCid(a.cid, { hand, handAt: hand ? Date.now() : 0 }, ws);
+    this.schedulePresence();
+  }
+
+  setFollow(ws, follow) {
+    if (typeof follow !== "boolean") return;
+    const a = ws.deserializeAttachment();
+    if ((a.follow !== false) === follow) return;
+    ws.serializeAttachment({ ...a, follow });
     this.schedulePresence();
   }
 
@@ -221,12 +246,62 @@ export class Room extends DurableObject {
     this.broadcast({ t: "reveal", poll, on: on === true });
   }
 
-  // Presentøren løfter fram et innlegg fra veggen på alle skjermer, uten navn.
+  // Presentøren løfter fram et innlegg fra veggen eller et spørsmål på alle skjermer, uten navn.
   spot(m) {
     if (m.off === true) { this.broadcast({ t: "spot", text: null }); return; }
+    if (typeof m.q === "string") {
+      const q = this.questions.find((x) => x.id === m.q);
+      if (q) this.broadcast({ t: "spot", text: q.text, kind: "q" });
+      return;
+    }
     if (typeof m.wall !== "string" || !ID.test(m.wall) || typeof m.id !== "string") return;
     const item = (this.walls[m.wall] || []).find((x) => x.id === m.id);
     if (item) this.broadcast({ t: "spot", text: item.text });
+  }
+
+  // Nedtelling for en oppgave. Klientene regner ut resten selv, med serverens klokke.
+  async setCount(m) {
+    const sec = Math.round(Number(m.sec));
+    this.count = m.off === true || !(sec > 0 && sec <= 3600) ? null : { until: Date.now() + sec * 1000, sec };
+    await this.ctx.storage.put("count", this.count);
+    this.broadcast({ t: "count", count: this.count, now: Date.now() });
+  }
+
+  // Spørsmål fra salen er anonyme. Serveren husker hvem som har stemt, men sender bare antallet.
+  async ask(ws, raw) {
+    const text = cleanText(raw);
+    if (!text || this.flooded(ws, "ask", 3, 30_000)) return;
+    const q = { id: crypto.randomUUID().slice(0, 8), text, at: Date.now(), likes: [], done: false };
+    this.questions.push(q);
+    if (this.questions.length > MAX_QUESTIONS) this.questions.splice(0, this.questions.length - MAX_QUESTIONS);
+    await this.saveQuestion(q);
+  }
+
+  async like(a, id, on) {
+    const q = this.questions.find((x) => x.id === id);
+    if (!q || typeof on !== "boolean") return;
+    const i = q.likes.indexOf(a.cid);
+    if (on === (i >= 0)) return;
+    if (on) q.likes.push(a.cid); else q.likes.splice(i, 1);
+    await this.saveQuestion(q);
+  }
+
+  async answered(id, done) {
+    const q = this.questions.find((x) => x.id === id);
+    if (!q) return;
+    q.done = done === true;
+    await this.saveQuestion(q);
+  }
+
+  async saveQuestion(q) {
+    await this.ctx.storage.put("questions", this.questions);
+    this.broadcast({ t: "q", item: publicQ(q) });
+  }
+
+  async qwipe() {
+    this.questions = [];
+    await this.ctx.storage.put("questions", this.questions);
+    this.broadcast({ t: "q-wipe" });
   }
 
   react(ws, e) {
@@ -235,10 +310,12 @@ export class Room extends DurableObject {
   }
 
   // since er når presentasjonen ble startet, så presentøren kan holde tiden.
+  // by er fanen som styrer. En medhjelper med samme lenke blar fritt til hen tar over.
   async go(ws, m) {
     const slide = typeof m.slide === "string" && ID.test(m.slide) ? m.slide : this.live.slide;
     const on = m.on === true;
-    this.live = { on, slide, since: on ? (this.live.on && this.live.since) || Date.now() : null };
+    const by = on && typeof m.by === "string" && /^[A-Za-z0-9_-]{6,64}$/.test(m.by) ? m.by : null;
+    this.live = { on, slide, since: on ? (this.live.on && this.live.since) || Date.now() : null, by };
     await this.ctx.storage.put("live", this.live);
     this.broadcast({ t: "live", ...this.live }, ws);
   }
@@ -320,13 +397,14 @@ export class Room extends DurableObject {
     }, 250);
   }
 
-  // Alle får antall og fordelingen i avstemningene. Bare presentøren får navn og fremdrift.
+  // Alle ser hvem som er her og hvem som rekker opp hånda, og fordelingen i avstemningene.
+  // Bare presentøren får fagfelt, fremdrift og hvem som blar selv.
   broadcastPresence() {
     const people = new Map();
     const all = this.sockets();
     for (const [, a] of all) {
       if (a.role === "viewer" && !people.has(a.cid)) {
-        people.set(a.cid, { name: a.name, hand: a.hand, handAt: a.handAt, prog: a.prog || {}, ans: a.ans || {} });
+        people.set(a.cid, { name: a.name, hand: a.hand, handAt: a.handAt, prog: a.prog || {}, ans: a.ans || {}, follow: a.follow !== false });
       }
     }
     const list = [...people.values()].sort(byQueue);
@@ -343,14 +421,14 @@ export class Room extends DurableObject {
         for (let i = 0; i < n; i++) done[i] = (done[i] || 0) + 1;
       }
     }
-    const counts = { t: "presence", here: list.length, hands: list.filter((p) => p.hand).length, polls, steps };
-    const short = JSON.stringify(counts);
+    const counts = { t: "presence", here: list.length, hands: list.filter((p) => p.hand).length, free: list.filter((p) => !p.follow).length, polls, steps };
+    const names = JSON.stringify({ ...counts, people: list.map((p) => ({ name: p.name, hand: p.hand })) });
     const full = JSON.stringify({
       ...counts,
-      people: list.map((p) => ({ name: p.name, hand: p.hand, prog: p.prog, ans: p.ans })),
+      people: list.map((p) => ({ name: p.name, hand: p.hand, prog: p.prog, ans: p.ans, follow: p.follow })),
     });
     for (const [s, a] of all) {
-      try { s.send(a.role === "presenter" ? full : short); } catch {}
+      try { s.send(a.role === "presenter" ? full : names); } catch {}
     }
   }
 }
@@ -365,6 +443,10 @@ function byQueue(a, b) {
   if (a.hand) return a.handAt - b.handAt;
   if (!a.name !== !b.name) return a.name ? -1 : 1;
   return a.name.localeCompare(b.name, "nb");
+}
+
+function publicQ(q) {
+  return { id: q.id, text: q.text, at: q.at, likes: q.likes.length, done: q.done };
 }
 
 function cleanMap(obj, ok) {

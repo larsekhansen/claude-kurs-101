@@ -3,8 +3,9 @@
 Interaktiv kursside for «Introduksjon til Claude» (KI Norge / Digdir).
 Presentøren styrer hvilken side alle ser. Oppgavene er steg med eksempler fra
 hvert fagfelt, og presentøren ser hvor mange som er ferdige. Avstemninger og en
-anonym vegg viser svarene for alle. Deltakerne skriver bare et navn, ingen
-innlogging.
+anonym vegg viser svarene for alle. Spørsmål fra salen kan stemmes på, og
+presentøren har nedtelling, «ta alle hit» og en medhjelper-modus. Deltakerne
+skriver bare et navn, ingen innlogging.
 
 Kurssiden: https://larsekhansen.github.io/claude-kurs-101/
 Skjermen i møterommet: https://larsekhansen.github.io/claude-kurs-101/?skjerm

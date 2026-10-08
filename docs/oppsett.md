@@ -74,9 +74,9 @@ cd worker && npx wrangler dev --port 8787
 ```
 
 Legg `PRESENTER_TOKEN=<noe på minst 16 tegn>` i `worker/.dev.vars`, som git
-ignorerer. Åpne http://localhost:8000/?live=ws://127.0.0.1:8787/ws og legg til
-`#presenter=<tokenet>` for presentørvisningen. `?live=` virker bare på
-localhost.
+ignorerer. Åpne http://localhost:8000 og legg til `#presenter=<tokenet>` for
+presentørvisningen. Fra localhost kobler siden til `ws://127.0.0.1:8787/ws` og
+aldri til produksjonsrommet. `?live=` overstyrer adressen, bare på localhost.
 
 ## Slik virker live-laget
 
@@ -85,9 +85,10 @@ localhost.
   presentasjonen står på, og om navnet var ledig.
 - Presentøren sender `go` ved hvert sidebytte. Siden lagres i Durable Object,
   så de som kommer sent, lander på riktig side.
-- Tilstedeværelse regnes ut fra de åpne forbindelsene. Alle får antall,
-  fordelingen i avstemningene og hvor mange som er ferdige med hvert steg.
-  Bare presentøren får navn, fagfelt og fremdrift per person.
+- Tilstedeværelse regnes ut fra de åpne forbindelsene. Alle får antall, navn
+  og hånd per person med hender først, fordelingen i avstemningene, hvor mange
+  som er ferdige med hvert steg, og `free`, hvor mange som blar selv. Bare
+  presentøren får fagfelt, fremdrift og følging per person.
 - `step` sier hvor mange steg en deltaker er ferdig med på en side, `vote`
   svarer på en avstemning. Fagfeltet er avstemningen `felt`.
 - `post` legger et innlegg på en vegg. Veggen er anonym, serveren lagrer bare
@@ -97,8 +98,21 @@ localhost.
 - Presentøren kan sende `reveal` (vis eller skjul fasiten i en avstemning,
   lagres så de som kommer sent ser den), `fx` (applaus til alle andre) og
   `spot` (løfter fram et innlegg fra veggen, uten navn, eller lukker det).
-- `live` har `since`, tidspunktet presentasjonen ble startet. Det brukes av
-  tidtakeren og nullstilles når presentasjonen stoppes.
+- `live` har `since`, tidspunktet presentasjonen ble startet, og `by`, fanen
+  som styrer. `since` brukes av tidtakeren og nullstilles når presentasjonen
+  stoppes. Bare fanen i `by` sender `go`. En annen fane med presentørlenken
+  blar fritt til den tar over med Styr herfra.
+- Deltakerne sier fra med `me` og `follow` når de blar selv eller følger igjen.
+  Presentøren kan sende `pull`, som henter alle til siden presentasjonen står
+  på.
+- `count` med `sec` starter en nedtelling på inntil en time, og `off` stopper
+  den. Den lagres, og `welcome` og `count` har `now`, serverens klokke, så
+  klientene regner ut resten likt.
+- Spørsmål fra salen: `ask` legger inn et anonymt spørsmål på maks 240 tegn,
+  med høyst 60 spørsmål og tre per 30 sekunder per fane. `like` med `on`
+  stemmer eller trekker stemmen, `answered` merker som besvart, og `qwipe`
+  tømmer. Serveren husker hvem som har stemt, men sender bare antallet. `spot`
+  med `q` løfter et spørsmål fram.
 - Navn er unike blant dem som er koblet til nå, uansett store og små
   bokstaver. Flere faner i samme nettleser er samme person, med samme navn,
   hånd og ferdig.

@@ -37,7 +37,12 @@ Hostes på GitHub Pages, åpent for alle med lenken, uten innlogging.
 - Live-laget er en WebSocket mot en Cloudflare Worker med én Durable Object,
   `worker/index.js`. Presentøren åpner siden med `#presenter=<token>`, og
   tokenet sjekkes i Workeren. Deltakerne følger presentøren, slipper fri når
-  de blar selv, og kan hente seg inn igjen. ✋ og reaksjoner.
+  de blar selv, og kan hente seg inn igjen. ✋ og reaksjoner. Bare fanen som
+  startet presentasjonen, styrer. En medhjelper med samme lenke blar fritt.
+- Alle kan trykke på «N her» og se hvem som er her og køen av hender. Bare
+  presentøren ser fagfelt, fremdrift og hvem som blar selv, og kan ta alle
+  med seg.
+- Spørsmål fra salen med stemmer, og nedtelling som presentøren starter.
 - `?skjerm` er visningen for skjermen i møterommet. Den følger presentøren og
   telles ikke som deltaker. Den åpner bare steget flertallet står på, og på
   brede skjermer står veggen, stilprompten og memen i en egen kolonne.
@@ -59,8 +64,11 @@ Hostes på GitHub Pages, åpent for alle med lenken, uten innlogging.
   Start presentasjon i det første, bla, og se at det andre følger. Bla i det
   andre, se at det slipper fri og at knappen for å hente seg inn igjen virker.
   Fullfør steg i det andre, se tellerne under stegene i det første. Rekk opp
-  hånda, trykk Nullstill hender, se at den går ned. Del noe på en vegg, og se
-  at det kommer opp i det første. Skriptene i ende-til-ende-testen ligger
+  hånda, se varselet og ✋ i det første, trykk Ta ned hender, se at den går
+  ned. Del noe på en vegg, og se at det kommer opp i det første. Still et
+  spørsmål og stem på det. Bla i en fane med samme presentørlenke, og se at
+  ingen andre flytter seg. Last siden på nytt som deltaker, og se at du blir
+  der du var. Skriptene i ende-til-ende-testen ligger
   ikke i repoet. Testen kjøres med Playwright mot `wrangler dev` og en lokal
   server, med presentør, to deltakere og skjermvisningen i hver sin kontekst.
   Tilgjengeligheten sjekkes med axe på alle sider, i presentør-, deltaker- og

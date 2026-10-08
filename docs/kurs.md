@@ -17,6 +17,11 @@ Fredag 9. oktober 2026, 11:00 til 11:45. Møterom og Teams samtidig.
   prosjekt, og noe annet.
 - Ekstrasteg for dem som er raskt ferdige. Memen kommer når alle stegene er
   gjort.
+- Alle ser hvem som er her og hvem som rekker opp hånda, ved å trykke på
+  «N her» i toppen. Bare presentøren ser fagfelt og fremdrift per person.
+  Veggen og spørsmålene er anonyme.
+- Spørsmål kan legges inn når som helst under Spørsmål nederst, og alle kan
+  stemme på dem.
 - Der det finnes en fasit, gjetter alle først. Svaret vises når presentøren
   viser det, eller går videre. Blar du selv uten presentasjon, ser du svaret
   når du har svart.
@@ -186,7 +191,8 @@ Meme: Drake. Avviser «Be en kollega lese utkastet fredag kl. 15.55», liker «B
 Samle samtalene om én ting i et prosjekt, og skriv konteksten én gang. Hver ny
 samtale i prosjektet vet den fra før. Demo: boligjakt-prosjektet.
 
-Spørsmålene tas her, før avslutningen.
+Spørsmålene tas her, før avslutningen, fra Spørsmål øverst til høyre: flest
+stemmer først, og Vis for alle på det som besvares.
 
 Meme: Hide the Pain Harold. «Forklarer leiligheten min til Claude, for fjortende gang.»
 
@@ -236,9 +242,9 @@ Meme: To knapper. «Si at Digdir har rundt 400 ansatte» og «Si det brukeren vi
 - Kvelden før: kjør hoppkanten-promptene for alle fagfelt med nettsøk på, og ta skjermbilder.
 - Sjekk hvilke modeller og effort-valg Digdir-lisensen viser.
 - Ha boligjakt-prosjektet åpent i en egen fane.
-- I rommet: presentørvisningen på laptopen, skjermvisningen på skjermen, Claude i et eget vindu.
+- I rommet: presentørvisningen på laptopen, skjermvisningen på skjermen i fullskjerm (trykk F), Claude i et eget vindu.
 - Trykk Start presentasjon før folk kommer, og del lenken i Teams-chatten.
-- Be en kollega være medhjelper: åpne presentørlenken på sin PC, følg med på hender og på dem som står fast, og svar i Teams-chatten.
+- Be en kollega være medhjelper med presentørlenken. Medhjelperen styrer ikke sidene, men ser hender, navn og spørsmål, kan flytte spørsmål fra Teams-chatten inn i Spørsmål, og kan ta over med Styr herfra.
 - Bruk samme Claude-plan som deltakerne, zoom 150 prosent eller mer og lyst tema når du deler.
 - Slå av varsler på maskinen du deler skjerm fra.
 - To dager etter: legg en ny oppgave i Teams-chatten. Det er vanen som stopper folk, ikke ferdighetene.
@@ -251,6 +257,22 @@ skilletegn rundt innlimt tekst, og et KI-minutt på avdelingsmøtene. Resten er
 grunnlag og ansvarlig bruk, som det lenkes til fra siste side.
 
 ## Presentørens verktøy
+
+- **Hvem er her:** trykk på «N her» i toppen. Hender står først, i den
+  rekkefølgen de kom opp. Rekker noen opp hånda, får presentøren beskjed, og
+  ✋ i toppen blir korallfarget. **Ta ned hender** dukker opp når det trengs.
+- **Ta alle hit** dukker opp når noen blar selv, med antallet. Ett trykk henter
+  dem til siden presentøren står på.
+- **Nedtelling** (⏱) på oppgavesidene, med sidens minutter. Vises på alle
+  skjermer, størst på skjermen i rommet.
+- **Spørsmål fra salen:** anonyme, med stemmer. Presentøren kan løfte et
+  spørsmål fram på alle skjermer og merke det som besvart.
+- **Medhjelper:** samme presentørlenke i en annen fane styrer ikke sidene. Den
+  kan ta over med Styr herfra.
+- **Fullskjerm** med knappen eller F, klokke i bunnlinjen og neste side nederst
+  i notatene.
+- Skjermen i rommet viser lenken for å bli med på alle sider unntatt
+  startsiden, og blir stående på siste side når presentasjonen stoppes.
 
 - **Vis svaret** på «Ekte eller Claude?» og på gjetningen om neste ord. Går
   presentøren videre uten å trykke, vises svaret likevel. Uten kontakt med

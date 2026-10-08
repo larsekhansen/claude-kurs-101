@@ -4,6 +4,35 @@ Beslutninger og milepæler for kurset, med den nyeste øverst. Hvordan loggen
 føres, står i [README](README.md). Innholdet står i [`../kurs.md`](../kurs.md)
 og oppsettet i [`../oppsett.md`](../oppsett.md).
 
+## 2026-10-08
+
+- **Navnene vises for alle, ikke bare for presentøren.** Bestilleren ville at
+  alle skulle kunne trykke på «N her» og se hvem som er her. Hender står først,
+  i køen. Fagfelt, fremdrift og svar per person er fortsatt bare for
+  presentøren, og veggen og spørsmålene er anonyme. Teksten der man skriver
+  navnet, sier at navnet vises for alle.
+- **Håndsopprekning så ut til å ikke virke.** Den virket, men synte bare som et
+  lite tall hos presentøren. Nå får presentøren beskjed med navn, ✋ blir
+  korallfarget hos alle, også på skjermen i rommet, og deltakeren får
+  bekreftet at hånda er oppe.
+- **Grep fra PowerPoint og Mentimeter, der de gir mening:** spørsmål fra salen
+  med stemmer, nedtelling for oppgavene, fullskjerm, klokke, neste side i
+  notatene, og lenken for å bli med på skjermen i rommet. Ordsky, quiz med
+  poengtavle og svart skjerm er ikke tatt med. Det kurset trenger, finnes
+  allerede i veggene og avstemningene.
+- **Ta alle hit.** Presentøren ser hvor mange som blar selv og kan hente dem
+  med ett trykk. Det fantes ikke før, selv om det kunne virke sånn: å starte
+  presentasjonen på nytt hentet alle, men nullstilte tidtakeren.
+- **Bare fanen som startet presentasjonen, styrer den.** Før styrte alle faner
+  med presentørlenken, så en medhjelper som bladde, ville flyttet hele rommet.
+- **En ny innlasting holder deg der du var.** Deltakere som blar selv, blir
+  stående. Skjermen i rommet blir stående på siste side når presentasjonen
+  stoppes, i stedet for å hoppe til startsiden.
+- **Lokalt kobler siden aldri til produksjonsrommet.** En test mot produksjon
+  forstyrret folk som var koblet til. Siden kobler nå til den lokale tjenesten
+  når den kjøres fra localhost, og tester mot produksjon kjøres bare når
+  rommet er tomt.
+
 ## 2026-10-06
 
 - **Runde 3: hele kurset gått gjennom side for side, i alle visningene.** Det

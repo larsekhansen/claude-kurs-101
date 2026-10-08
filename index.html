@@ -89,6 +89,10 @@
   .chip.following::before { content: ""; width: 8px; height: 8px; border-radius: 50%; background: var(--accent); }
   .chip.action { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
   .chip.action:hover { background: var(--accent-hover); }
+  .chip.hands { background: var(--coral); border-color: var(--coral); color: var(--coral-ink); font-weight: 600; }
+  .chip.timeup { background: var(--accent); border-color: var(--accent); color: var(--accent-ink); font-weight: 600; }
+  .joinhint { font-size: 15px; color: var(--muted); white-space: nowrap; }
+  .joinhint b { color: var(--heading); font-weight: 600; }
 
   /* ---------- Scenen ---------- */
   .stage { min-height: calc(100vh - var(--head-h, 60px) - var(--foot-h, 72px)); min-height: calc(100dvh - var(--head-h, 60px) - var(--foot-h, 72px)); transition: background-color .35s ease, color .35s ease; }
@@ -257,6 +261,7 @@
   .notes h2 { margin: 0 0 6px; font-size: 14px; font-weight: 700; }
   .notes p { margin: 0 0 8px; }
   .notes p:last-child { margin: 0; }
+  .notes .next { margin-top: 12px; font-weight: 600; }
 
   /* ---------- Bunnlinje ---------- */
   footer.bar {
@@ -288,6 +293,8 @@
   body.screen .qr .url { font-size: 30px; }
   body.screen .meme { max-width: 520px; }
   body.screen .stage { min-height: calc(100dvh - var(--head-h, 60px)); }
+  body.screen .joinhint { font-size: 18px; }
+  body.screen #countChip { font-size: 24px; min-height: 44px; padding: 6px 18px; }
   body.screen .opt { font-size: 22px; padding: 12px 22px; }
   body.screen .wall-h { font-size: 18px; }
   body.screen .opt .n { font-size: 20px; }
@@ -327,6 +334,17 @@
   ol.names li { background: var(--coral); color: var(--coral-ink); }
   ol.names li::before { counter-increment: q; content: counter(q) ". "; font-weight: 600; }
   .names li.anon { background: transparent; border: 1px dashed var(--line-strong); color: var(--muted); }
+  .names li.me { font-weight: 700; }
+  #qpanel { padding: 16px 18px; width: min(460px, calc(100vw - 32px)); }
+  #qpanel h2 { margin: 0 0 12px; font-family: var(--serif); font-size: 22px; color: var(--heading); }
+  #qpanel .fine { margin: 6px 0 0; color: var(--muted); }
+  .qs { list-style: none; margin: 14px 0 0; padding: 0; display: grid; gap: 8px; }
+  .qs li { display: grid; grid-template-columns: minmax(0, 1fr) auto; gap: 8px 10px; align-items: start; padding: 10px 12px; border-radius: 12px; background: var(--paper); border: 1px solid var(--line); font-size: 16px; overflow-wrap: anywhere; }
+  .qs li.done { background: transparent; border-style: dashed; color: var(--muted); }
+  .qs small { color: var(--muted); }
+  .qs .likes { font-size: 14px; color: var(--muted); white-space: nowrap; }
+  .qs .like[aria-pressed="true"] { background: var(--bubble); border-color: var(--apricot); color: var(--bubble-ink); }
+  .qs .tools { grid-column: 1 / -1; display: flex; gap: 6px; flex-wrap: wrap; }
   ol.names li.anon::before { content: none; }
   .empty { margin: 0; color: var(--muted); font-size: 16px; }
 
@@ -441,22 +459,26 @@
   <span class="brand">Introduksjon til Claude</span>
   <span class="count" id="counter"></span>
   <ol class="chapters" id="chapters" aria-label="Kapitlene"></ol>
+  <span class="joinhint hidden" id="joinHint"></span>
   <span class="grow"></span>
-  <span class="chip hidden" id="hereChip"></span>
+  <span class="chip hidden" id="countChip"></span>
+  <button class="chip hidden" id="qChip" aria-expanded="false" aria-controls="qpanel"></button>
   <button class="chip hidden" id="roomChip" aria-expanded="false" aria-controls="roster"></button>
   <button class="chip hidden" id="followBtn"></button>
+  <button class="chip hidden" id="fullBtn" title="Fullskjerm, eller trykk F">Fullskjerm</button>
   <button class="chip" id="menuBtn" aria-expanded="false" aria-controls="overview">Sider</button>
   <span class="progress" id="progress"></span>
 </header>
 
 <nav id="overview" class="panel hidden" aria-label="Alle sider"></nav>
 <div id="roster" class="panel hidden"></div>
+<div id="qpanel" class="panel hidden"></div>
 <div class="stage" id="stage"><main><article id="slide" class="slide"></article></main></div>
 <div id="fx" aria-hidden="true"></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <div class="spot hidden" id="spot" role="dialog" aria-label="Løftet fram fra veggen">
-  <div class="spot-card"><p class="kick">Fra veggen</p><blockquote id="spotText"></blockquote><button class="btn" id="spotClose">Lukk</button></div>
+  <div class="spot-card"><p class="kick" id="spotKick">Fra veggen</p><blockquote id="spotText"></blockquote><button class="btn" id="spotClose">Lukk</button></div>
 </div>
 
 <div class="scrim hidden" id="cheatWrap">
@@ -473,7 +495,7 @@
 <div class="scrim hidden" id="join">
   <form class="sheet" id="joinForm" role="dialog" aria-modal="true" aria-labelledby="joinTitle" novalidate>
     <h2 id="joinTitle">Hva heter du?</h2>
-    <p>Skriv navnet ditt, så ser Lars hvem som rekker opp hånda. Ingen innlogging.</p>
+    <p>Navnet vises for alle i kurset, så dere ser hvem som er her og hvem som rekker opp hånda. Ingen innlogging.</p>
     <label class="vh" for="joinName">Navn</label>
     <input id="joinName" autocomplete="given-name" maxlength="32" placeholder="Fornavn" enterkeyhint="go" spellcheck="false">
     <p class="err" id="joinErr" role="alert"></p>
@@ -493,12 +515,14 @@
     <button class="btn" id="handBtn" aria-pressed="false" title="Rekk opp hånda"><span aria-hidden="true">✋</span><span class="lbl">Hånd</span><span class="vh">Rekk opp hånda</span></button>
     <button class="btn emoji" data-react="👍" aria-label="Tommel opp">👍</button>
     <button class="btn emoji" data-react="😂" aria-label="Latter">😂</button>
-    <button class="btn emoji" data-react="❓" aria-label="Spørsmål">❓</button>
+    <button class="btn" id="askBtn" aria-expanded="false" aria-controls="qpanel"><span aria-hidden="true">❓</span><span class="lbl">Spørsmål</span><span class="vh">Still et spørsmål</span></button>
   </div>
   <div class="group hidden" id="presenterTools">
     <button class="btn primary" id="liveBtn">Start presentasjon</button>
     <button class="btn" id="notesBtn" aria-pressed="false">Notater</button>
-    <button class="btn" id="clearBtn" title="Ta ned alle hender">Nullstill hender</button>
+    <button class="btn hidden" id="pullBtn" title="Hent dem som blar selv, til siden du står på">Ta alle hit</button>
+    <button class="btn hidden" id="countBtn" title="Nedtelling på alle skjermer, størst på skjermen i rommet"></button>
+    <button class="btn hidden" id="clearBtn" title="Ta ned alle hender">Ta ned hender</button>
     <button class="btn hidden" id="wipeBtn" title="Fjern alle innlegg på veggen på denne siden">Tøm veggen</button>
     <button class="btn hidden" id="revealBtn">Vis svaret</button>
     <button class="btn" id="applauseBtn" title="Konfetti på alle skjermer">👏 Applaus</button>
@@ -533,6 +557,7 @@
         "Tre vinduer: denne presentørvisningen på laptopen, skjermvisningen (lenken med ?skjerm) på skjermen i rommet, og Claude i et eget vindu.",
         "Trykk Start presentasjon før folk kommer. Da lander alle her, også de som kommer sent.",
         "Tre ting å si før du går videre: kamera er valgfritt, lukk e-post og andre chatter i 45 minutter, og oppgavene kommer til å føles rotete. Det er meningen, det er der man lærer.",
+        "Si også at spørsmål kan legges inn når som helst under Spørsmål nederst, anonymt, og at de kan stemme på andres. Du tar dem med flest stemmer før avslutningen.",
         "Ikke start med agenda eller deg selv. Start med spørsmålet på neste side."
       ]
     },
@@ -763,7 +788,8 @@
         "Sammenligningen som treffer: det er en mappe, men en mappe som husker hva som står i den.",
         "Fortell demoen som en sak: hva du trengte, hva Claude gjorde, hvor det gikk galt, og hvordan du oppdaget det.",
         "Ha skjermbilder klare i tilfelle demoen henger.",
-        "Ta spørsmålene her, før avslutningen. Da blir slutten deres planer og ikke en stille spørsmålsrunde."
+        "Ta spørsmålene her, før avslutningen. Da blir slutten deres planer og ikke en stille spørsmålsrunde.",
+        "Åpne ❓ øverst til høyre. Ta dem med flest stemmer først, trykk Vis for alle på det du svarer på, og Besvart når du er ferdig."
       ]
     },
     {
@@ -814,9 +840,9 @@
         "Kvelden før: kjør hoppkanten-promptene for alle fagfelt med nettsøk på, og ta skjermbilder.",
         "Sjekk hvilke modeller og effort-valg Digdir-lisensen viser.",
         "Ha boligjakt-prosjektet åpent i en egen fane.",
-        "I rommet: presentørvisningen på laptopen, skjermvisningen på skjermen, Claude i et eget vindu.",
+        "I rommet: presentørvisningen på laptopen, skjermvisningen på skjermen i fullskjerm (trykk F), Claude i et eget vindu.",
         "Trykk Start presentasjon før folk kommer, og del lenken i Teams-chatten.",
-        "Be en kollega være medhjelper: åpne presentørlenken på sin PC, følg med på hender og på dem som står fast, og svar i Teams-chatten.",
+        "Be en kollega være medhjelper med presentørlenken. Medhjelperen styrer ikke sidene, men ser hender, navn og spørsmål, kan flytte spørsmål fra Teams-chatten inn i Spørsmål, og kan ta over med Styr herfra hvis du mister nettet.",
         "Bruk samme Claude-plan som deltakerne, zoom 150 prosent eller mer og lyst tema når du deler.",
         "Slå av varsler på maskinen du deler skjerm fra.",
         "To dager etter: legg en ny oppgave i Teams-chatten. Det er vanen som stopper folk, ikke ferdighetene."
@@ -827,7 +853,9 @@
         "Ikke les opp siden. Den har stikkord, du har resten.",
         "Vent ti til tjue sekunder etter et spørsmål. Stillhet føles lengre for deg enn for dem.",
         "Gjenta spørsmål fra rommet, så Teams hører dem. Spør etter fagfelt, ikke etter navn.",
-        "Bruk knappene i kurssiden, ikke Teams sin hånd eller reaksjoner. Da er alt på ett sted.",
+        "Bruk knappene i kurssiden, ikke Teams sin hånd eller reaksjoner. Da er alt på ett sted. Rekker noen opp hånda, får du beskjed nederst, og ✋ i toppen blir korallfarget.",
+        "Nedtelling: trykk ⏱ nederst når en oppgave starter. Den vises på alle skjermer, størst i rommet.",
+        "Blar noen selv, ser du Ta alle hit nederst, med antallet. Ett trykk henter dem til siden du står på.",
         "Feiler en demo: vis hvordan du retter den. Det er ofte det beste i hele kurset.",
         "Avslutt med deres planer, ikke med «noen spørsmål?»."
       ]
@@ -839,10 +867,10 @@
   var COURSE_URL = "larsekhansen.github.io/claude-kurs-101";
 
   // Live-tjenesten er en Cloudflare Worker, se worker/ og docs/oppsett.md.
-  // Lokalt kan den overstyres med ?live=ws://127.0.0.1:8787/ws, men bare på localhost.
+  // Fra localhost kobler siden til wrangler dev og aldri til produksjonsrommet. ?live= overstyrer, bare lokalt.
   var LIVE_URL = "wss://claude-kurs.lars1702.workers.dev/ws";
   var params = new URLSearchParams(location.search);
-  if (params.get("live") && /^(localhost|127\.0\.0\.1)$/.test(location.hostname)) LIVE_URL = params.get("live");
+  if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname)) LIVE_URL = params.get("live") || "ws://127.0.0.1:8787/ws";
   // ?skjerm er visningen for skjermen i møterommet: stor tekst, følger presentøren, telles ikke.
   var SCREEN = params.has("skjerm");
 
@@ -866,6 +894,10 @@
     if (SCREEN) token = null;
   })();
 
+  // Hver fane har sin egen id. Bare fanen som startet presentasjonen, styrer den.
+  var TAB = load("sessionStorage", "kurs.tab");
+  if (!TAB || !/^[A-Za-z0-9_-]{6,64}$/.test(TAB)) { TAB = Math.random().toString(36).slice(2, 12); save("sessionStorage", "kurs.tab", TAB); }
+
   // Én id per nettleser, så flere faner regnes som én person.
   var cid = load("localStorage", "kurs.cid");
   if (!cid || !/^[A-Za-z0-9_-]{8,64}$/.test(cid)) {
@@ -875,11 +907,12 @@
 
   // ---------- Tilstand ----------
   var st = {
-    i: 0, following: true, isPresenter: !!token, verified: false, broadcasting: false, live: null, notesOpen: false,
+    i: 0, following: load("sessionStorage", "kurs.follow") !== "0", isPresenter: !!token, verified: false, broadcasting: false, live: null, notesOpen: false,
     hand: false, name: load("localStorage", "kurs.name") || "", seen: 0, presence: null,
     prog: loadJson("kurs.prog"), ans: loadJson("kurs.ans"), posted: loadJson("kurs.posted"), walls: {}, fresh: {},
     sim: { phrase: "a", words: [], picked: null, sentence: null, temp: 1 },
-    revealed: {}, celebrated: {}, maxHere: 0, myPosts: loadJson("kurs.myposts")
+    revealed: {}, celebrated: {}, maxHere: 0, myPosts: loadJson("kurs.myposts"),
+    count: null, skew: 0, questions: [], liked: loadJson("kurs.liked"), handsSeen: null
   };
   var net = { ws: null, open: false, ever: false, failed: false, asked: false, retry: 0, last: 0, timer: null };
 
@@ -1080,7 +1113,8 @@
     h += (f.kicker ? "<p class=\"kicker\">" + esc(f.kicker) + "</p>" : "") + "<h1 class=\"title\">" + esc(f.title) + "</h1>";
     if (f.lead) h += "<p class=\"lead\">" + esc(f.lead) + "</p>";
     // Notatene står øverst, der presentøren ser dem mens hen snakker.
-    if (st.isPresenter && st.notesOpen && s.notes) h += "<aside class=\"notes\"><h2>Notater, bare for deg</h2>" + s.notes.map(function (n) { return "<p>" + esc(n) + "</p>"; }).join("") + "</aside>";
+    if (st.isPresenter && st.notesOpen && s.notes) h += "<aside class=\"notes\"><h2>Notater, bare for deg</h2>" + s.notes.map(function (n) { return "<p>" + esc(n) + "</p>"; }).join("") +
+      "<p class=\"next\">Neste side: " + esc(v[st.i + 1] ? v[st.i + 1].title : "ingen, dette er den siste") + "</p></aside>";
     if (s.qr) h += "<div class=\"qr\">" + QR + "<p class=\"url\">" + COURSE_URL + "<small>Åpne lenken på PC-en, så følger du med.</small></p><p class=\"lobby\" id=\"lobby\">" + lobbyHtml() + "</p></div>";
     (s.blocks || []).forEach(function (b) { h += blockHtml(b); });
     if (s.polls) h += "<div class=\"polls\">" + s.polls.map(function (p) { return pollHtml(p); }).join("") + "</div>";
@@ -1145,16 +1179,22 @@
       return "<button class=\"go\" data-go=\"" + k + "\"" + (k === st.i ? " aria-current=\"page\"" : "") + "><span>" + (k + 1) + "</span>" + esc(s.title) + "</button>";
     }).join("");
   }
+  // Alle ser hvem som er her og køen av hender. Presentøren ser også fagfelt, steg og hvem som blar selv.
   function renderRoster() {
     var el = $("#roster"), p = st.presence;
-    if (!st.isPresenter || !p || !p.people) { el.innerHTML = ""; return; }
-    var s = current(), all = s.steps ? core(s).length : 0, hands = [], rest = [];
+    if (!p || !p.people) { el.innerHTML = "<h2>I salen nå</h2><p class=\"empty\">Kobler til …</p>"; return; }
+    var s = current(), all = st.isPresenter && s.steps ? core(s).length : 0, hands = [], rest = [];
     p.people.forEach(function (x) { (x.hand ? hands : rest).push(x); });
     function li(x) {
-      var extra = [];
-      if (x.ans && x.ans.felt) extra.push(fieldLabel(x.ans.felt).split(" ")[0].toLowerCase());
-      if (all) extra.push((Math.min((x.prog && x.prog[s.id]) || 0, all)) + "/" + all);
-      return "<li" + (x.name ? "" : " class=\"anon\"") + ">" + esc(x.name || "Uten navn") + (extra.length ? " <small>" + esc(extra.join(", ")) + "</small>" : "") + "</li>";
+      var extra = [], me = !st.isPresenter && !SCREEN && !!x.name && x.name === st.name;
+      if (st.isPresenter) {
+        if (x.ans && x.ans.felt) extra.push(fieldLabel(x.ans.felt).split(" ")[0].toLowerCase());
+        if (all) extra.push((Math.min((x.prog && x.prog[s.id]) || 0, all)) + "/" + all);
+        if (x.follow === false && live()) extra.push("blar selv");
+      }
+      if (me) extra.unshift("deg");
+      var cls = (x.name ? "" : "anon") + (me ? " me" : "");
+      return "<li" + (cls ? " class=\"" + cls.trim() + "\"" : "") + ">" + esc(x.name || "Uten navn") + (extra.length ? " <small>" + esc(extra.join(", ")) + "</small>" : "") + "</li>";
     }
     function group(title, list, ordered) {
       if (!list.length) return "";
@@ -1163,7 +1203,7 @@
     }
     el.innerHTML = "<h2>I salen nå</h2>" + (p.people.length
       ? group("✋ Hånd oppe", hands, true) + group(all ? "Her, med steg på denne siden" : "Her", rest)
-      : "<p class=\"empty\">Ingen deltakere ennå. Del lenken i Teams-chatten.</p>");
+      : "<p class=\"empty\">Ingen deltakere ennå." + (st.isPresenter ? " Del lenken i Teams-chatten." : "") + "</p>");
   }
 
   // ---------- Neste ord ----------
@@ -1310,7 +1350,7 @@
   function go(n, opts) {
     var v = visible();
     if (n < 0 || n >= v.length) return;
-    if (!st.isPresenter && opts && opts.manual && live()) st.following = false;
+    if (!st.broadcasting && opts && opts.manual && live()) setFollowing(false);
     if (st.isPresenter && st.broadcasting) revealOnLeave(current());
     st.i = n;
     render();
@@ -1327,19 +1367,27 @@
     if (k >= 0 && k !== st.i) { st.i = k; render(); }
   }
   function followLive() { if (live()) jumpTo(st.live.slide); }
+  // Presentøren ser hvor mange som blar selv, og kan ta dem med tilbake.
+  // Fanen husker om den blar selv, så en ny innlasting ikke drar deltakeren med.
+  function setFollowing(v) {
+    if (st.following === v) return;
+    st.following = v;
+    save("sessionStorage", "kurs.follow", v ? null : "0");
+    send({ t: "me", follow: v });
+  }
   // Backstage vises aldri for publikum, så den sendes ikke.
   function pushLive() {
     var s = current();
     if (!s || s.backstage) return;
-    st.live = { on: true, slide: s.id, since: (st.live && st.live.since) || Date.now() };
-    send({ t: "go", on: true, slide: s.id });
+    st.live = { on: true, slide: s.id, since: (st.live && st.live.since) || Date.now(), by: TAB };
+    send({ t: "go", on: true, slide: s.id, by: TAB });
   }
   function toggleLive() {
     var s = current();
     if (!st.broadcasting) {
       if (s.backstage) { toast("Gå til en vanlig side først. Backstage vises aldri for publikum."); return; }
-      if (!send({ t: "go", on: true, slide: s.id })) return;
-      st.broadcasting = true; st.live = { on: true, slide: s.id, since: Date.now() };
+      if (!send({ t: "go", on: true, slide: s.id, by: TAB })) return;
+      st.broadcasting = true; st.live = { on: true, slide: s.id, since: (live() && st.live.since) || Date.now(), by: TAB };
     } else {
       var slide = (st.live && st.live.slide) || s.id;
       if (!send({ t: "go", on: false, slide: slide })) return;
@@ -1350,26 +1398,29 @@
 
   // ---------- Statuslinjene ----------
   function updateBar() {
-    var p = st.presence || { here: 0, hands: 0 };
-    var here = $("#hereChip"), room = $("#roomChip"), fb = $("#followBtn");
+    var p = st.presence || { here: 0, hands: 0, free: 0 };
+    var room = $("#roomChip"), fb = $("#followBtn"), oq = openQs();
     var dot = "<span class=\"dot" + (net.open ? " on" : "") + "\"></span>";
-    here.classList.toggle("hidden", !net.ever || st.isPresenter);
-    room.classList.toggle("hidden", !net.ever || !st.isPresenter);
-    if (net.ever && st.isPresenter) {
-      room.innerHTML = dot + "<span>" + p.here + " her</span><span>✋ " + p.hands + "</span>";
-      room.setAttribute("aria-label", p.here + " her, " + p.hands + " med hånda oppe. Vis hvem.");
-    } else if (net.ever) {
-      here.innerHTML = dot + "<span>" + p.here + " her</span>";
+    room.classList.toggle("hidden", !net.ever);
+    room.classList.toggle("hands", p.hands > 0);
+    if (net.ever) {
+      room.innerHTML = dot + "<span>" + p.here + " her</span>" + (st.isPresenter || p.hands ? "<span>✋ " + p.hands + "</span>" : "");
+      room.setAttribute("aria-label", p.here + " her" + (p.hands ? ", " + p.hands + " med hånda oppe" : "") + ". Vis hvem.");
     }
+    $("#qChip").classList.toggle("hidden", !net.ever || !oq);
+    $("#qChip").textContent = "❓ " + oq;
+    $("#qChip").setAttribute("aria-label", oq + " spørsmål fra salen. Vis dem.");
+    $("#joinHint").classList.toggle("hidden", !SCREEN || current().id === "start");
+    $("#fullBtn").classList.toggle("hidden", !(st.isPresenter || SCREEN) || !canFull() || isFull());
 
-    if (!st.isPresenter && !SCREEN && net.ever && live()) {
+    if (!SCREEN && !st.broadcasting && net.ever && live()) {
       var k = indexOf(st.live.slide);
       fb.textContent = st.following ? "Følger presentasjonen" : "Gå til presentasjonen" + (k >= 0 ? " (" + (k + 1) + ")" : "");
       fb.className = "chip " + (st.following ? "following" : "action");
     } else fb.className = "chip hidden";
 
     var status = "";
-    if (st.isPresenter) status = !net.open ? (net.failed ? "Ingen kontakt med live-tjenesten" : "Kobler til …") : st.broadcasting ? "Du styrer hva publikum ser" : "Publikum blar selv";
+    if (st.isPresenter) status = !net.open ? (net.failed ? "Ingen kontakt med live-tjenesten" : "Kobler til …") : st.broadcasting ? "" : live() ? "Styres fra en annen fane. Styr herfra tar over." : "Publikum blar selv";
     else if (net.failed && !net.ever) status = "Solo-modus: bla selv med pilene.";
     else if (net.ever && !net.open) status = "Kobler til igjen …";
     else if (live() && st.following) status = "Presentasjonen styrer siden. Bla selv for å slippe.";
@@ -1377,10 +1428,16 @@
 
     $("#presenterTools").classList.toggle("hidden", !st.isPresenter);
     var lb = $("#liveBtn");
-    lb.textContent = st.broadcasting ? "Stopp presentasjon" : "Start presentasjon";
+    lb.textContent = st.broadcasting ? "Stopp presentasjon" : live() ? "Styr herfra" : "Start presentasjon";
     lb.className = "btn " + (st.broadcasting ? "stop" : "primary");
     lb.disabled = !net.open || !st.verified;
     $("#clearBtn").disabled = !net.open || !st.verified;
+    $("#clearBtn").classList.toggle("hidden", !p.hands);
+    $("#clearBtn").textContent = "Ta ned hender (" + p.hands + ")";
+    $("#pullBtn").classList.toggle("hidden", !(st.broadcasting && p.free > 0));
+    $("#pullBtn").textContent = "Ta alle hit (" + (p.free || 0) + ")";
+    $("#pullBtn").disabled = !net.open || !st.verified;
+    updateCount();
     $("#wipeBtn").classList.toggle("hidden", !wallsOf(current()).length);
     $("#wipeBtn").disabled = !net.open || !st.verified;
     var rp = (current().polls || []).filter(function (q) { return q.answer; })[0];
@@ -1404,16 +1461,75 @@
   // ---------- Tidtaker ----------
   // Tid siden presentasjonen startet, mot planen fram til siden presentøren står på.
   function updateTimer() {
-    var el = $("#timer");
-    if (!st.isPresenter || !live() || !st.live.since) { el.textContent = ""; el.className = "timer"; return; }
+    var el = $("#timer"), d = new Date(), clock = String(d.getHours()).padStart(2, "0") + ":" + String(d.getMinutes()).padStart(2, "0");
+    if (!st.isPresenter) { el.textContent = ""; el.className = "timer"; return; }
+    if (!live() || !st.live.since) { el.textContent = clock; el.className = "timer"; return; }
     var v = visible(), plan = 0, mins = (Date.now() - st.live.since) / 60000;
     for (var k = 0; k < st.i; k++) if (!v[k].reserve && v[k].min) plan += v[k].min;
     var behind = mins - plan, cuts = v.slice(st.i + 1).filter(function (x) { return x.cut; }).map(function (x) { return x.title; });
     el.className = "timer" + (behind > 5 ? " late" : behind > 2 ? " warn" : "");
-    el.textContent = "⏱ " + Math.floor(mins) + " min inn, planen sier " + String(Math.round(plan * 10) / 10).replace(".", ",") +
+    el.textContent = clock + "  ·  " + Math.floor(mins) + " min inn, planen sier " + String(Math.round(plan * 10) / 10).replace(".", ",") +
       (behind > 2 && cuts.length ? ". Kan kuttes: " + cuts.join(", ") : "");
   }
   setInterval(updateTimer, 15000);
+
+  // ---------- Nedtelling ----------
+  // Presentøren starter en nedtelling for oppgaven. Alle ser den, størst på skjermen i rommet.
+  function countLeft() { return st.count ? st.count.until - (Date.now() + st.skew) : null; }
+  function fmtClock(ms) { var x = Math.max(0, Math.ceil(ms / 1000)); return Math.floor(x / 60) + ":" + String(x % 60).padStart(2, "0"); }
+  function updateCount() {
+    var chip = $("#countChip"), btn = $("#countBtn"), s = current(), left = countLeft();
+    var running = left !== null && left > 0, over = left !== null && left <= 0 && left > -15000;
+    chip.classList.toggle("hidden", !running && !over);
+    chip.classList.toggle("timeup", over);
+    chip.textContent = running ? "⏱ " + fmtClock(left) : over ? "Tiden er ute" : "";
+    btn.classList.toggle("hidden", !st.isPresenter || (!running && !(s.min && s.mode !== "se")));
+    btn.textContent = running ? "⏱ " + fmtClock(left) + " Stopp" : "⏱ " + fmtMin(s.min || 1);
+    btn.setAttribute("aria-label", running ? "Stopp nedtellingen, " + fmtClock(left) + " igjen" : "Start nedtelling på " + fmtMin(s.min || 1) + " for alle");
+    btn.disabled = !net.open || !st.verified;
+  }
+  setInterval(updateCount, 1000);
+
+  // ---------- Spørsmål fra salen ----------
+  function openQs() { return st.questions.filter(function (q) { return !q.done; }).length; }
+  function upsertQ(item) {
+    if (!item || !item.id) return;
+    for (var k = 0; k < st.questions.length; k++) if (st.questions[k].id === item.id) { st.questions[k] = item; return; }
+    st.questions.push(item);
+  }
+  function qHtml() {
+    var list = st.questions.slice().sort(function (a, b) { return (a.done - b.done) || (b.likes - a.likes) || (a.at - b.at); });
+    var h = "<h2>Spørsmål fra salen</h2>";
+    if (!SCREEN) h += "<form class=\"post-form\" id=\"askForm\"><label class=\"vh\" for=\"askIn\">Spørsmålet ditt</label><input id=\"askIn\" maxlength=\"240\" autocomplete=\"off\" placeholder=\"Skriv et spørsmål\"><button class=\"btn primary\" type=\"submit\">Send</button></form>" +
+      "<p class=\"fine\">Anonymt. Stem på det du også lurer på.</p>";
+    if (!list.length) return h + "<p class=\"empty\">Ingen spørsmål ennå.</p>";
+    return h + "<ol class=\"qs\">" + list.map(function (q) {
+      var id = esc(q.id), mine = !!st.liked[q.id];
+      var like = st.isPresenter || SCREEN ? "<span class=\"likes\">👍 " + q.likes + "</span>" :
+        "<button class=\"small-btn like\" data-like=\"" + id + "\" aria-pressed=\"" + mine + "\" aria-label=\"Lurer på det samme, " + q.likes + " stemmer\">👍 " + q.likes + "</button>";
+      var tools = st.isPresenter ? "<span class=\"tools\"><button class=\"small-btn\" data-qspot=\"" + id + "\">Vis for alle</button><button class=\"small-btn\" data-qdone=\"" + id + "\">" + (q.done ? "Ikke besvart" : "Besvart") + "</button></span>" : "";
+      return "<li" + (q.done ? " class=\"done\"" : "") + "><span>" + esc(q.text) + (q.done ? " <small>Besvart</small>" : "") + "</span>" + like + tools + "</li>";
+    }).join("") + "</ol>";
+  }
+  function renderQ() {
+    var el = $("#qpanel");
+    if (el.classList.contains("hidden")) return;
+    var inp = $("#askIn"), val = inp ? inp.value : "", focused = inp && document.activeElement === inp;
+    el.innerHTML = qHtml();
+    inp = $("#askIn");
+    if (inp) { inp.value = val; if (focused) inp.focus(); }
+  }
+
+  // ---------- Fullskjerm ----------
+  function canFull() { return !!(document.fullscreenEnabled || document.webkitFullscreenEnabled); }
+  function isFull() { return !!(document.fullscreenElement || document.webkitFullscreenElement); }
+  function toggleFull() {
+    var d = document, el = d.documentElement, r;
+    try { r = isFull() ? (d.exitFullscreen || d.webkitExitFullscreen).call(d) : (el.requestFullscreen || el.webkitRequestFullscreen).call(el); } catch (e) {}
+    if (r && r.catch) r.catch(function () {});
+  }
+  document.addEventListener("fullscreenchange", function () { updateBar(); });
+  document.addEventListener("webkitfullscreenchange", function () { updateBar(); });
 
   // ---------- Konfetti, spotlight og jukseark ----------
   function confetti() {
@@ -1429,9 +1545,9 @@
       (function (e) { setTimeout(function () { e.remove(); }, 4800); })(el);
     }
   }
-  function showSpot(text) {
+  function showSpot(text, kind) {
     $("#spot").classList.toggle("hidden", !text);
-    if (text) $("#spotText").textContent = text;
+    if (text) { $("#spotText").textContent = text; $("#spotKick").textContent = kind === "q" ? "Spørsmål fra salen" : "Fra veggen"; }
   }
   function cheatParts() {
     var f = field(), label = f === "_" || f === "annet" ? "alle" : fieldLabel(f).toLowerCase(), plan = st.myPosts["i-morgen"];
@@ -1520,12 +1636,16 @@
   });
 
   // ---------- Klikk og taster ----------
+  var PANELS = { overview: "#menuBtn", roster: "#roomChip", qpanel: "#qChip" };
   function togglePanel(id, show) {
-    var el = $("#" + id), btn = id === "overview" ? $("#menuBtn") : $("#roomChip");
+    var el = $("#" + id);
     if (show === undefined) show = el.classList.contains("hidden");
+    if (show) Object.keys(PANELS).forEach(function (o) { if (o !== id) togglePanel(o, false); });
     el.classList.toggle("hidden", !show);
-    btn.setAttribute("aria-expanded", String(show));
+    $(PANELS[id]).setAttribute("aria-expanded", String(show));
+    if (id === "qpanel") $("#askBtn").setAttribute("aria-expanded", String(show));
     if (show && id === "roster") renderRoster();
+    if (show && id === "qpanel") { renderQ(); if ($("#askIn") && !st.isPresenter) $("#askIn").focus(); }
   }
   var lastReact = 0;
   function react(e) {
@@ -1549,6 +1669,7 @@
   document.addEventListener("click", function (e) {
     if (!e.target.closest("#overview, #menuBtn")) togglePanel("overview", false);
     if (!e.target.closest("#roster, #roomChip")) togglePanel("roster", false);
+    if (!e.target.closest("#qpanel, #qChip, #askBtn")) togglePanel("qpanel", false);
     var t = e.target.closest("button");
     if (!t) return;
     var s = current();
@@ -1556,6 +1677,20 @@
     if (t.dataset.go !== undefined) { togglePanel("overview", false); go(parseInt(t.dataset.go, 10), { manual: true }); return; }
     if (t.dataset.react) { react(t.dataset.react); return; }
     if (t.dataset.spot) { send({ t: "spot", wall: t.dataset.spot, id: t.dataset.id }); return; }
+    if (t.dataset.qspot) { send({ t: "spot", q: t.dataset.qspot }); return; }
+    if (t.dataset.qdone) {
+      var q = st.questions.filter(function (x) { return x.id === t.dataset.qdone; })[0];
+      if (q) send({ t: "answered", id: q.id, done: !q.done });
+      return;
+    }
+    if (t.dataset.like) {
+      var on = !st.liked[t.dataset.like];
+      if (send({ t: "like", id: t.dataset.like, on: on })) {
+        if (on) st.liked[t.dataset.like] = 1; else delete st.liked[t.dataset.like];
+        save("localStorage", "kurs.liked", JSON.stringify(st.liked));
+      }
+      return;
+    }
     if (t.dataset.step) { setStep(s, progOf(s) + 1); return; }
     if (t.dataset.undo) { setStep(s, Math.max(0, progOf(s) - 1)); return; }
     if (t.dataset.poll) {
@@ -1571,8 +1706,21 @@
       case "nextBtn": go(st.i + 1, { manual: true }); break;
       case "menuBtn": togglePanel("overview"); break;
       case "roomChip": togglePanel("roster"); break;
-      case "followBtn": if (!st.following) { st.following = true; followLive(); updateBar(); } break;
-      case "handBtn": st.hand = !st.hand; send({ t: "me", hand: st.hand }); updateBar(); break;
+      case "followBtn": if (!st.following) { setFollowing(true); followLive(); updateBar(); } break;
+      case "handBtn":
+        st.hand = !st.hand;
+        send({ t: "me", hand: st.hand });
+        updateBar();
+        if (st.hand) toast("Hånda er oppe. Lars ser den.");
+        break;
+      case "qChip": case "askBtn": togglePanel("qpanel"); break;
+      case "fullBtn": toggleFull(); break;
+      case "pullBtn": if (send({ t: "pull" })) toast("Alle følger presentasjonen igjen."); break;
+      case "countBtn": (function () {
+        var left = countLeft();
+        if (left !== null && left > 0) send({ t: "count", off: true });
+        else send({ t: "count", sec: Math.round((current().min || 1) * 60) });
+      })(); break;
       case "meBtn": openJoin(); break;
       case "joinSkip": closeJoin(true); break;
       case "liveBtn": toggleLive(); break;
@@ -1600,6 +1748,14 @@
     }
   });
   document.addEventListener("submit", function (e) {
+    if (e.target.id === "askForm") {
+      e.preventDefault();
+      var text = $("#askIn").value.replace(/\s+/g, " ").trim();
+      if (!text) return;
+      if (send({ t: "ask", text: text })) { $("#askIn").value = ""; toast("Spørsmålet er sendt."); }
+      else toast("Får ikke kontakt akkurat nå. Prøv igjen om litt.");
+      return;
+    }
     var f = e.target.closest("form[data-wall]");
     if (!f) return;
     e.preventDefault();
@@ -1615,12 +1771,14 @@
     if (joinOpen) { if (e.key === "Escape") closeJoin(true); return; }
     if (!$("#cheatWrap").classList.contains("hidden")) { if (e.key === "Escape") closeCheat(); return; }
     if (e.key === "Escape" && !$("#spot").classList.contains("hidden")) { showSpot(null); return; }
+    if (e.key === "Escape" && !$("#qpanel").classList.contains("hidden")) { togglePanel("qpanel", false); return; }
     var tag = (e.target && e.target.tagName) || "";
     if (tag === "INPUT" || tag === "TEXTAREA" || e.metaKey || e.ctrlKey || e.altKey) return;
     if (e.key === "ArrowRight" || e.key === "PageDown" || (e.key === " " && tag !== "BUTTON")) { e.preventDefault(); go(st.i + 1, { manual: true }); }
     else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(st.i - 1, { manual: true }); }
     else if (e.key === "Home") go(0, { manual: true });
     else if (e.key === "End") go(visible().length - 1, { manual: true });
+    else if ((e.key === "f" || e.key === "F") && (st.isPresenter || SCREEN)) toggleFull();
     else if (e.key === "Escape") { togglePanel("overview", false); togglePanel("roster", false); }
   });
 
@@ -1633,7 +1791,7 @@
     net.ws = ws;
     ws.onopen = function () {
       net.open = true; net.retry = 0; net.last = Date.now();
-      send({ t: "hello", cid: cid, name: st.name, hand: st.hand, seen: st.seen, prog: st.prog, ans: st.ans, screen: SCREEN || undefined, token: token || undefined });
+      send({ t: "hello", cid: cid, name: st.name, hand: st.hand, seen: st.seen, prog: st.prog, ans: st.ans, follow: st.following, screen: SCREEN || undefined, token: token || undefined });
     };
     ws.onmessage = function (ev) {
       net.last = Date.now();
@@ -1677,10 +1835,16 @@
     switch (m.t) {
       case "welcome": onWelcome(m); break;
       case "live": applyLive(m); break;
-      case "presence": st.presence = m; st.maxHere = Math.max(st.maxHere, m.here || 0); refresh(); break;
+      case "presence": st.presence = m; st.maxHere = Math.max(st.maxHere, m.here || 0); noticeHands(m); refresh(); break;
       case "reveal": st.revealed[m.poll] = m.on === true; if (!m.on) delete st.revealed[m.poll]; render(true); break;
       case "fx": if (m.kind === "applaus") confetti(); break;
-      case "spot": showSpot(m.text); break;
+      case "spot": showSpot(m.text, m.kind); break;
+      case "pull":
+        if (!st.isPresenter && !SCREEN && live()) { setFollowing(true); followLive(); updateBar(); toast("Du følger presentasjonen igjen."); }
+        break;
+      case "count": st.count = m.count || null; st.skew = (m.now || Date.now()) - Date.now(); updateCount(); break;
+      case "q": upsertQ(m.item); renderQ(); updateBar(); break;
+      case "q-wipe": st.questions = []; renderQ(); updateBar(); break;
       case "me": applyMe(m, false); break;
       case "name-taken": joinError(m.name); break;
       case "react": burst(m.e); break;
@@ -1692,9 +1856,26 @@
       case "wall-wipe": delete st.walls[m.wall]; refresh(); break;
     }
   }
+  // Presentøren får beskjed når noen rekker opp hånda, så den ikke går under radaren.
+  function noticeHands(p) {
+    if (!st.isPresenter || !p.people) return;
+    var up = {}, fresh = [];
+    p.people.forEach(function (x) {
+      if (!x.hand) return;
+      var n = x.name || "Uten navn";
+      if (st.handsSeen && !st.handsSeen[n]) fresh.push(n);
+      up[n] = 1;
+    });
+    st.handsSeen = up;
+    if (fresh.length) toast("✋ " + (fresh.length > 1 ? fresh.slice(0, -1).join(", ") + " og " + fresh[fresh.length - 1] : fresh[0]) + " rekker opp hånda");
+  }
   function onWelcome(m) {
     net.ever = true; net.failed = false;
     st.seen = m.clearAt || 0;
+    st.count = m.count || null;
+    st.skew = (m.now || Date.now()) - Date.now();
+    st.questions = m.questions || [];
+    renderQ();
     st.walls = m.walls || {};
     st.revealed = m.revealed || {};
     var was = st.isPresenter;
@@ -1707,8 +1888,14 @@
     }
     if (m.role === "viewer") applyMe(m.me || {}, true);
     if (st.isPresenter) {
-      if (st.broadcasting) pushLive(); // Var vi live før bruddet, er det vi som bestemmer siden.
-      else applyLive(m.live || {});
+      var l = m.live || {};
+      // Styrte denne fanen, eller styrer ingen, fortsetter den herfra. Ellers blar den fritt som medhjelper.
+      if (l.on && (l.by === TAB || !l.by)) {
+        if (!st.broadcasting) jumpTo(l.slide);
+        st.broadcasting = true;
+        st.live = { on: true, slide: l.slide, since: l.since || Date.now(), by: TAB };
+        pushLive();
+      } else applyLive(l);
     } else {
       applyLive(m.live || {});
       if (m.nameTaken) openJoin(m.nameTaken);
@@ -1717,16 +1904,17 @@
     }
     render(true);
   }
+  // Bare når presentasjonen faktisk starter, følger alle. En ny innlasting midt i er ingen start.
   function applyLive(l) {
-    var was = live();
-    st.live = { on: l.on === true, slide: l.slide || null, since: l.since || null };
-    if (st.isPresenter) {
-      st.broadcasting = st.live.on;
-      if (st.live.on) jumpTo(st.live.slide);
+    var first = st.live === null, was = live();
+    st.live = { on: l.on === true, slide: l.slide || null, since: l.since || null, by: l.by || null };
+    if (st.isPresenter) st.broadcasting = st.live.on && st.live.by === TAB;
+    if (st.broadcasting) {
+      jumpTo(st.live.slide);
     } else if (SCREEN) {
-      jumpTo(st.live.on && st.live.slide ? st.live.slide : "start");
+      if (st.live.on && st.live.slide) jumpTo(st.live.slide);
     } else {
-      if (st.live.on && !was) st.following = true;
+      if (st.live.on && !was && !first) setFollowing(true);
       if (st.following) followLive();
     }
     updateBar();
@@ -1761,6 +1949,7 @@
   });
 
   document.body.classList.toggle("screen", SCREEN);
+  $("#joinHint").innerHTML = "Bli med: <b>" + COURSE_URL + "</b>";
   var start = /^#\/([A-Za-z0-9_-]+)$/.exec(location.hash || "");
   if (start && indexOf(start[1]) >= 0) st.i = indexOf(start[1]);
   render();
