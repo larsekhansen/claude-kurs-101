@@ -113,9 +113,10 @@ aldri til produksjonsrommet. `?live=` overstyrer adressen, bare på localhost.
   stemmer eller trekker stemmen, `answered` merker som besvart, og `qwipe`
   tømmer. Serveren husker hvem som har stemt, men sender bare antallet. `spot`
   med `q` løfter et spørsmål fram.
-- `hide` med `slide` og `on` skrur en side av eller på. Det lagres, sendes til
-  alle som `hidden`, og står i `welcome`. Skjulte sider hoppes over i
-  navigasjonen for alle.
+- `hide` med `slide` og `on` skrur en side av eller på. Både av og på lagres,
+  sendes til alle som `hidden`, og står i `welcome`. Skjulte sider hoppes over
+  i navigasjonen for alle. En side med `off: true` i `SLIDES` er skjult til
+  presentøren skrur den på.
 - `note` med `slide` og `text` lagrer presentørens egne notater for en side,
   maks 6000 tegn. Tom tekst går tilbake til notatene i kurssiden. Notatene
   sendes som `notes` bare til presentører, også i `welcome`. De ligger i

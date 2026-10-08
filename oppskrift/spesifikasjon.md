@@ -87,6 +87,7 @@ Alt innhold ligger i `SLIDES` i `index.html`. Hver side er et objekt.
 | `meme` | Memen. På Gjør-sider kommer den når stegene er gjort. |
 | `notes` | Notatene, bare for presentøren. |
 | `cut`, `reserve`, `backstage` | Kan kuttes. Ekstra, ikke med i planen. Bare for presentøren. |
+| `off` | Skjult som standard. Presentøren kan skru den på i oversikten. |
 
 ## Personvern
 

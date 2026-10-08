@@ -6,6 +6,10 @@ og oppsettet i [`../oppsett.md`](../oppsett.md).
 
 ## 2026-10-08
 
+- **«Insister på noe feil» er skjult som standard.** Claude ga ikke etter i
+  test, så øvelsen viste ikke det den skulle. Siden ligger der fortsatt og kan
+  skrus på under «Sider». En side kan nå være skjult som standard med `off`.
+
 - **Memene er strammet opp.** Kortere tekst og punchlinen fra originalformatet:
   «og nå tør jeg ikke spørre», «Be Claude finne hullene først», «Om helt feil
   ting», «Stå på fakta» mot «Gi etter», og Pam merket «Claude». Galaxy brain

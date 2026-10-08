@@ -46,7 +46,7 @@ humor.
 | Videre         | En mappe som husker, og spørsmål    | Se    | 3   |
 | Videre         | Hva prøver du i morgen? Jukseark    | Del   | 3   |
 | Videre         | Dagens tall                         | Del   | 0,5 |
-| Reserve        | Insister på noe feil                | Gjør  | 3   |
+| Reserve        | Insister på noe feil (skjult)       | Gjør  | 3   |
 
 ## Introduksjon til Claude
 
@@ -216,6 +216,9 @@ fagfelt i rommet, telt opp live. Det sjette kortet er en tørr callback til
 trykker Applaus.
 
 ## Reserve: Insister på noe feil
+
+Skjult som standard, fordi Claude sjelden gir etter i test. Presentøren kan
+skru den på under «Sider».
 
 Slå av nettsøk først, ellers finner den fasit.
 

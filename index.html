@@ -881,7 +881,7 @@
       ]
     },
     {
-      id: "insistering", ch: "Reserve", reserve: true, mode: "gjor", min: 3, kicker: "Ekstra, hvis det er tid", title: "Insister på noe feil",
+      id: "insistering", ch: "Reserve", reserve: true, off: true, mode: "gjor", min: 3, kicker: "Ekstra, hvis det er tid", title: "Insister på noe feil",
       lead: "Slå av nettsøk først, ellers finner den fasit.",
       steps: [
         { text: "Spør om noe du vet svaret på.", say: "Hvor mange ansatte har Digdir?" },
@@ -978,8 +978,9 @@
 
   function $(s) { return document.querySelector(s); }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]; }); }
-  // Sider presentøren har skrudd av, hoppes over for alle.
-  function visible() { return SLIDES.filter(function (s) { return (!s.backstage || st.isPresenter) && !st.hidden[s.id]; }); }
+  // Sider presentøren har skrudd av, hoppes over for alle. En side med off er skjult til presentøren skrur den på.
+  function isHidden(s) { return st.hidden[s.id] === true || (!!s.off && st.hidden[s.id] !== false); }
+  function visible() { return SLIDES.filter(function (s) { return (!s.backstage || st.isPresenter) && !isHidden(s); }); }
   function indexOf(id) { var v = visible(); for (var k = 0; k < v.length; k++) if (v[k].id === id) return k; return -1; }
   function current() { return visible()[st.i]; }
   function live() { return !!(st.live && st.live.on); }
@@ -1287,7 +1288,7 @@
     return posts ? posts + " innlegg" : "";
   }
   function cardHtml(s, vis) {
-    var off = !!st.hidden[s.id], k = vis.indexOf(s), cur = s === current(), here = live() && st.live.slide === s.id;
+    var off = isHidden(s), k = vis.indexOf(s), cur = s === current(), here = live() && st.live.slide === s.id;
     var bits = [];
     if (s.polls) bits.push("avstemning");
     if (s.steps && core(s).length) bits.push(core(s).length + " steg");
@@ -1323,7 +1324,7 @@
     if (st.isPresenter) {
       sum += ", planlagt " + fmtMin(plan);
       if (live() && st.live.since) sum += ". Nå " + Math.floor((Date.now() - st.live.since) / 60000) + " min inn";
-      var hid = Object.keys(st.hidden).length;
+      var hid = SLIDES.filter(function (x) { return !x.backstage && isHidden(x); }).length;
       if (hid) sum += ". " + hid + " skjult";
     }
     $("#sorterSum").textContent = sum + ".";
@@ -1742,15 +1743,16 @@
     if (t.dataset.copy !== undefined) { copyText(t.dataset.copy, t); return; }
     if (t.dataset.goid) {
       var gid = t.dataset.goid;
-      if (st.hidden[gid] && st.isPresenter) { var nh = Object.assign({}, st.hidden); delete nh[gid]; send({ t: "hide", slide: gid, on: false }); applyHidden(nh); }
+      var gs = SLIDES.filter(function (x) { return x.id === gid; })[0];
+      if (gs && isHidden(gs) && st.isPresenter) { var nh = Object.assign({}, st.hidden); nh[gid] = false; send({ t: "hide", slide: gid, on: false }); applyHidden(nh); }
       openSorter(false);
       if (indexOf(gid) >= 0) go(indexOf(gid), { manual: true });
       return;
     }
     if (t.dataset.hide) {
-      var hid = Object.assign({}, st.hidden), sid = t.dataset.hide, on = !hid[sid];
+      var hid = Object.assign({}, st.hidden), sid = t.dataset.hide, on = !isHidden(SLIDES.filter(function (x) { return x.id === sid; })[0]);
       if (net.open && !send({ t: "hide", slide: sid, on: on })) return;
-      if (on) hid[sid] = true; else delete hid[sid];
+      hid[sid] = on;
       applyHidden(hid);
       renderOverview();
       return;

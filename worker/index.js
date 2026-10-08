@@ -314,12 +314,11 @@ export class Room extends DurableObject {
   }
 
   // Presentøren kan skru sider av og på. Skjulte sider hoppes over for alle.
+  // Både av og på lagres, så en side som er skjult som standard i kurssiden kan skrus på.
   async hide(slide, on) {
     if (typeof slide !== "string" || !ID.test(slide)) return;
-    if (on === true) {
-      if (!this.hidden[slide] && Object.keys(this.hidden).length >= 40) return;
-      this.hidden[slide] = true;
-    } else delete this.hidden[slide];
+    if (!(slide in this.hidden) && Object.keys(this.hidden).length >= 40) return;
+    this.hidden[slide] = on === true;
     await this.ctx.storage.put("hidden", this.hidden);
     this.broadcast({ t: "hidden", hidden: this.hidden });
   }
