@@ -17,4 +17,7 @@ Skjermen i møterommet: https://larsekhansen.github.io/claude-kurs-101/?skjerm
 - `docs/handoff.md`: kontekst og beslutninger fra planleggingen.
 - `docs/rapporter/`: beslutningsloggen og rapportene, nyeste øverst.
 - `memer/`: memene, laget med memegen.link.
+- `oppskrift/`: slik lager du et kurs som dette om et annet tema, for folk og
+  for agenter. Også som nettside:
+  https://larsekhansen.github.io/claude-kurs-101/oppskrift/
 - `CLAUDE.md`: hvordan det er bygget, og reglene for å endre det.

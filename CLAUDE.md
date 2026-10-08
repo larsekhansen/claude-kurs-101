@@ -13,6 +13,8 @@ Hostes på GitHub Pages, åpent for alle med lenken, uten innlogging.
 4. `docs/rapporter/`: beslutningsloggen, og rapporten om presentasjonsteknikk som
    ligger bak grepene i kurset.
 5. `index.html`: appen.
+6. `oppskrift/`: hvordan kurset ble laget, og hvordan et nytt kurs lages fra
+   denne malen. Oppdater den når arbeidsgangen eller arkitekturen endres.
 
 ## Slik er det bygget
 
