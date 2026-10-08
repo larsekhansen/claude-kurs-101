@@ -130,8 +130,6 @@ I `index.html`:
 - [ ] `COURSE_URL` og `QR`: ny adresse og ny QR-kode for startsiden.
 - [ ] `LIVE_URL`: adressen til din Worker.
 - [ ] `artHtml`: illustrasjonene. Lag nye for dine viktigste poenger.
-- [ ] `SIM`: neste ord-simulatoren har setninger om saken i originalen. Skriv
-      nye, eller ta siden ut.
 - [ ] `cheatParts`: hva som kommer med på juksearket.
 - [ ] `<title>`, `meta description` og teksten i navnedialogen.
 - [ ] Fargene i `:root`, både lys og mørk modus, hvis du følger en annen

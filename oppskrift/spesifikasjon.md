@@ -74,12 +74,10 @@ Alt innhold ligger i `SLIDES` i `index.html`. Hver side er et objekt.
 | `qr` | QR-kode, lenke og telleren for hvor mange som er med. |
 | `polls` | Avstemninger: `id`, `q`, `options`, og eventuelt `answer` og `explain`. |
 | `gate` | Resten av siden kommer først når fasiten er vist. |
-| `answered` | `kicker`, `title` og `lead` som erstatter de vanlige når fasiten er vist. |
 | `steps` | Stegene: `text`, og eventuelt `say` (prompt), `wall`, `poll`, `auto`, `bonus`, `key`. |
 | `say` | En tekst, eller ett objekt med én tekst per fagfelt, der `_` er standard. |
 | `track` | Viser velgeren for fagfelt under stegene. |
 | `wall` | En vegg for hele siden: `id`, `placeholder`. |
-| `sim` | Neste ord-simulatoren. |
 | `styleprompt` | En prompt som følger det alternativet som leder i en avstemning. |
 | `stats` | «Dagens tall». |
 | `cheat` | Knappen «Ta med juksearket». |

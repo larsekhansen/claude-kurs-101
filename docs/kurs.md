@@ -28,7 +28,7 @@ Fredag 9. oktober 2026, 11:00 til 11:45. Møterom og Teams samtidig.
 
 ## Kjøreplan
 
-Rundt 35 minutter planlagt. Resten av de 45 er buffer for somling og
+Rundt 32 minutter planlagt. Resten av de 45 er buffer for somling og
 spørsmål. Fire kapitler, vist i toppen av siden. De mørke sidene er pauser med
 humor.
 
@@ -39,8 +39,6 @@ humor.
 | Kom i gang     | Hvem er her?                        | Del   | 1   |
 | Kom i gang     | Har alle Claude?                    | Gjør  | 4   |
 | Første samtale | Spør om DDoS-saken                  | Gjør  | 5   |
-| Første samtale | Hvorfor ble svarene forskjellige?   | Del   | 1   |
-| Første samtale | Trekk neste ord                     | Gjør  | 2   |
 | Første samtale | Fra rask til grundig (kan kuttes)   | Se    | 1   |
 | Hoppkanten     | Hoppkanten                          | Gjør  | 8   |
 | Hoppkanten     | Velg stilen (pause, kan kuttes)     | Del   | 1,5 |
@@ -95,39 +93,6 @@ Skriv med egne ord. Eksemplene er bare eksempler.
 3. Be om kildene, og åpne én av dem. «Hvilke kilder bygger du på? Gi meg lenker.»
 4. Stod det Claude sa, i kilden? Ja, delvis, nei eller fant ikke kilden. Svarene vises for alle.
 5. Ekstra: bytt modell, hvis du har valget, og still samme spørsmål på nytt.
-
-## Hvorfor ble svarene forskjellige?
-
-Gjett først. Alle spurte om det samme. Den har flere svar lagret og velger
-ett, den henter fra ulike kilder hver gang, eller den gjetter neste ord med
-litt tilfeldighet? Svarene vises for alle, men fasiten står ikke på siden før
-presentøren viser den.
-
-Da bytter tittelen til «Den gjetter neste ord»: Som forslagene over tastaturet
-på mobilen, bare mye bedre. Den velger ett ord om gangen og trekker litt
-tilfeldig. Med nettsøk på henter den også fra ulike kilder, så nummer to er
-delvis riktig. Men svarene ligger aldri ferdige.
-
-Bildet som kommer fram, har tre ruter. Én: den foreslår neste ord, som
-forslagene på mobilen («Digdir ble rammet av» med et, flere og DDoS-angrep).
-To: den trekker litt tilfeldig, med en terning og sannsynlighetene. Tre: ord
-for ord blir svarene ulike, med tre setninger som starter likt. På skjermen i
-rommet får bildet hovedplassen, og avstemningen står ved siden av.
-
-Bildet er forenklet. Modellen ser hele samtalen og velger egentlig biter av
-ord, men den skriver fortsatt én bit om gangen.
-
-## Trekk neste ord
-
-Prøv selv. Samme start gir ulike setninger. En simulator der alle trekker en setning ord for ord, med sannsynlighetene
-synlige. To ulike spørsmål gir ulike sannsynligheter. En glidebryter går fra
-forutsigbar, der alle får samme setning, til vill. Sannsynlighetene er laget
-for hånd, som illustrasjon.
-
-1. Trekk en hel setning.
-2. Del setningen din. Setningene vises for alle.
-
-Meme: Philosoraptor. «Hvis alle spurte om det samme, hvorfor fikk vi ti forskjellige svar?»
 
 ## Fra rask til grundig
 
@@ -298,8 +263,8 @@ grunnlag og ansvarlig bruk, som det lenkes til fra siste side.
 - Skjermen i rommet viser lenken for å bli med på alle sider unntatt
   startsiden, og blir stående på siste side når presentasjonen stoppes.
 
-- **Vis svaret** på «Ekte eller Claude?» og på gjetningen om neste ord. Går
-  presentøren videre uten å trykke, vises svaret likevel. Uten kontakt med
+- **Vis svaret** på «Ekte eller Claude?». Går presentøren videre uten å
+  trykke, vises svaret likevel. Uten kontakt med
   live-tjenesten vises det bare hos presentøren.
 - **👏 Applaus:** konfetti på alle skjermer.
 - **Vis for alle:** løfter fram et innlegg fra veggen på alle skjermer, uten navn.

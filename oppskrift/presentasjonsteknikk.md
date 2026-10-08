@@ -23,13 +23,13 @@ med kilder og styrken på dokumentasjonen, står i rapporten
 | Grep | Hvorfor | Her i kurset |
 |---|---|---|
 | Aktiv læring | Gir mer læring enn å lytte, selv om det føles verre | Gjør-sider med steg, mesteparten av tiden |
-| Gjett før forklaring | Et spørsmål først hjelper folk å huske akkurat det | «Hvorfor ble svarene forskjellige?» med fasit og bilde |
+| Gjett før forklaring | Et spørsmål først hjelper folk å huske akkurat det | «Ekte eller Claude?» med fasit og meme |
 | Kontrast før regel | Folk ser forskjellen selv, og regelen fester seg | Kort prompt, så lang prompt, så fargekodet anatomi |
 | Svar uten å se de andre | Hindrer flokken | Veggen viser de andres svar først når du har delt |
 | Første øvelse som virker for alle | Ingen faller av i starten | «La Claude intervjue deg om jobben din» |
 | Eksempler fra eget fagfelt | Lettere å overføre | Fagfeltene styrer eksemplene |
 | Ett grep per side | Mindre å holde i hodet | Høyst to prompter synlige |
-| Overskriften sier poenget | Folk husker tittelen | Titler som påstander, som «Den gjetter neste ord» |
+| Overskriften sier poenget | Folk husker tittelen | Titler som sier poenget, som «En mappe som husker» |
 | Historier | Forstås og huskes bedre | Sann historie om en fasit Claude fant på |
 | Humor som hører til | Gir sympati. Moro uten poeng trekker ned | Memer som belønning, to pauser med poeng |
 | Topp og slutt | Huskes best | Finale med deltakernes planer, tall og applaus |

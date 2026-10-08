@@ -6,6 +6,12 @@ og oppsettet i [`../oppsett.md`](../oppsett.md).
 
 ## 2026-10-08
 
+- **Sidene om neste ord er tatt ut.** «Hvorfor ble svarene forskjellige?» og
+  «Trekk neste ord» forklarte hvordan språkmodeller virker, men var ikke
+  relevante nok for opplæring i Claude. Simulatoren, bildet av forslagene på
+  mobilen og memen som hørte til, er fjernet. DDoS-siden har fått et kort svar
+  på hvorfor svarene spriker i notatene. Planlagt tid er nå rundt 32 minutter.
+
 - **Illustrasjoner som forklarer svarene.** «Hvorfor ble svarene forskjellige?»
   har fått et bilde i tre ruter: forslagene over tastaturet på mobilen, en
   terning med sannsynligheter, og tre setninger som starter likt. Autofullføring

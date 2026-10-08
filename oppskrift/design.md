@@ -68,10 +68,7 @@ kant, ikke med gjennomsiktighet. Gjennomsiktighet ga for lav kontrast.
 - Stor tekst, ingen knapper.
 - På skjermer fra 1200 piksler står det sosiale i en egen kolonne: veggen,
   stilprompten, memen, og illustrasjoner som hører til et steg.
-- Når en illustrasjon er selve svaret, får den hovedplassen, og avstemningen
-  står ved siden av.
 - Bare steget flertallet står på, er åpent.
-- Simulatoren vises ikke der. Den er for egne hender.
 - Lenken for å bli med står i toppen, så de som kommer sent finner fram.
 
 ## Illustrasjoner
@@ -83,8 +80,8 @@ ingen spørsmål om rettigheter.
 Slik lager du en ny:
 
 1. Velg ett poeng som mange har vondt for å forstå.
-2. Finn et bilde folk kjenner fra før. For språkmodeller er det forslagene
-   over tastaturet på mobilen.
+2. Finn et bilde folk kjenner fra før. For Projects i Claude er det en mappe
+   som husker hva som står i den.
 3. Bruk et konkret eksempel fra kurset, ikke et generelt.
 4. Del det i høyst tre ruter, med en kort tekst under hver.
 5. Vis det etter at folk har gjettet eller prøvd, ikke før.

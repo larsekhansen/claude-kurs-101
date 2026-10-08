@@ -28,7 +28,7 @@ Hostes på GitHub Pages, åpent for alle med lenken, uten innlogging.
   kan derfor være et objekt med én tekst per fagfelt, der `_` er standard.
 - Avstemninger og en anonym vegg viser svarene for alle. En avstemning kan ha
   fasit, som presentøren viser når hen vil. En side med `gate` holder resten
-  av siden tilbake til fasiten er vist, og `answered` bytter tittelen da.
+  av siden tilbake til fasiten er vist.
   Fasiten vises også når presentøren går videre, og for den som blar selv uten
   presentasjon når hen har svart.
 - Fire kapitler vises i toppen. De mørke sidene er pauser med humor.

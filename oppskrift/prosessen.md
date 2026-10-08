@@ -101,6 +101,15 @@ neste ord, fargekodede prompter for hoppkanten, og en mappe for Projects.
 
 **Lærdom:** Et bilde av noe folk kjenner fra før, forklarer raskere enn tekst.
 
+## 11. Kortet ned
+
+Sidene om hvordan språkmodeller gjetter neste ord ble tatt ut, med simulatoren
+og bildet. De forklarte teknologien, men lærte ikke folk å bruke Claude. Kurset
+ble rundt 32 minutter planlagt.
+
+**Lærdom:** Hold kurset på det deltakerne skal gjøre i verktøyet. Generell
+teori kan lenkes til.
+
 ## Testene
 
 - Protokolltester mot tjenesten, for alle meldingene: rundt 75 sjekker.
