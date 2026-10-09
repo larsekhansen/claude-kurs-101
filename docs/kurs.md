@@ -61,7 +61,7 @@ Mens folk kommer inn. Én av disse står i Grunnloven, de to andre skrev Claude:
 
 - «Staten skal sørge for at alle kan bruke offentlige digitale tjenester.» (Claude)
 - «Ytringsfrihet bør finne sted.» (Grunnloven § 100, første setning)
-- «Enhver har rett til et klart og forståelig språk fra det offentlige.» (Claude)
+- «Det skal være ytringsfrihet.» (Claude, se under)
 
 Presentøren viser svaret når de fleste har stemt. Så kommer memen: Pam fra The
 Office med «Grunnloven § 100» og «Noe Claude fant på». Pam er merket «Claude»
@@ -69,7 +69,8 @@ og sier at det er samme bilde.
 
 Sjekket mot Lovdata 6. oktober 2026. Under forberedelsene skrev Claude først
 «Det skal være ytringsfrihet» som den ekte setningen. Den står ikke der.
-Historien er replikken etter avsløringen.
+Den er alternativ C, og historien er replikken etter avsløringen. A er en
+setning vi i Digdir gjerne skulle sett i Grunnloven.
 
 ## Hvem er her?
 

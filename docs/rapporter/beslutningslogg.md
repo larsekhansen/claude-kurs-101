@@ -14,6 +14,9 @@ og oppsettet i [`../oppsett.md`](../oppsett.md).
   gjøres, med → foran. Alt er faktasjekket. Replikken om Grunnloven sier nå
   tydelig at det var Claude som foreslo feil setning, og at den ekte er
   «Ytringsfrihet bør finne sted». Fet skrift med `**slik**`.
+- **Claudes feil er nå alternativ C.** «Det skal være ytringsfrihet», som
+  Claude foreslo som den ekte under forberedelsene, erstatter setningen om
+  klart språk. Da viser quizen selv feilen replikken forteller om.
 - **Nullstill alt.** Presentøren kan fjerne alt fra øving før kurset starter.
   Notatene og skjulte sider beholdes.
 
