@@ -34,6 +34,9 @@ Gjør det i denne rekkefølgen, og vent på svar fra meg mellom hvert steg:
 Sjekk alle fakta mot kilder, og si fra hvis du er usikker.
 ```
 
+Legg [`prosjektinstruksjoner.md`](prosjektinstruksjoner.md) inn i et prosjekt
+i claude.ai først, så slipper du å gjenta hvem du er og hvordan du vil ha det.
+
 Felles live-funksjoner, som at alle følger presentøren, krever en tjeneste som
 holder rommet. Uten den virker siden for én og én, og hver deltaker blar selv.
 

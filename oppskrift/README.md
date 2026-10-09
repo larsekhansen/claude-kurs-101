@@ -27,6 +27,7 @@ Den er åpen for alle med lenken, uten GitHub-konto.
 | [`presentasjonsteknikk.md`](presentasjonsteknikk.md) | Kravene til et godt kurs og grepene med begrunnelse |
 | [`prosessen.md`](prosessen.md) | Slik ble kurset laget, steg for steg, med lærdommer |
 | [`prompter.md`](prompter.md) | Prompter du kan kopiere |
+| [`prosjektinstruksjoner.md`](prosjektinstruksjoner.md) | Instruksjoner til ditt eget prosjekt i Claude, så den jobber mer effektivt |
 | [`sjekklister.md`](sjekklister.md) | Før, under og etter |
 
 Drift og protokoll står i [`../docs/oppsett.md`](../docs/oppsett.md), innholdet
