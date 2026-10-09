@@ -69,7 +69,9 @@ og sier at det er samme bilde.
 
 Sjekket mot Lovdata 6. oktober 2026. Under forberedelsene skrev Claude først
 «Det skal være ytringsfrihet» som den ekte setningen. Den står ikke der.
-Den er alternativ C, og historien er replikken etter avsløringen. A er en
+Den er alternativ C, og historien er replikken etter avsløringen. Etter
+fasiten vises et skjermbilde der Claude, spurt uten nettsøk, svarer at «Det
+skal være ytringsfrihet» står i § 100, første ledd. A er en
 setning vi i Digdir gjerne skulle sett i Grunnloven.
 
 ## Hvem er her?

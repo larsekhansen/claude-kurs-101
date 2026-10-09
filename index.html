@@ -222,6 +222,10 @@
   .scale { display: flex; justify-content: space-between; max-width: 880px; margin-top: 10px; font-size: 14px; color: var(--muted); }
 
   .meme { margin: 44px 0 0; max-width: 420px; }
+  .shot { margin: 28px 0 0; max-width: 680px; }
+  .shot img { display: block; width: 100%; height: auto; border-radius: 12px; }
+  .shot figcaption { margin-top: 8px; font-size: 15px; color: var(--muted); }
+  .dark-slide .shot figcaption { color: var(--dark-soft); }
   .meme img { display: block; width: 100%; height: auto; border-radius: 12px; }
 
   /* Startsiden: lenken og QR-koden er store, så de kan leses og skannes fra bakerst i rommet. */
@@ -293,6 +297,7 @@
   body.screen .qr .url { font-size: min(76px, 7.4cqi); }
   body.screen .join-k, body.screen .join-or { font-size: 30px; }
   body.screen .meme { max-width: 520px; }
+  body.screen .slide.side aside .shot { margin-top: 0; max-width: none; }
   body.screen .stage { min-height: calc(100dvh - var(--head-h, 60px)); }
   body.screen .joinhint { font-size: 18px; }
   body.screen #countChip { font-size: 24px; min-height: 44px; padding: 6px 18px; }
@@ -641,11 +646,14 @@
         explain: "Grunnloven § 100 begynner sånn. De to andre skrev Claude på noen sekunder, og de høres mer riktige ut enn originalen."
       }],
       gate: true,
+      after: [{ t: "img", aside: true, src: "bilder/grunnloven-uten-nett.png", w: 1362, h: 554, caption: "Claude, spurt uten nettsøk.",
+        alt: "Skjermbilde fra Claude. Spørsmål: Uten å sjekke nettet, hvor i grunnloven står dette: «Det skal være ytringsfrihet.»? Svar: Det står i Grunnloven § 100, første ledd." }],
       meme: meme("ekte-same", "Pam fra The Office holder to ark, merket Grunnloven paragraf 100 og Noe Claude fant på. Pam er merket Claude og sier at det er samme bilde."),
       notes: [
         "→ Mens folk kommer inn. Vis svaret når de fleste har stemt.",
         "**Det er B.** Grunnloven § 100: «Ytringsfrihet bør finne sted.»",
         "C var Claudes fasit da jeg lagde denne quizen. Den står ikke i Grunnloven. Lovdata hadde rett.",
+        "Og spør du den uten nettsøk, sier den fortsatt § 100, første ledd.",
         "Det høres riktig ut. Det er nettopp problemet.",
         "A skulle jeg gjerne sett i Grunnloven, da. Det er jo omtrent det vi jobber med i Digdir.",
         "Bommet mange? Bra. Det var meningen."
@@ -1139,6 +1147,7 @@
   function blockHtml(b) {
     switch (b.t) {
       case "p": return "<p>" + esc(b.text) + "</p>";
+      case "img": return "<figure class=\"shot\"><img src=\"" + esc(b.src) + "\" alt=\"" + esc(b.alt) + "\" width=\"" + b.w + "\" height=\"" + b.h + "\">" + (b.caption ? "<figcaption>" + esc(b.caption) + "</figcaption>" : "") + "</figure>";
       case "list": return "<ol class=\"list\">" + b.items.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ol>";
       case "links":
         return "<section class=\"links\"><h2>" + esc(b.h) + "</h2><ul>" + b.items.map(function (l) {
@@ -1255,7 +1264,7 @@
       });
       if (s.art && artOk(s)) { if (SCREEN && s.artAside) aside = artHtml(s.art) + aside; else h += artHtml(s.art); }
       if (s.cheat && !st.isPresenter && !SCREEN) h += "<button class=\"btn primary cheat-btn\" id=\"cheatBtn\">Ta med juksearket</button>";
-      (s.after || []).forEach(function (b) { h += blockHtml(b); });
+      (s.after || []).forEach(function (b) { if (SCREEN && b.aside) aside += blockHtml(b); else h += blockHtml(b); });
     }
     var memeOk = open && (!s.steps || overview() || !core(s).length || progOf(s) >= core(s).length);
     if (s.meme && memeOk) aside += "<figure class=\"meme\"><img src=\"" + s.meme.src + "\" alt=\"" + esc(s.meme.alt) + "\" loading=\"lazy\"></figure>";

@@ -84,7 +84,7 @@ Alt innhold ligger i `SLIDES` i `index.html`. Hver side er et objekt.
 | `styleprompt` | En prompt som følger det alternativet som leder i en avstemning. |
 | `stats` | «Dagens tall». |
 | `cheat` | Knappen «Ta med juksearket». |
-| `blocks`, `after` | Enkle blokker: avsnitt, liste, lenker, modeller. |
+| `blocks`, `after` | Enkle blokker: avsnitt, liste, lenker, modeller og bilde (`img`). `after` kommer når fasiten er vist. `aside` legger blokken i kolonnen på skjermen. |
 | `art`, `artAfter`, `artAside` | En illustrasjon fra `artHtml`, eventuelt holdt igjen til flertallet er ferdig med et steg, og eventuelt i kolonnen på skjermen. |
 | `meme` | Memen. På Gjør-sider kommer den når stegene er gjort. |
 | `notes` | Notatene, bare for presentøren. Et kort manus. → foran det som skal gjøres, `**fet**` for det viktigste. |
