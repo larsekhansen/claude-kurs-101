@@ -129,7 +129,12 @@ knapp som fjerner alt fra øvingen. Faktasjekken av notatene fant en replikk
 som kunne misforstås: den sa hva Claude hadde foreslått, men ikke tydelig at
 det var feil.
 
-**Lærdom:** Notater skal være det du sier, ikke beskjeder til deg selv.
+Quizen fikk Claudes egen feil som alternativ C, «Det skal være ytringsfrihet»,
+og etter fasiten vises et skjermbilde der Claude, spurt uten nettsøk, sier at
+setningen står i § 100.
+
+**Lærdom:** Notater skal være det du sier, ikke beskjeder til deg selv. Og
+den beste illustrasjonen av at KI tar feil, er en feil den faktisk gjorde.
 
 ## Testene
 

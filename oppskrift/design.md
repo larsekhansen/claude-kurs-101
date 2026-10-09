@@ -64,6 +64,15 @@ kant, ikke med gjennomsiktighet. Gjennomsiktighet ga for lav kontrast.
 - **Fargekodet prompt:** kontekst, oppgave og format har hver sin bakgrunn og
   en understrek i en sterkere variant, så grensene synes i begge temaer.
 - **Juksearket:** kan skrives ut eller lagres som PDF.
+- **Startsiden:** «Skriv inn [lenken] eller bruk mobilen [QR-kode]». Lenken
+  står på to linjer som tilpasser seg bredden, og QR-koden er nesten halve
+  høyden på skjermen i rommet, så den kan skannes bakerst fra. På mobil vises
+  bare lenken.
+- **Skjermbilde etter fasiten:** et bevis, som Claude som tar feil, kommer når
+  svaret er vist. På skjermen i rommet står det i kolonnen over memen, så det
+  ikke havner under kanten.
+- **Notatene:** et kort manus. Det som skal sies, står rett fram, det som skal
+  gjøres, har → foran og er kursiv. Det viktigste er fett.
 
 ## Skjermen i rommet
 

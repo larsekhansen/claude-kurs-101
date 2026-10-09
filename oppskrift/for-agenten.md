@@ -79,6 +79,9 @@ arkitektur. Se «Tilpass til et nytt tema» under.
 - Hånd, varsel, ta ned hender. Vegg, avstemning, fasit, spørsmål med stemmer.
 - En medhjelper med samme presentørlenke flytter ingen.
 - Solo-modus: siden uten live-tjenesten.
+- Nullstill alt: svar, steg, innlegg, spørsmål, fasit og hender forsvinner,
+  også i faner som var lukket da det skjedde.
+- Notatene: redigering, fet skrift og «Tilbake til originalen».
 - axe på alle sider i presentør-, deltaker- og skjermvisningen, lyst og mørkt,
   også med paneler og oversikten åpne. Målet er null brudd.
 

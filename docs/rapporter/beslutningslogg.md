@@ -17,6 +17,10 @@ og oppsettet i [`../oppsett.md`](../oppsett.md).
 - **Claudes feil er nå alternativ C.** «Det skal være ytringsfrihet», som
   Claude foreslo som den ekte under forberedelsene, erstatter setningen om
   klart språk. Da viser quizen selv feilen replikken forteller om.
+- **Skjermbilde etter fasiten.** Claude, spurt uten nettsøk, sier at «Det
+  skal være ytringsfrihet» står i § 100, første ledd. Bildet ligger i
+  `bilder/` og vises med en ny bildeblokk i `after`. På skjermen i rommet står
+  det over memen.
 - **Nullstill alt.** Presentøren kan fjerne alt fra øving før kurset starter.
   Notatene og skjulte sider beholdes.
 

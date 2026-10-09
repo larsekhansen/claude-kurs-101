@@ -59,6 +59,7 @@ For skjermen i rommet:
 - På brede skjermer står veggen, stilprompten, memen og noen illustrasjoner i
   en egen kolonne, så det viktigste får plass uten å rulle.
 - Bare steget flertallet står på, er åpent.
+- Blokker merket `aside`, som skjermbildet etter fasiten, står i kolonnen.
 - Lenken for å bli med står i toppen på alle sider unntatt startsiden.
 - Feirer når alle er ferdige med stegene.
 
