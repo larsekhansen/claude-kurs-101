@@ -92,6 +92,30 @@ Alt innhold ligger i `SLIDES` i `index.html`. Hver side er et objekt.
 | `cut`, `reserve`, `backstage` | Kan kuttes. Ekstra, ikke med i planen. Bare for presentøren. |
 | `off` | Skjult som standard. Presentøren kan skru den på i oversikten. |
 
+## Malmodus
+
+For den som vil lage sitt eget kurs uten GitHub og uten konto.
+
+- `?mal` er malsiden: fyll inn tema, publikum, lengde og mål, kopier prompten
+  til claude.ai, og lim inn JSON-en Claude svarer med. Prompten har med
+  innholdet i dette kurset som eksempel. Siden sier straks om JSON-en er i
+  orden, og hva som er tatt bort.
+- `?mal&vis` viser utkastet i kurssiden, med presentørvisning av og på.
+- «Last ned» lager én HTML-fil: denne siden, med innholdet i `CUSTOM`. Fila
+  virker fra disk, i Teams eller som vedlegg i claude.ai. `#presenter` bak
+  adressen gir notatene.
+- Innholdet har de samme feltene som `SLIDES`, uten `art`, `artAfter`,
+  `artAside` og `stats`. Det sjekkes og renses i `cleanCourse`, både når det
+  limes inn og når fila åpnes: ukjente felt tas bort, tekst blir aldri kode,
+  lenker må være https, og bilder må være https eller ligge i `memer/` eller
+  `bilder/`. Kapitlene kommer fra `ch` i den rekkefølgen de står.
+- Egne kurs kobler aldri til live-tjenesten. Hver deltaker blar selv, og
+  avstemninger og vegger viser bare ens eget svar. Juksearket er promptene fra
+  oppgavene og det deltakeren skrev. QR-koden til dette kurset vises ikke, men
+  `url` gir en stor lenke på startsiden.
+- Svar og steg lagres i nettleseren under egne nøkler for hvert kurs, så de
+  ikke blandes med dette kurset.
+
 ## Personvern
 
 - Navnet vises for alle i kurset. Det står i dialogen der man skriver det.

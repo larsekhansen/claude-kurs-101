@@ -82,6 +82,9 @@ arkitektur. Se «Tilpass til et nytt tema» under.
 - Nullstill alt: svar, steg, innlegg, spørsmål, fasit og hender forsvinner,
   også i faner som var lukket da det skjedde.
 - Notatene: redigering, fet skrift og «Tilbake til originalen».
+- Malmodus: prompten, innliming med tekst rundt JSON-en, ugyldig innhold,
+  forhåndsvisning, at HTML i innholdet blir tekst, nedlasting, fila åpnet fra
+  disk, egne nøkler i nettleseren, og at ingenting kobler til live-tjenesten.
 - axe på alle sider i presentør-, deltaker- og skjermvisningen, lyst og mørkt,
   også med paneler og oversikten åpne. Målet er null brudd.
 
@@ -121,6 +124,10 @@ avdelingsmøte der én forteller hva hen prøvde. Før beslutningene inn i
   opp av én person uten nye systemer.
 
 Protokollen står i `docs/oppsett.md`.
+
+Trenger kurset ikke live-tjenesten, er malmodus (`?mal`) enklere: da skriver
+du bare innholdet som JSON, og siden lager fila. Se «Malmodus» i
+`spesifikasjon.md`.
 
 ## Tilpass til et nytt tema
 

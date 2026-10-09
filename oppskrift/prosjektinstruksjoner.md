@@ -60,6 +60,8 @@ raskere å jobbe med og ga færre runder med retting.
 - Test hver prompt i samme verktøy og med samme lisens som deltakerne har.
 
 ## Når du bygger på «Introduksjon til Claude»
+- Den enkleste veien er malmodus, larsekhansen.github.io/claude-kurs-101/?mal.
+  Der skriver du bare innholdet som JSON, og siden lager fila.
 - Alt innholdet står i SLIDES øverst i scriptet i index.html. Endre SLIDES,
   FIELDS, CHAPTERS og COURSE_URL. Den fargekodede prompten (ANATOMY),
   illustrasjonene (artHtml) og juksearket (cheatParts) er også laget for

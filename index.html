@@ -287,6 +287,29 @@
     .step.current { padding: 18px 16px 20px; }
   }
 
+  /* ---------- Malmodus ---------- */
+  body.mal-edit #counter, body.mal-edit #chapters, body.mal-edit #menuBtn, body.mal-edit footer.bar { display: none; }
+  .mal-steps { list-style: none; counter-reset: mal; margin: 36px 0 0; padding: 0; display: grid; gap: 18px; max-width: 880px; }
+  .mal-steps > li { counter-increment: mal; background: var(--surface); border: 1px solid var(--line); border-radius: 18px; padding: 20px 24px 22px; }
+  .mal-steps h2 { margin: 0 0 12px; font-family: var(--serif); font-size: 24px; color: var(--heading); }
+  .mal-steps h2::before { content: counter(mal) ". "; color: var(--accent); }
+  .mal-steps p { margin: 0 0 12px; }
+  .mal-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 14px 18px; }
+  .mal-field { display: grid; gap: 6px; margin: 0 !important; }
+  .mal-field label, .mal-label { font-size: 15px; font-weight: 600; }
+  .mal-field input, #malIn { font: inherit; color: var(--ink); background: var(--paper); border: 1.5px solid var(--line-strong); border-radius: 12px; padding: 10px 14px; }
+  .mal-field input:focus, #malIn:focus { outline: 3px solid var(--accent); outline-offset: 1px; border-color: var(--accent); }
+  #malIn { display: block; width: 100%; margin-top: 6px; font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; font-size: 13px; line-height: 1.5; resize: vertical; }
+  .mal .bubble { white-space: pre-line; }
+  .mal details { margin: 12px 0 8px; }
+  .mal summary { cursor: pointer; font-weight: 600; color: var(--accent); }
+  .mal pre { white-space: pre-wrap; max-height: 320px; overflow: auto; margin: 10px 0 0; padding: 12px 14px; border-radius: 12px; background: var(--paper); font-size: 13px; line-height: 1.5; }
+  .mal-check { margin: 10px 0 12px !important; font-weight: 600; }
+  .mal-check.ok { color: var(--ok); }
+  .mal-check.bad { color: var(--accent); }
+  .mal-help { margin-top: 16px; font-size: 16px; }
+  .brand { overflow: hidden; text-overflow: ellipsis; min-width: 0; }
+
   /* ---------- Skjermen i møterommet ---------- */
   body.screen { font-size: 22px; padding-bottom: 0; }
   body.screen footer.bar, body.screen #menuBtn, body.screen .tracks, body.screen .post-form, body.screen .copy { display: none !important; }
@@ -403,7 +426,7 @@
   body.dark-slide .opt { background: rgba(255, 255, 255, .06); border-color: var(--dark-line); }
   body.dark-slide .opt .fill { background: rgba(252, 201, 169, .22); }
   body.dark-slide .opt .n, body.dark-slide .explain, body.dark-slide .wall-h, body.dark-slide .fine { color: var(--dark-soft); }
-  body.dark-slide .opt.wrong { color: rgba(251, 243, 241, .72); }
+  body.dark-slide .opt.wrong { color: rgba(251, 243, 241, .82); }
   body.dark-slide .opt[aria-pressed="true"] { border-color: var(--dark-soft); box-shadow: 0 0 0 2px rgba(252, 201, 169, .25); }
   body.dark-slide .opt.right { border-color: #8FD49A; box-shadow: 0 0 0 2px rgba(143, 212, 154, .25); }
   body.dark-slide .opt.right .fill { background: rgba(143, 212, 154, .22); }
@@ -587,6 +610,11 @@
     <button class="btn emoji" data-react="😂" aria-label="Latter">😂</button>
     <button class="btn" id="askBtn" aria-expanded="false" aria-controls="qpanel"><span aria-hidden="true">❓</span><span class="lbl">Spørsmål</span><span class="vh">Still et spørsmål</span></button>
   </div>
+  <div class="group hidden" id="malTools">
+    <button class="btn" id="malBack">← Til malen</button>
+    <button class="btn" id="malRole" aria-pressed="false">Presentørvisning</button>
+    <button class="btn primary" id="malGet">Last ned</button>
+  </div>
   <div class="group hidden" id="presenterTools">
     <button class="btn primary" id="liveBtn">Start presentasjon</button>
     <button class="btn" id="notesBtn" aria-pressed="false">Notater</button>
@@ -606,6 +634,8 @@
 <script>
 (function () {
   "use strict";
+  // Malmodus lager nye kurs av denne siden. Den tar vare på siden slik den var før noe ble tegnet, som reserve.
+  var SOURCE = /[?&]mal\b/.test(location.search) ? "<!DOCTYPE html>\n" + document.documentElement.outerHTML : "";
 
   // ---------- Innhold ----------
   // Fagfeltene styrer hvilke eksempler en deltaker ser i oppgavene. «_» er standard.
@@ -617,6 +647,7 @@
     ["utvikling", "Utvikling og data"],
     ["ledelse", "Ledelse og prosjekt"]
   ];
+  var CHAPTERS = ["Kom i gang", "Første samtale", "Gode prompter", "Videre"];
   function meme(id, alt) { return { src: "memer/" + id + ".jpg", alt: alt }; }
 
   var SLIDES = [
@@ -879,7 +910,8 @@
       wall: { id: "i-morgen", placeholder: "Når jeg …, ber jeg Claude om å …" },
       after: [{ t: "links", h: "Vil du videre", items: [
         ["Introduksjon til generativ KI", "https://laeringsplattformen.dfo.no/kursoversikt/introduksjon-til-generativ-ki", "DFØ, e-læring på norsk, 30 til 45 minutter, med kursbevis. Fem moduler: hvordan språkmodeller virker, gode instruksjoner, sparring, ansvarlig bruk etter forvaltningsverdiene, og øving. Krever innlogging."],
-        ["AI Fluency: Framework and foundations", "https://academy.claude.com/courses/ai-fluency-framework-foundations", "Anthropic, gratis, på engelsk, rundt fire timer."]
+        ["AI Fluency: Framework and foundations", "https://academy.claude.com/courses/ai-fluency-framework-foundations", "Anthropic, gratis, på engelsk, rundt fire timer."],
+        ["Lag ditt eget kurs", "https://larsekhansen.github.io/claude-kurs-101/?mal", "Med Claude og denne kurssiden som mal. Ingen konto og ingen GitHub."]
       ] }],
       meme: meme("slutt-rollsafe", "Mann peker på tinningen. Tekst: Claude kan ikke ta feil, hvis du aldri sjekker."),
       notes: [
@@ -953,10 +985,27 @@
   // ?skjerm er visningen for skjermen i møterommet: stor tekst, følger presentøren, telles ikke.
   var SCREEN = params.has("skjerm");
 
+  // Et eget kurs fra malmodus har innholdet i CUSTOM. ?mal er siden der man lager det, og ?mal&vis viser utkastet.
+  // Egne kurs kobler aldri til live-tjenesten, og husker svar under egne nøkler i nettleseren.
+  var CUSTOM = null; // MAL
+  var MAL = params.has("mal") && !CUSTOM, NS = "";
+  if (MAL && params.has("vis")) CUSTOM = load("localStorage", "kurs.mal.utkast");
+  if (CUSTOM) {
+    var made = cleanCourse(CUSTOM).course || null;
+    if (made) {
+      FIELDS = made.fields; CHAPTERS = made.chapters; SLIDES = made.slides; COURSE_URL = made.url;
+      NS = "mal-" + slug(made.title);
+    }
+    CUSTOM = made;
+  }
+  var EDIT = MAL && !CUSTOM;
+  if (MAL || CUSTOM) { LIVE_URL = null; SCREEN = false; }
+
   // ---------- Lagring ----------
-  function load(store, key) { try { return window[store].getItem(key); } catch (e) { return null; } }
+  function ns(key) { return NS && /^kurs\./.test(key) && !/^kurs\.mal\./.test(key) ? "kurs." + NS + key.slice(4) : key; }
+  function load(store, key) { try { return window[store].getItem(ns(key)); } catch (e) { return null; } }
   function save(store, key, val) {
-    try { if (val == null) window[store].removeItem(key); else window[store].setItem(key, val); } catch (e) {}
+    try { if (val == null) window[store].removeItem(ns(key)); else window[store].setItem(ns(key), val); } catch (e) {}
   }
   function loadJson(key) { try { return JSON.parse(load("localStorage", key) || "{}") || {}; } catch (e) { return {}; } }
 
@@ -964,9 +1013,9 @@
   // huskes bare i denne fanen og fjernes fra adresselinja med en gang.
   var token = null;
   (function () {
-    var m = /^#presenter=([A-Za-z0-9_-]{16,128})$/.exec(location.hash || "");
-    if (m) {
-      token = m[1];
+    var m = /^#presenter(?:=([A-Za-z0-9_-]{16,128}))?$/.exec(location.hash || "");
+    if (m && (m[1] || CUSTOM)) {
+      token = m[1] || "lokal";
       save("sessionStorage", "kurs.presenter", token);
       history.replaceState(null, "", location.pathname + location.search);
     } else token = load("sessionStorage", "kurs.presenter");
@@ -993,6 +1042,8 @@
     count: null, skew: 0, questions: [], liked: loadJson("kurs.liked"), resetAt: Number(load("localStorage", "kurs.reset")) || 0, handsSeen: null, hidden: {}, notes: {}, editNotes: false
   };
   var net = { ws: null, open: false, ever: false, failed: false, asked: false, retry: 0, last: 0, timer: null };
+  // Uten live-tjenesten er det bare dine egne innlegg på veggen.
+  if (CUSTOM) Object.keys(st.myPosts).forEach(function (k) { st.walls[k] = [{ id: "egen-" + k, text: st.myPosts[k], at: 0 }]; });
 
   function $(s) { return document.querySelector(s); }
   function esc(s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", "\"": "&quot;", "'": "&#39;" }[c]; }); }
@@ -1016,7 +1067,6 @@
 
   // ---------- Rendering ----------
   var MODE = { se: "Se på skjermen", gjor: "Gjør", del: "Del" };
-  var CHAPTERS = ["Kom i gang", "Første samtale", "Gode prompter", "Videre"];
   var reduced = !!(window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches);
   function fmtMin(m) { return m < 1 ? Math.round(m * 60) + " sek" : String(m).replace(".", ",") + " min"; }
   function stepByKey(id, key) {
@@ -1124,7 +1174,7 @@
     } else {
       h += list.map(function (n) { return "<p" + (n.charAt(0) === "→" ? " class=\"do\"" : "") + ">" + esc(n).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>") + "</p>"; }).join("") +
         "<p class=\"next\">Neste side: " + esc(v[st.i + 1] ? v[st.i + 1].title : "ingen, dette er den siste") + "</p>" +
-        "<div class=\"notes-tools\"><button class=\"small-btn\" id=\"notesEditBtn\"" + (net.open && st.verified ? "" : " disabled title=\"Krever kontakt med live-tjenesten\"") + ">Rediger notatene</button></div>";
+        (LIVE_URL ? "<div class=\"notes-tools\"><button class=\"small-btn\" id=\"notesEditBtn\"" + (net.open && st.verified ? "" : " disabled title=\"Krever kontakt med live-tjenesten\"") + ">Rediger notatene</button></div>" : "");
     }
     return h + "</aside>";
   }
@@ -1147,7 +1197,7 @@
   function blockHtml(b) {
     switch (b.t) {
       case "p": return "<p>" + esc(b.text) + "</p>";
-      case "img": return "<figure class=\"shot\"><img src=\"" + esc(b.src) + "\" alt=\"" + esc(b.alt) + "\" width=\"" + b.w + "\" height=\"" + b.h + "\">" + (b.caption ? "<figcaption>" + esc(b.caption) + "</figcaption>" : "") + "</figure>";
+      case "img": return "<figure class=\"shot\"><img src=\"" + esc(b.src) + "\" alt=\"" + esc(b.alt) + "\"" + (b.w > 0 && b.h > 0 ? " width=\"" + Math.round(b.w) + "\" height=\"" + Math.round(b.h) + "\"" : "") + ">" + (b.caption ? "<figcaption>" + esc(b.caption) + "</figcaption>" : "") + "</figure>";
       case "list": return "<ol class=\"list\">" + b.items.map(function (x) { return "<li>" + esc(x) + "</li>"; }).join("") + "</ol>";
       case "links":
         return "<section class=\"links\"><h2>" + esc(b.h) + "</h2><ul>" + b.items.map(function (l) {
@@ -1202,12 +1252,12 @@
   }
   function statsData() {
     var p = st.presence || {}, steps = 0, posts = 0, votes = 0, fields = 0, felt = (p.polls && p.polls.felt) || {};
-    var fakes = SLIDES.filter(function (x) { return x.id === "ekte"; })[0].polls[0].options.length - 1;
+    var ek = SLIDES.filter(function (x) { return x.id === "ekte" && x.polls; })[0], fakes = ek ? ek.polls[0].options.length - 1 : 0;
     Object.keys(p.steps || {}).forEach(function (k) { (p.steps[k] || []).forEach(function (n) { steps += n || 0; }); });
     Object.keys(st.walls).forEach(function (k) { posts += (st.walls[k] || []).length; });
     Object.keys(p.polls || {}).forEach(function (k) { Object.keys(p.polls[k]).forEach(function (o) { votes += p.polls[k][o]; }); });
     Object.keys(felt).forEach(function (k) { if (k !== "annet" && felt[k] > 0) fields++; });
-    return [[Math.max(st.maxHere, p.here || 0), "deltakere"], [steps, "steg fullført"], [posts, "innlegg på veggene"], [votes, "stemmer"], [fields, "fagfelt i rommet"], [fakes, "setninger Claude prøvde å snike inn i Grunnloven"]];
+    return [[Math.max(st.maxHere, p.here || 0), "deltakere"], [steps, "steg fullført"], [posts, "innlegg på veggene"], [votes, "stemmer"], [fields, "fagfelt i rommet"]].concat(ek ? [[fakes, "setninger Claude prøvde å snike inn i Grunnloven"]] : []);
   }
   function statsHtml() {
     return "<div class=\"stats\" id=\"stats\">" + statsData().map(function (d) {
@@ -1224,6 +1274,13 @@
         if (k < 1) requestAnimationFrame(tick);
       })(t0);
     });
+  }
+  // Adressen står på to linjer: domenet og resten. Skriften tilpasses den lengste linja.
+  function urlHtml() {
+    var i = COURSE_URL.indexOf("/"), parts = i < 0 ? [COURSE_URL] : [COURSE_URL.slice(0, i), COURSE_URL.slice(i)];
+    var n = Math.max.apply(null, parts.map(function (x) { return x.length; }));
+    return "<p class=\"url\"" + (CUSTOM ? " style=\"font-size:min(64px," + (170 / Math.max(n, 12)).toFixed(2) + "cqi)\"" : "") + ">" +
+      parts.map(function (x) { return "<span>" + esc(x) + "</span>"; }).join("") + "</p>";
   }
   function lobbyHtml() { return net.ever ? "<b>" + ((st.presence && st.presence.here) || 0) + "</b>er med" : ""; }
   function renderChapters(s) {
@@ -1246,8 +1303,9 @@
     // Notatene står øverst, der presentøren ser dem mens hen snakker. Endringer lagres i live-tjenesten.
     if (st.isPresenter && st.notesOpen) h += notesHtml(s, v);
     if (s.track && open) h += tracksHtml();
-    if (s.qr) h += "<div class=\"qr\"><div class=\"join-text\"><span class=\"join-k\">Skriv inn</span><p class=\"url\">" + COURSE_URL.split("/").map(function (x, k) { return "<span>" + (k ? "/" : "") + x + "</span>"; }).join("") + "</p><p class=\"lobby\" id=\"lobby\">" + lobbyHtml() + "</p></div>" +
+    if (s.qr && !CUSTOM) h += "<div class=\"qr\"><div class=\"join-text\"><span class=\"join-k\">Skriv inn</span>" + urlHtml() + "<p class=\"lobby\" id=\"lobby\">" + lobbyHtml() + "</p></div>" +
       "<span class=\"join-or\">eller</span><div class=\"join-code\"><span class=\"join-k\">bruk mobilen</span>" + QR + "</div></div>";
+    else if (s.qr && COURSE_URL) h += "<div class=\"qr\"><div class=\"join-text\"><span class=\"join-k\">Skriv inn</span>" + urlHtml() + "</div></div>";
     (s.blocks || []).forEach(function (b) { h += blockHtml(b); });
     if (s.polls) h += "<div class=\"polls\">" + s.polls.map(function (p) { return pollHtml(p); }).join("") + "</div>";
     // Skjermen i rommet samler det de andre har delt, og memen, i en egen kolonne.
@@ -1267,7 +1325,7 @@
       (s.after || []).forEach(function (b) { if (SCREEN && b.aside) aside += blockHtml(b); else h += blockHtml(b); });
     }
     var memeOk = open && (!s.steps || overview() || !core(s).length || progOf(s) >= core(s).length);
-    if (s.meme && memeOk) aside += "<figure class=\"meme\"><img src=\"" + s.meme.src + "\" alt=\"" + esc(s.meme.alt) + "\" loading=\"lazy\"></figure>";
+    if (s.meme && memeOk) aside += "<figure class=\"meme\"><img src=\"" + esc(s.meme.src) + "\" alt=\"" + esc(s.meme.alt) + "\" loading=\"lazy\"></figure>";
     var side = SCREEN && !!aside;
     $("#slide").className = "slide" + (side ? " side" : "");
     $("#slide").innerHTML = side ? "<div>" + h + "</div><aside>" + aside + "</aside>" : h + aside;
@@ -1430,11 +1488,13 @@
   function postTo(wall, text) {
     text = text.replace(/\s+/g, " ").trim();
     if (!text) return false;
-    if (!send({ t: "post", wall: wall, text: text })) { toast("Får ikke kontakt akkurat nå. Prøv igjen om litt."); return false; }
+    if (!LIVE_URL) st.walls[wall] = [{ id: "egen-" + wall, text: text, at: Date.now() }];
+    else if (!send({ t: "post", wall: wall, text: text })) { toast("Får ikke kontakt akkurat nå. Prøv igjen om litt."); return false; }
     st.posted[wall] = 1;
     save("localStorage", "kurs.posted", JSON.stringify(st.posted));
     st.myPosts[wall] = text;
     save("localStorage", "kurs.myposts", JSON.stringify(st.myPosts));
+    if (!LIVE_URL) refresh();
     var s = current();
     (s.steps || []).forEach(function (x, i) {
       if (x.wall === wall && !x.bonus) { var idx = core(s).indexOf(x); if (progOf(s) <= idx) setStep(s, idx + 1); }
@@ -1444,6 +1504,7 @@
 
   // ---------- Navigasjon ----------
   function go(n, opts) {
+    if (EDIT) return;
     var v = visible();
     if (n < 0 || n >= v.length) return;
     if (!st.broadcasting && opts && opts.manual && live()) setFollowing(false);
@@ -1517,7 +1578,8 @@
     } else fb.className = "chip hidden";
 
     var status = "";
-    if (st.isPresenter) status = !net.open ? (net.failed ? "Ingen kontakt med live-tjenesten" : "Kobler til …") : st.broadcasting ? "" : live() ? "Styres fra en annen fane. Styr herfra tar over." : "Publikum blar selv";
+    if (!LIVE_URL) status = "";
+    else if (st.isPresenter) status = !net.open ? (net.failed ? "Ingen kontakt med live-tjenesten" : "Kobler til …") : st.broadcasting ? "" : live() ? "Styres fra en annen fane. Styr herfra tar over." : "Publikum blar selv";
     else if (net.failed && !net.ever) status = "Solo-modus: bla selv med pilene.";
     else if (net.ever && !net.open) status = "Kobler til igjen …";
     else if (live() && st.following) status = "Presentasjonen styrer siden. Bla selv for å slippe.";
@@ -1543,6 +1605,11 @@
     $("#revealBtn").disabled = net.open && !st.verified; // uten kontakt vises svaret bare her
     $("#applauseBtn").disabled = !net.open || !st.verified;
     updateTimer();
+    // Uten live-tjenesten finnes bare det som virker på én skjerm.
+    if (!LIVE_URL) ["#liveBtn", "#pullBtn", "#clearBtn", "#wipeBtn", "#applauseBtn"].forEach(function (id) { $(id).classList.add("hidden"); });
+    $("#malTools").classList.toggle("hidden", !(MAL && CUSTOM));
+    $("#malRole").setAttribute("aria-pressed", String(st.isPresenter));
+    $("#malRole").classList.toggle("on", st.isPresenter);
     $("#notesBtn").setAttribute("aria-pressed", String(st.notesOpen));
     $("#notesBtn").classList.toggle("on", st.notesOpen);
 
@@ -1580,7 +1647,7 @@
     chip.classList.toggle("hidden", !running && !over);
     chip.classList.toggle("timeup", over);
     chip.textContent = running ? "⏱ " + fmtClock(left) : over ? "Tiden er ute" : "";
-    btn.classList.toggle("hidden", !st.isPresenter || (!running && !(s.min && s.mode !== "se")));
+    btn.classList.toggle("hidden", !LIVE_URL || !st.isPresenter || (!running && !(s.min && s.mode !== "se")));
     btn.textContent = running ? "⏱ " + fmtClock(left) + " Stopp" : "⏱ " + fmtMin(s.min || 1);
     btn.setAttribute("aria-label", running ? "Stopp nedtellingen, " + fmtClock(left) + " igjen" : "Start nedtelling på " + fmtMin(s.min || 1) + " for alle");
     btn.disabled = !net.open || !st.verified;
@@ -1648,6 +1715,13 @@
   }
   function cheatParts() {
     var f = field(), label = f === "_" || f === "annet" ? "alle" : fieldLabel(f).toLowerCase(), plan = st.myPosts["i-morgen"];
+    // I egne kurs er juksearket promptene fra oppgavene og det du skrev selv.
+    if (CUSTOM) {
+      var own = [];
+      SLIDES.forEach(function (s) { (s.steps || []).forEach(function (x) { if (x.say && !x.bonus) own.push([x.text, pick(x.say)]); }); });
+      Object.keys(st.myPosts).forEach(function (k) { if (st.myPosts[k]) own.push(["Det du skrev", st.myPosts[k], true]); });
+      return { label: label, parts: own.slice(0, 16) };
+    }
     var parts = [
       ["Huskeregel", "Kontekst, oppgave, format. Og gjerne et eksempel på det du vil ha.", true],
       ["En god første prompt", pick(stepByKey("forste-prompt", "lang").say)],
@@ -1662,7 +1736,7 @@
   }
   function openCheat() {
     var c = cheatParts();
-    $("#cheatBody").innerHTML = "<h2 id=\"cheatTitle\">Juksearket ditt</h2><p class=\"fine\">Eksempler for " + esc(c.label) + ", fra kurset «Introduksjon til Claude».</p>" +
+    $("#cheatBody").innerHTML = "<h2 id=\"cheatTitle\">Juksearket ditt</h2><p class=\"fine\">Eksempler for " + esc(c.label) + ", fra kurset «" + esc(CUSTOM ? CUSTOM.title : "Introduksjon til Claude") + "».</p>" +
       c.parts.map(function (x) { return "<section><h3>" + esc(x[0]) + "</h3><p" + (x[2] ? "" : " class=\"bubble\"") + ">" + esc(x[1]) + "</p></section>"; }).join("");
     $("#cheatWrap").classList.remove("hidden");
     setInert(true);
@@ -1813,6 +1887,23 @@
     }
     if (t.dataset.track) { vote("felt", t.dataset.track === "_" ? "annet" : t.dataset.track); render(true); return; }
     switch (t.id) {
+      case "malCopy": copyText(malPrompt(malInfo(), true), t); break;
+      case "malExample":
+        if ($("#malIn").value.trim() && !window.confirm("Erstatte det du har limt inn?")) break;
+        $("#malIn").value = JSON.stringify(exampleCourse(), null, 2);
+        malUpdate();
+        break;
+      case "malShow": location.href = location.pathname + "?mal&vis"; break;
+      case "malDownload": var dr = malDraft(); if (dr) exportCourse(dr); break;
+      case "malBack": location.href = location.pathname + "?mal"; break;
+      case "malGet": if (CUSTOM) exportCourse(CUSTOM); break;
+      case "malRole":
+        st.isPresenter = !st.isPresenter;
+        st.notesOpen = st.isPresenter;
+        if (!visible()[st.i]) st.i = 0;
+        render(true);
+        updateBar();
+        break;
       case "prevBtn": go(st.i - 1, { manual: true }); break;
       case "nextBtn": go(st.i + 1, { manual: true }); break;
       case "menuBtn": openSorter(); break;
@@ -1876,6 +1967,7 @@
       })(); break;
     }
   });
+  document.addEventListener("input", function (e) { if (EDIT && e.target.closest(".mal")) malUpdate(); });
   document.addEventListener("submit", function (e) {
     if (e.target.id === "askForm") {
       e.preventDefault();
@@ -1892,6 +1984,7 @@
     if (postTo(f.dataset.wall, inp.value)) inp.value = "";
   });
   document.addEventListener("keydown", function (e) {
+    if (EDIT) return;
     if (joinOpen) { if (e.key === "Escape") closeJoin(true); return; }
     if (!$("#cheatWrap").classList.contains("hidden")) { if (e.key === "Escape") closeCheat(); return; }
     if (!$("#overview").classList.contains("hidden")) { if (e.key === "Escape" || e.key === "o" || e.key === "O") openSorter(false); return; }
@@ -1913,6 +2006,7 @@
   function connect() {
     clearTimeout(net.timer);
     if (!/^wss?:\/\//.test(LIVE_URL) || !window.WebSocket) { net.failed = true; updateBar(); return; }
+    if (!LIVE_URL) return;
     var ws;
     try { ws = new WebSocket(LIVE_URL); } catch (e) { retry(); return; }
     net.ws = ws;
@@ -2078,6 +2172,253 @@
     if (redraw && !fromWelcome) render(true); else updateBar();
   }
 
+  // ---------- Malmodus ----------
+  // ?mal er siden der man lager sitt eget kurs med Claude, og ?mal&vis viser utkastet. Innholdet er JSON i samme form
+  // som SLIDES. Det sjekkes og renses både når det limes inn og når en nedlastet fil åpnes, så ingen tekst blir kode.
+  function str(v, max) { return typeof v === "string" ? v.trim().slice(0, max) : ""; }
+  function okUrl(u) { return typeof u === "string" && /^https:\/\/[^\s"'<>]+$/.test(u) ? u : ""; }
+  function okSrc(u) { return typeof u === "string" && /^(https:\/\/|memer\/|bilder\/)[^\s"'<>]+$/.test(u) ? u : ""; }
+  function slug(t) {
+    return String(t).toLowerCase().replace(/æ/g, "ae").replace(/ø/g, "o").replace(/å/g, "a")
+      .normalize("NFD").replace(/[\u0300-\u036f]/g, "").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "").slice(0, 48) || "kurs";
+  }
+  function cleanCourse(input) {
+    var KEY = /^[A-Za-z0-9_-]{1,40}$/, MODES = { se: 1, gjor: 1, del: 1 }, warn = [], c = input;
+    if (typeof c === "string") {
+      try { c = JSON.parse(c.slice(c.indexOf("{"), c.lastIndexOf("}") + 1)); } catch (e) { c = null; }
+      if (!c) return { error: "Fant ikke gyldig JSON. Be Claude svare med hele kurset som JSON i én kodeblokk, og kopier hele blokken." };
+    }
+    if (!c || typeof c !== "object" || !Array.isArray(c.slides) || !c.slides.length) return { error: "Fant ingen sider. JSON-en må ha en liste som heter «slides»." };
+    var fields = (Array.isArray(c.fields) ? c.fields : []).filter(function (f) {
+      return Array.isArray(f) && KEY.test(f[0]) && f[0] !== "_" && f[0] !== "annet" && str(f[1], 60);
+    }).slice(0, 12).map(function (f) { return [f[0], str(f[1], 60)]; });
+    var ids = fields.map(function (f) { return f[0]; }), seen = {}, chapters = [];
+    function say(v) {
+      if (typeof v === "string") return str(v, 4000);
+      if (!v || typeof v !== "object") return "";
+      var o = {}, any = "";
+      Object.keys(v).forEach(function (k) { var t = str(v[k], 4000); if (t && (k === "_" || ids.indexOf(k) >= 0)) { o[k] = t; any = any || t; } });
+      if (!any) return "";
+      if (!o._) o._ = any;
+      return o;
+    }
+    function poll(p) {
+      if (!p || typeof p !== "object" || !KEY.test(p.id || "")) return null;
+      var options = p.id === "felt" && !Array.isArray(p.options) ? fields.concat([["annet", "Noe annet"]]) :
+        (Array.isArray(p.options) ? p.options : []).filter(function (o) { return Array.isArray(o) && KEY.test(o[0]) && str(o[1], 200); })
+          .slice(0, 8).map(function (o) { return [o[0], str(o[1], 200)]; });
+      if (options.length < 2) return null;
+      var out = { id: p.id, q: str(p.q, 200), options: options };
+      if (options.some(function (o) { return o[0] === p.answer; })) { out.answer = p.answer; if (str(p.explain, 600)) out.explain = str(p.explain, 600); }
+      return out;
+    }
+    function block(b) {
+      if (!b || typeof b !== "object") return null;
+      if (b.t === "p") return str(b.text, 1200) ? { t: "p", text: str(b.text, 1200) } : null;
+      if (b.t === "list") {
+        var items = (Array.isArray(b.items) ? b.items : []).map(function (x) { return str(x, 400); }).filter(Boolean).slice(0, 12);
+        return items.length ? { t: "list", items: items } : null;
+      }
+      if (b.t === "links") {
+        var ls = (Array.isArray(b.items) ? b.items : []).filter(function (l) { return Array.isArray(l) && str(l[0], 120) && okUrl(l[1]); })
+          .slice(0, 8).map(function (l) { return [str(l[0], 120), l[1], str(l[2], 200)]; });
+        return ls.length ? { t: "links", h: str(b.h, 120), items: ls } : null;
+      }
+      if (b.t === "img" && okSrc(b.src)) {
+        var im = { t: "img", src: b.src, alt: str(b.alt, 400) };
+        if (str(b.caption, 200)) im.caption = str(b.caption, 200);
+        if (b.w > 0 && b.h > 0) { im.w = Math.round(b.w); im.h = Math.round(b.h); }
+        if (b.aside === true) im.aside = true;
+        return im;
+      }
+      return null;
+    }
+    var slides = c.slides.slice(0, 60).map(function (s, k) {
+      var n = "Side " + (k + 1);
+      if (!s || typeof s !== "object" || !str(s.title, 200)) { warn.push(n + " mangler tittel og er tatt bort."); return null; }
+      var id = typeof s.id === "string" ? s.id.toLowerCase() : "";
+      if (!/^[a-z0-9][a-z0-9-]{0,39}$/.test(id)) id = "side-" + (k + 1);
+      while (seen[id]) id += "-b";
+      seen[id] = 1;
+      var o = { id: id, title: str(s.title, 200), mode: MODES[s.mode] ? s.mode : "se" };
+      if (str(s.kicker, 120)) o.kicker = str(s.kicker, 120);
+      if (str(s.lead, 400)) o.lead = str(s.lead, 400);
+      if (str(s.ch, 60)) { o.ch = str(s.ch, 60); if (chapters.indexOf(o.ch) < 0) chapters.push(o.ch); }
+      if (typeof s.min === "number" && s.min > 0 && s.min <= 60) o.min = Math.round(s.min * 10) / 10;
+      ["dark", "gate", "cut", "off", "reserve", "backstage", "qr", "cheat"].forEach(function (f) { if (s[f] === true) o[f] = true; });
+      if (s.track === true && fields.length) o.track = true;
+      var polls = (Array.isArray(s.polls) ? s.polls : []).map(poll).filter(Boolean).slice(0, 3);
+      if (polls.length) o.polls = polls; else delete o.gate;
+      var steps = (Array.isArray(s.steps) ? s.steps : []).slice(0, 10).map(function (x) {
+        if (!x || typeof x !== "object" || !str(x.text, 300)) return null;
+        var y = { text: str(x.text, 300) }, sy = say(x.say), p = poll(x.poll);
+        if (sy) y.say = sy;
+        if (x.bonus === true) y.bonus = true;
+        if (KEY.test(x.wall || "")) {
+          y.wall = x.wall;
+          if (str(x.placeholder, 120)) y.placeholder = str(x.placeholder, 120);
+          if (str(x.wallLabel, 120)) y.wallLabel = str(x.wallLabel, 120);
+        }
+        if (p) y.poll = p;
+        if (str(x.auto, 200)) y.auto = str(x.auto, 200);
+        return y;
+      }).filter(Boolean);
+      if (steps.length) o.steps = steps;
+      if (s.wall && KEY.test(s.wall.id || "")) {
+        o.wall = { id: s.wall.id, placeholder: str(s.wall.placeholder, 120) || "Skriv her" };
+        if (str(s.wall.label, 120)) o.wall.label = str(s.wall.label, 120);
+      }
+      ["blocks", "after"].forEach(function (f) {
+        var bs = (Array.isArray(s[f]) ? s[f] : []).map(block).filter(Boolean).slice(0, 8);
+        if (bs.length) o[f] = bs;
+      });
+      if (s.meme && okSrc(s.meme.src)) o.meme = { src: s.meme.src, alt: str(s.meme.alt, 400) || "Et bilde" };
+      var sp = s.styleprompt, spPoll = sp && polls.filter(function (p) { return p.id === sp.poll; })[0];
+      if (spPoll && str(sp.template, 2000).indexOf("{stil}") >= 0) {
+        o.styleprompt = { poll: sp.poll, template: str(sp.template, 2000), fill: {} };
+        spPoll.options.forEach(function (op) { o.styleprompt.fill[op[0]] = str(sp.fill && sp.fill[op[0]], 200) || op[1].toLowerCase(); });
+      }
+      var notes = (Array.isArray(s.notes) ? s.notes : []).map(function (x) { return str(x, 600); }).filter(Boolean).slice(0, 30);
+      if (notes.length) o.notes = notes;
+      ["art", "artAfter", "stats"].forEach(function (f) { if (s[f]) warn.push(n + ": «" + f + "» virker bare i originalkurset og er tatt bort."); });
+      return o;
+    }).filter(Boolean);
+    if (c.slides.length > 60) warn.push("Bare de første 60 sidene er tatt med.");
+    if (!slides.filter(function (s) { return !s.backstage; }).length) return { error: "Ingen av sidene har tittel." };
+    var url = str(c.url, 200).replace(/^https?:\/\//, "").replace(/\/+$/, "");
+    if (url && !/^[a-z0-9.-]+\.[a-z]{2,}(\/[A-Za-z0-9._~%\/-]*)?$/i.test(url)) { warn.push("Lenken er tatt bort, fordi den ikke ser ut som en vanlig nettadresse."); url = ""; }
+    return { course: { title: str(c.title, 120) || slides[0].title, url: url, fields: fields, chapters: chapters, slides: slides }, warn: warn };
+  }
+
+  // Dette kurset som eksempel for Claude, uten det som bare virker her.
+  function exampleCourse() {
+    return {
+      title: SLIDES[0].title, fields: FIELDS,
+      slides: SLIDES.map(function (s) {
+        var o = JSON.parse(JSON.stringify(s));
+        ["art", "artAfter", "artAside", "stats"].forEach(function (f) { delete o[f]; });
+        if (o.blocks) o.blocks = o.blocks.filter(function (b) { return /^(p|list|links|img)$/.test(b.t); });
+        if (o.blocks && !o.blocks.length) delete o.blocks;
+        (o.steps || []).forEach(function (x) { delete x.key; });
+        (o.polls || []).forEach(function (p) { if (p.id === "felt") delete p.options; });
+        return o;
+      })
+    };
+  }
+  function malInfo() { try { return JSON.parse(load("localStorage", "kurs.mal.info") || "{}") || {}; } catch (e) { return {}; } }
+  function malAbout(info) {
+    function v(k, d) { return str(info[k], 400) || d; }
+    return "Tema: " + v("tema", "[tema]") + "\nHvem som kommer: " + v("hvem", "[antall, fagfelt og hvor mye de kan fra før]") +
+      "\nLengde og format: " + v("lengde", "45 minutter, i møterom og på Teams") + "\nEtter kurset skal de kunne: " + v("laere", "[to eller tre ting]");
+  }
+  function malPrompt(info, example) {
+    return "Du skal lage innholdet til et interaktivt kurs. Kurset vises i en ferdig kursside, malen fra «Introduksjon til Claude» fra KI Norge i Digdir. Du skriver bare innholdet, som JSON.\n\n" +
+      "Om kurset:\n" + malAbout(info).replace(/^/gm, "- ") + "\n\n" +
+      "Slik gjør du det:\n" +
+      "1. Still meg høyst tre korte spørsmål hvis noe viktig mangler. Ellers går du rett på.\n" +
+      "2. Planlegg rundt 35 av 45 minutter, eller tilsvarende. Én ting per side, og hver side er Se, Gjør eller Del. Start med noe alle gjør, og avslutt med at deltakerne skriver hva de skal prøve i morgen.\n" +
+      "3. Korte titler, og høyst to prompter eller oppgaver synlige per side. Tørr humor som hører til poenget. Ikke moraliser.\n" +
+      "4. Notatene til presentøren er et kort manus: det som skal sies, og → foran det som skal gjøres.\n" +
+      "5. Sjekk fakta. Si fra når du er usikker, og dikt aldri opp kilder.\n" +
+      "6. Svar til slutt med hele kurset som gyldig JSON i én kodeblokk, uten kommentarer.\n\n" +
+      "Formatet:\n{ \"title\": \"Kursets navn\", \"url\": \"valgfritt, adressen der kurset skal ligge\", \"fields\": [[\"id\", \"Fagfelt\"]], \"slides\": [ … ] }\n\n" +
+      "Feltene på en side:\n" +
+      "- id: små bokstaver, tall og bindestrek, unik.\n" +
+      "- ch: kapittelet. Bruk tre til fem kapitler.\n" +
+      "- mode: \"se\", \"gjor\" eller \"del\". min: minutter.\n" +
+      "- kicker, title, lead: overtittel, tittel og ingress.\n" +
+      "- dark: true gir en mørk side, til åpning, pauser og slutt.\n" +
+      "- polls: avstemninger, [{ \"id\": \"…\", \"q\": \"Spørsmål\", \"options\": [[\"a\", \"Svar\"]], \"answer\": \"a\", \"explain\": \"…\" }]. answer og explain bare når det finnes en fasit. gate: true holder resten av siden tilbake til fasiten er vist.\n" +
+      "- steps: stegene i en oppgave, [{ \"text\": \"Hva deltakeren gjør\", \"say\": \"Prompten de kopierer\" }]. say kan være ett objekt med én tekst per fagfelt, der \"_\" er standard. bonus: true er et ekstrasteg for de raske. wall: \"id\" lar dem lime inn noe på en felles vegg. poll: en avstemning som steg.\n" +
+      "- track: true viser velgeren for fagfelt over stegene.\n" +
+      "- wall: { \"id\": \"…\", \"placeholder\": \"…\" } er en vegg for hele siden.\n" +
+      "- blocks og after: [{ \"t\": \"p\", \"text\": \"…\" }, { \"t\": \"list\", \"items\": [\"…\"] }, { \"t\": \"links\", \"h\": \"Overskrift\", \"items\": [[\"Navn\", \"https://…\", \"Kort om lenken\"]] }]. after kommer når fasiten er vist.\n" +
+      "- meme: { \"src\": \"https://api.memegen.link/images/<mal>/<topp>/<bunn>.jpg\", \"alt\": \"Hva bildet viser og sier\" }. Mellomrom skrives som _. På Gjør-sider kommer memen når stegene er gjort.\n" +
+      "- notes: [\"…\"], bare for presentøren.\n" +
+      "- cut: true kan kuttes hvis det går tregt. off: true er skjult til presentøren skrur den på.\n" +
+      "- qr: true på startsiden viser adressen stort, hvis url er satt.\n" +
+      "- cheat: true på siste side gir knappen «Ta med juksearket», med promptene fra kurset.\n\n" +
+      "Vil du at deltakerne skal få eksempler fra sitt eget felt, lag \"fields\" og en avstemning med id \"felt\" tidlig i kurset. Den trenger ikke options." +
+      (example ? "\n\nHer er innholdet i «Introduksjon til Claude» som eksempel på formatet og stilen. Bruk det som mal, ikke som innhold.\n\n```json\n" + JSON.stringify(exampleCourse()) + "\n```\n" : "");
+  }
+  function malField(id, label, ph, info) {
+    return "<p class=\"mal-field\"><label for=\"mal-" + id + "\">" + esc(label) + "</label><input id=\"mal-" + id + "\" data-mal=\"" + id + "\" value=\"" + esc(info[id] || "") + "\" placeholder=\"" + esc(ph) + "\" autocomplete=\"off\"></p>";
+  }
+  function renderMal() {
+    var info = malInfo();
+    document.body.classList.add("mal-edit");
+    $("#slide").className = "slide mal";
+    $("#slide").innerHTML =
+      "<p class=\"kicker\">Malmodus</p><h1 class=\"title\">Lag ditt eget kurs</h1>" +
+      "<p class=\"lead\">Med Claude og denne kurssiden som mal. Du trenger ingen konto og ingen GitHub, bare claude.ai.</p>" +
+      "<ol class=\"mal-steps\">" +
+      "<li><h2>Fortell om kurset</h2><div class=\"mal-grid\">" +
+        malField("tema", "Tema", "For eksempel klarspråk i vedtak", info) + malField("hvem", "Hvem kommer", "Antall, fagfelt og hvor mye de kan fra før", info) +
+        malField("lengde", "Lengde og format", "45 minutter, i møterom og på Teams", info) + malField("laere", "Etter kurset skal de kunne", "To eller tre ting", info) + "</div></li>" +
+      "<li><h2>Kopier prompten til Claude</h2><p>Lim den inn i en ny samtale i claude.ai, og svar på spørsmålene den stiller. Til slutt får du kurset som JSON i en kodeblokk.</p>" +
+        "<div class=\"say\"><p class=\"bubble\" id=\"malPrompt\"></p><button class=\"copy\" id=\"malCopy\" aria-label=\"Kopier hele prompten\">Kopier</button></div>" +
+        "<details><summary>Se hele prompten</summary><pre id=\"malFull\"></pre></details>" +
+        "<p class=\"fine\">Når du kopierer, kommer innholdet i «Introduksjon til Claude» med som eksempel, så Claude ser formatet og stilen.</p></li>" +
+      "<li><h2>Lim inn svaret</h2><label class=\"mal-label\" for=\"malIn\">JSON-en fra Claude</label>" +
+        "<textarea id=\"malIn\" rows=\"8\" spellcheck=\"false\" autocomplete=\"off\">" + esc(load("localStorage", "kurs.mal.utkast") || "") + "</textarea>" +
+        "<p class=\"mal-check\" id=\"malCheck\" role=\"status\"></p>" +
+        "<button class=\"small-btn\" id=\"malExample\">Eller start med «Introduksjon til Claude»</button></li>" +
+      "<li><h2>Se kurset og last det ned</h2><div class=\"acts\"><button class=\"btn primary\" id=\"malShow\">Se kurset</button><button class=\"btn\" id=\"malDownload\">Last ned som HTML-fil</button></div>" +
+        "<ul class=\"list mal-help\"><li>Fila er hele kurset. Åpne den i en nettleser, del den i Teams, eller last den opp i claude.ai og be Claude endre noe.</li>" +
+        "<li>Skriv <b>#presenter</b> bak adressen, så får du notatene og presentørvisningen.</li>" +
+        "<li>Uten live-tjenesten blar hver deltaker selv, og avstemninger og vegger viser bare ens eget svar.</li></ul></li></ol>";
+    malUpdate();
+  }
+  function malUpdate() {
+    var info = {};
+    document.querySelectorAll("[data-mal]").forEach(function (el) { info[el.dataset.mal] = el.value; });
+    save("localStorage", "kurs.mal.info", JSON.stringify(info));
+    var raw = $("#malIn").value;
+    save("localStorage", "kurs.mal.utkast", raw.trim() ? raw : null);
+    $("#malPrompt").textContent = malAbout(info);
+    $("#malFull").textContent = malPrompt(info, false);
+    var r = raw.trim() ? cleanCourse(raw) : null, ok = !!(r && r.course), el = $("#malCheck");
+    el.className = "mal-check" + (r ? (ok ? " ok" : " bad") : "");
+    if (!r) el.textContent = "Når du har limt inn svaret, ser du her om det er i orden.";
+    else if (!ok) el.textContent = r.error;
+    else {
+      var c = r.course, tasks = 0, polls = 0;
+      c.slides.forEach(function (s) { if (s.steps) tasks++; polls += (s.polls || []).length; });
+      el.textContent = "✓ «" + c.title + "»: " + c.slides.length + " sider" + (c.chapters.length ? " i " + c.chapters.length + " kapitler" : "") +
+        ", " + tasks + " med oppgaver, " + polls + " avstemninger." + (r.warn.length ? " " + r.warn.slice(0, 3).join(" ") : "");
+    }
+    $("#malShow").disabled = $("#malDownload").disabled = !ok;
+  }
+
+  // Lager én HTML-fil med kurset: denne siden, med innholdet lagt inn i CUSTOM. Bildene får full adresse.
+  function exportCourse(course) {
+    var base = location.href.split(/[?#]/)[0].replace(/[^\/]*$/, ""), c = JSON.parse(JSON.stringify(course));
+    function abs(u) { return /^https:/.test(u) ? u : base + u; }
+    c.slides.forEach(function (s) {
+      if (s.meme) s.meme.src = abs(s.meme.src);
+      (s.blocks || []).concat(s.after || []).forEach(function (b) { if (b.t === "img") b.src = abs(b.src); });
+    });
+    var json = JSON.stringify(c).replace(/</g, "\\u003c").replace(/\u2028/g, "\\u2028").replace(/\u2029/g, "\\u2029");
+    function build(src) {
+      var re = /var CUSTOM = .*; \/\/ MAL/, t = esc(c.title);
+      if (!src || !re.test(src)) { toast("Fant ikke malen. Last siden på nytt og prøv igjen."); return; }
+      var out = src.replace(re, function () { return "var CUSTOM = " + json + "; // MAL"; })
+        .replace(/<title>[^<]*<\/title>/, function () { return "<title>" + t + "</title>"; })
+        .replace(/(<meta property="og:title" content=")[^"]*/, function (m, a) { return a + t; });
+      var a = document.createElement("a");
+      a.href = URL.createObjectURL(new Blob([out], { type: "text/html;charset=utf-8" }));
+      a.download = slug(c.title) + ".html";
+      document.body.appendChild(a);
+      a.click();
+      setTimeout(function () { URL.revokeObjectURL(a.href); a.remove(); }, 2000);
+      toast("Fila " + a.download + " er lastet ned.");
+    }
+    if (/^https?:$/.test(location.protocol) && window.fetch) {
+      fetch(location.pathname, { cache: "no-store" }).then(function (r) { return r.ok ? r.text() : SOURCE; }).then(build, function () { build(SOURCE); });
+    } else build(SOURCE);
+  }
+  function malDraft() { var r = cleanCourse(load("localStorage", "kurs.mal.utkast") || ""); return r.course || null; }
+
   // ---------- Oppstart ----------
   function measure() {
     var r = document.documentElement.style;
@@ -2089,16 +2430,18 @@
 
   // Limes presentørlenken inn i en fane der kurset alt er åpent, endres bare hashen.
   window.addEventListener("hashchange", function () {
-    if (/^#presenter=/.test(location.hash)) { location.reload(); return; }
+    if (/^#presenter/.test(location.hash) && (CUSTOM || /^#presenter=/.test(location.hash))) { location.reload(); return; }
+    if (EDIT) return;
     var m = /^#\/([A-Za-z0-9_-]+)$/.exec(location.hash || ""), k = m ? indexOf(m[1]) : -1;
     if (k >= 0 && k !== st.i) go(k, { manual: true });
   });
 
   document.body.classList.toggle("screen", SCREEN);
-  $("#joinHint").innerHTML = "Bli med: <b>" + COURSE_URL + "</b>";
+  if (EDIT || CUSTOM) { $(".brand").textContent = document.title = EDIT ? "Lag ditt eget kurs" : CUSTOM.title; }
+  $("#joinHint").innerHTML = "Bli med: <b>" + esc(COURSE_URL) + "</b>";
   var start = /^#\/([A-Za-z0-9_-]+)$/.exec(location.hash || "");
   if (start && indexOf(start[1]) >= 0) st.i = indexOf(start[1]);
-  render();
+  if (EDIT) renderMal(); else render();
   measure();
   connect();
 })();

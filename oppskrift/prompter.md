@@ -4,8 +4,13 @@ Bytt ut teksten i [klammer]. Promptene virker i claude.ai og i Claude Code.
 
 ## 1. Lag et kurs i claude.ai, uten GitHub
 
-Den enkleste veien. Claude lager kurssiden som et artefakt, og du kan vise den
-fra din egen PC eller dele den med en lenke hvis lisensen deres tillater det.
+Den enkleste veien er malmodus: https://larsekhansen.github.io/claude-kurs-101/?mal.
+Den lager prompten for deg, med denne kurssiden som eksempel, og gjør svaret
+fra Claude om til en ferdig fil.
+
+Vil du heller at Claude bygger en kursside fra bunnen av, bruker du prompten
+under. Claude lager den som et artefakt, og du kan vise den fra din egen PC
+eller dele den med en lenke hvis lisensen deres tillater det.
 
 ```text
 Du skal hjelpe meg å lage et interaktivt kurs som en nettside, i samme stil

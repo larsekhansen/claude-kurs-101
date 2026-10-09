@@ -128,6 +128,9 @@ aldri til produksjonsrommet. `?live=` overstyrer adressen, bare på localhost.
   til startsiden. `welcome` har `resetAt`, og `hello` sender `reset`, sist
   nullstilling fanen har sett. En fane som ikke har sett den siste, får ikke
   tilbake gamle steg, svar eller hånd.
+- Malmodus kobler aldri til Workeren. `?mal`, `?mal&vis` og nedlastede kurs
+  har ingen live-tjeneste. Workeren avviser uansett nettlesere fra andre
+  adresser enn dem i `ALLOWED_ORIGINS`, også en fil åpnet fra disk.
 - Navn er unike blant dem som er koblet til nå, uansett store og små
   bokstaver. Flere faner i samme nettleser er samme person, med samme navn,
   hånd og ferdig.

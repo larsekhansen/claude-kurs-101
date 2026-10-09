@@ -71,6 +71,10 @@ kant, ikke med gjennomsiktighet. Gjennomsiktighet ga for lav kontrast.
 - **Skjermbilde etter fasiten:** et bevis, som Claude som tar feil, kommer når
   svaret er vist. På skjermen i rommet står det i kolonnen over memen, så det
   ikke havner under kanten.
+- **Malsiden:** fire nummererte kort, i samme rekkefølge som arbeidet: fortell
+  om kurset, kopier prompten, lim inn svaret, se og last ned. Prompten vises
+  som en snakkeboble, og sjekken av JSON-en står rett under feltet, grønn når
+  den er i orden.
 - **Notatene:** et kort manus. Det som skal sies, står rett fram, det som skal
   gjøres, har → foran og er kursiv. Det viktigste er fett.
 

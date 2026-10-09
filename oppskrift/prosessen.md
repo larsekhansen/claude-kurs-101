@@ -136,11 +136,38 @@ setningen står i § 100.
 **Lærdom:** Notater skal være det du sier, ikke beskjeder til deg selv. Og
 den beste illustrasjonen av at KI tar feil, er en feil den faktisk gjorde.
 
+## 14. Kurset
+
+Kurset varte i 56 minutter, ikke 45. Deltakerne stilte mange spørsmål, også om
+ting kurset ikke dekket, og mye av verdien lå der. Presentasjonen kom ikke
+lenger enn til siden om prosjekter, så planen for i morgen, juksearket og
+tallene ble aldri vist. Alle spørsmålene kom muntlig, panelet for spørsmål ble
+ikke brukt, og det kom tre innlegg på veggen.
+
+**Lærdom:** Sett av tid til spørsmål i planen, og la deltakerne skrive planen
+sin før spørsmålsrunden, ikke etter.
+
+## 15. Malmodus
+
+Etter kurset kom ønsket om at deltakerne skulle kunne lage sitt eget kurs fra
+denne siden, uten GitHub, som mange ikke har. Malmodus lar dem skrive
+innholdet med Claude og laste ned kurset som én fil. Prompten har med dette
+kurset som eksempel, så Claude ser formatet og stilen. Innholdet sjekkes og
+renses, så en tekst fra Claude aldri kan bli kode på siden.
+
+Tilgjengelighetstesten fant samtidig en feil fra kursdagen: teksten på feil
+svar fikk for lav kontrast når den sto helt over stolpen for stemmene.
+
+**Lærdom:** La andre bygge videre på det du har laget, med verktøyet de
+allerede har.
+
 ## Testene
 
 - Protokolltester mot tjenesten, for alle meldingene: rundt 75 sjekker.
 - Ende-til-ende i nettleseren med presentør, to deltakere, skjerm og
-  medhjelper: 83 sjekker.
+  medhjelper: 84 sjekker.
+- Malmodus fra malsiden til fila åpnet fra disk: 40 sjekker og axe.
+- Nullstilling og fet skrift i notatene: 22 sjekker.
 - axe på alle sider i fem visninger, lyst og mørkt, med paneler og oversikten
   åpne.
 - Skriptene ligger ikke i repoet, fordi kurssiden skal være én fil uten npm.

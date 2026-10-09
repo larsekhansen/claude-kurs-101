@@ -9,12 +9,15 @@ Den er åpen for alle med lenken, uten GitHub-konto.
 
 ## Tre veier
 
-1. **Bare nettleseren.** Lim inn prompten fra [`prompter.md`](prompter.md) i
-   claude.ai. Claude lager kurssiden som et artefakt.
-2. **Claude Code og denne malen.** Be agenten lage et nytt kurs med dette
-   repoet som mal, og gi den [`for-agenten.md`](for-agenten.md).
-3. **Få hjelp.** Skriv innholdet med prompten, og få noen til å legge det inn
-   i malen. Innholdet står samlet i `SLIDES` øverst i `index.html`.
+1. **Malmodus.** Åpne https://larsekhansen.github.io/claude-kurs-101/?mal, fyll
+   inn temaet, kopier prompten til claude.ai og lim inn svaret. Du ser kurset
+   med en gang og kan laste det ned som én HTML-fil, uten konto og uten
+   GitHub. Fila virker uten live-tjenesten, så hver deltaker blar selv.
+2. **Bare nettleseren.** Lim inn prompten fra [`prompter.md`](prompter.md) i
+   claude.ai. Claude lager en kursside fra bunnen av, som et artefakt.
+3. **Claude Code og denne malen.** Be agenten lage et nytt kurs med dette
+   repoet som mal, og gi den [`for-agenten.md`](for-agenten.md). Da får du
+   alt, også live-tjenesten.
 
 ## Filene
 

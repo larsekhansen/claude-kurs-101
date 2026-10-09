@@ -6,6 +6,18 @@ og oppsettet i [`../oppsett.md`](../oppsett.md).
 
 ## 2026-10-09
 
+- **Malmodus.** `?mal` lar andre lage sitt eget kurs med Claude og denne siden
+  som mal, uten GitHub og uten konto. Mange har ikke GitHub, og en kursside
+  som bygges fra bunnen av som artefakt, blir ikke like god. Innholdet er JSON
+  i samme form som `SLIDES`, og fila er denne siden med innholdet lagt inn.
+  Egne kurs kobler ikke til live-tjenesten, fordi rommet er laget for ett kurs
+  på en privat konto. Illustrasjonene, tallene og QR-koden er tatt bort i egne
+  kurs, fordi de er laget for dette kurset. Lenken står under «Vil du videre»
+  på siste side og øverst i oppskriften.
+- **Høyere kontrast på feil svar på mørke sider.** Da alternativ C ble kortere,
+  sto teksten helt over stolpen for stemmene, og kontrasten falt til 4,3:1.
+  Den er nå over 4,5:1.
+
 - **Stor lenke og QR-kode på startsiden.** «Skriv inn [lenken] eller bruk
   mobilen [QR-kode]», begge store nok til å leses og skannes fra bakerst i
   rommet. På skjermen i rommet er QR-koden nesten halve høyden. På mobil vises

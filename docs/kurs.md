@@ -207,6 +207,8 @@ Vil du videre:
   https://laeringsplattformen.dfo.no/kursoversikt/introduksjon-til-generativ-ki
 - AI Fluency: Framework and foundations, Anthropic. Gratis, på engelsk, rundt
   fire timer. https://academy.claude.com/courses/ai-fluency-framework-foundations
+- Lag ditt eget kurs, med Claude og denne kurssiden som mal. Ingen konto og
+  ingen GitHub. https://larsekhansen.github.io/claude-kurs-101/?mal
 
 Meme: Roll Safe. «Claude kan ikke ta feil, hvis du aldri sjekker.»
 

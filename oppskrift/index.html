@@ -91,7 +91,8 @@
     <h1>Slik lager du et kurs som dette</h1>
     <p class="lead">Kurset ble laget med Claude. Her er hele oppskriften, så du kan lage ditt eget om et helt annet tema, med eller uten GitHub.</p>
     <nav aria-label="Snarveier">
-      <a class="pill solid" href="#prompt">Kopier prompten</a>
+      <a class="pill solid" href="../?mal">Lag ditt eget kurs</a>
+      <a class="pill ghost" href="#prompt">Kopier prompten</a>
       <a class="pill ghost" href="../">Se kurset</a>
       <a class="pill ghost" href="#filer">For agenter og utviklere</a>
     </nav>
@@ -119,20 +120,21 @@
     <div class="grid">
       <div class="card">
         <span class="tag easy">Enklest</span>
-        <h3>Bare nettleseren</h3>
-        <p>Åpne claude.ai, lim inn prompten under og fyll inn temaet ditt. Claude stiller spørsmål, lager en kjøreplan, skriver innholdet og bygger kurssiden som et artefakt.</p>
-        <p>Du kan vise den fra din egen PC, eller dele den med en lenke hvis lisensen tillater det. Uten en tjeneste som holder rommet, blar hver deltaker selv.</p>
+        <h3><a href="../?mal">Malmodus</a></h3>
+        <p>Fyll inn temaet, kopier prompten til claude.ai, og lim inn svaret. Da ser du kurset med en gang, i denne kurssiden, og kan laste det ned som én HTML-fil. Ingen konto og ingen GitHub.</p>
+        <p>Fila virker på én skjerm om gangen: hver deltaker blar selv, og avstemninger og vegger viser bare ens eget svar.</p>
+      </div>
+      <div class="card">
+        <span class="tag">Bare nettleseren</span>
+        <h3>Et artefakt i claude.ai</h3>
+        <p>Lim inn prompten under. Claude stiller spørsmål, lager en kjøreplan, skriver innholdet og bygger en kursside fra bunnen av, som et artefakt.</p>
+        <p>Du kan vise den fra din egen PC, eller dele den med en lenke hvis lisensen tillater det.</p>
       </div>
       <div class="card">
         <span class="tag tech">For den som er litt teknisk</span>
         <h3>Claude Code og denne malen</h3>
         <p>Be Claude Code lage et nytt kurs med dette repoet som mal. Agenten følger <a href="https://github.com/larsekhansen/claude-kurs-101/blob/main/oppskrift/for-agenten.md">oppskriften for agenter</a>, med faste porter for fakta, testing og tilgjengelighet.</p>
         <p>Da får du alt: presentørstyring, avstemninger for alle, vegg, spørsmål og skjermvisning.</p>
-      </div>
-      <div class="card">
-        <span class="tag">Få hjelp</span>
-        <h3>Spør en kollega</h3>
-        <p>Skriv innholdet selv med prompten, og få noen som kan litt teknikk til å legge det inn i malen. Det er én fil, og innholdet står samlet øverst.</p>
       </div>
     </div>
     <div class="note">

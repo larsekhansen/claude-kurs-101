@@ -59,6 +59,12 @@ Hostes på GitHub Pages, åpent for alle med lenken, uten innlogging.
   brede skjermer står veggen, stilprompten og memen i en egen kolonne.
 - Deltakerne skriver bare et navn. Navn er unike blant dem som er koblet til.
 - Får siden ikke kontakt med Workeren, virker den i solo-modus.
+- Malmodus (`?mal`) lar andre lage sitt eget kurs uten GitHub: de fyller inn
+  temaet, kopierer en prompt til claude.ai, limer inn JSON-en de får tilbake,
+  ser kurset (`?mal&vis`) og laster det ned som én HTML-fil. Innholdet ligger
+  da i `CUSTOM`, sjekkes og renses i `cleanCourse`, og kurset kobler aldri til
+  Workeren. Det som bare virker i dette kurset, som illustrasjonene i
+  `artHtml`, tallene og QR-koden, er tatt bort i egne kurs.
 
 ## Krav
 
