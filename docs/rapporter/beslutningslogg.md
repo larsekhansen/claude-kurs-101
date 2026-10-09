@@ -4,6 +4,19 @@ Beslutninger og milepæler for kurset, med den nyeste øverst. Hvordan loggen
 føres, står i [README](README.md). Innholdet står i [`../kurs.md`](../kurs.md)
 og oppsettet i [`../oppsett.md`](../oppsett.md).
 
+## 2026-10-09
+
+- **Stor lenke og QR-kode på startsiden.** «Skriv inn [lenken] eller bruk
+  mobilen [QR-kode]», begge store nok til å leses og skannes fra bakerst i
+  rommet. På skjermen i rommet er QR-koden nesten halve høyden. På mobil vises
+  bare lenken.
+- **Notatene er et manus.** Bare det som skal sies, og kort det som skal
+  gjøres, med → foran. Alt er faktasjekket. Replikken om Grunnloven sier nå
+  tydelig at det var Claude som foreslo feil setning, og at den ekte er
+  «Ytringsfrihet bør finne sted». Fet skrift med `**slik**`.
+- **Nullstill alt.** Presentøren kan fjerne alt fra øving før kurset starter.
+  Notatene og skjulte sider beholdes.
+
 ## 2026-10-08
 
 - **«Insister på noe feil» er skjult som standard.** Claude ga ikke etter i

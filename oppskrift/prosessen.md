@@ -121,6 +121,16 @@ redigere notatene i kurssiden, og de lagres i live-tjenesten.
 **Lærdom:** Ord som er morsomme i en planleggingssamtale, kan virke feil foran
 publikum. Les titlene høyt før kurset.
 
+## 13. Kursdagen
+
+Siste ønsker før start: lenken og QR-koden så store at de kan skannes fra
+bakerst i rommet, notatene som et kort manus i stedet for instrukser, og en
+knapp som fjerner alt fra øvingen. Faktasjekken av notatene fant en replikk
+som kunne misforstås: den sa hva Claude hadde foreslått, men ikke tydelig at
+det var feil.
+
+**Lærdom:** Notater skal være det du sier, ikke beskjeder til deg selv.
+
 ## Testene
 
 - Protokolltester mot tjenesten, for alle meldingene: rundt 75 sjekker.

@@ -122,6 +122,12 @@ aldri til produksjonsrommet. `?live=` overstyrer adressen, bare på localhost.
   sendes som `notes` bare til presentører, også i `welcome`. De ligger i
   Durable Object-lagringen og overlever nye versjoner av Workeren.
   Ryddeskriptet rører dem ikke.
+- `reset` nullstiller alt fra øving: vegger, spørsmål, fasit, nedtelling,
+  hender, steg og svar, og stopper presentasjonen. Notatene og skjulte sider
+  beholdes. Alle får `reset` med `at`, tømmer det nettleseren husker og går
+  til startsiden. `welcome` har `resetAt`, og `hello` sender `reset`, sist
+  nullstilling fanen har sett. En fane som ikke har sett den siste, får ikke
+  tilbake gamle steg, svar eller hånd.
 - Navn er unike blant dem som er koblet til nå, uansett store og små
   bokstaver. Flere faner i samme nettleser er samme person, med samme navn,
   hånd og ferdig.

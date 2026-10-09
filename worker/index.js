@@ -41,6 +41,7 @@ export class Room extends DurableObject {
     super(ctx, env);
     this.live = { on: false, slide: null };
     this.clearAt = 0;
+    this.resetAt = 0;
     this.walls = {};
     this.revealed = {};
     this.count = null;
@@ -54,6 +55,7 @@ export class Room extends DurableObject {
     ctx.blockConcurrencyWhile(async () => {
       this.live = (await ctx.storage.get("live")) || this.live;
       this.clearAt = (await ctx.storage.get("clearAt")) || 0;
+      this.resetAt = (await ctx.storage.get("resetAt")) || 0;
       this.walls = (await ctx.storage.get("walls")) || {};
       this.revealed = (await ctx.storage.get("revealed")) || {};
       this.count = (await ctx.storage.get("count")) || null;
@@ -108,6 +110,7 @@ export class Room extends DurableObject {
       case "qwipe": if (presenter) await this.qwipe(); break;
       case "hide": if (presenter) await this.hide(m.slide, m.on); break;
       case "note": if (presenter) await this.setNote(m.slide, m.text); break;
+      case "reset": if (presenter) await this.reset(); break;
     }
   }
 
@@ -150,13 +153,14 @@ export class Room extends DurableObject {
       if (twin) {
         const b = twin[1];
         Object.assign(next, { name: b.name, hand: b.hand, handAt: b.handAt, prog: b.prog, ans: b.ans });
-      } else {
-        // Har presentøren nullstilt siden sist, gjelder ikke en gammel hånd.
+      } else if ((Number(m.reset) || 0) >= this.resetAt) {
+        // Har presentøren tatt ned hendene siden sist, gjelder ikke en gammel hånd.
         next.hand = (Number(m.seen) || 0) >= this.clearAt && m.hand === true;
         next.handAt = next.hand ? Date.now() : 0;
         next.prog = cleanMap(m.prog, (v) => Number.isInteger(v) && v >= 0 && v <= 20);
         next.ans = cleanMap(m.ans, (v) => typeof v === "string" && ID.test(v));
       }
+      // Ellers har presentøren nullstilt alt siden fanen sist var koblet til, og det gamle gjelder ikke.
       // Følger fanen presentasjonen, eller blar den selv? Gjelder fanen, ikke personen.
       next.follow = m.follow !== false;
       const wanted = cleanName(m.name);
@@ -174,6 +178,7 @@ export class Room extends DurableObject {
       badToken: hasToken && !presenter,
       live: this.live,
       clearAt: this.clearAt,
+      resetAt: this.resetAt,
       walls: this.walls,
       revealed: this.revealed,
       count: this.count,
@@ -361,6 +366,23 @@ export class Room extends DurableObject {
       if (a.role === "viewer") s.serializeAttachment({ ...a, hand: false, handAt: 0 });
     }
     this.broadcast({ t: "clear", at: this.clearAt });
+    this.broadcastPresence();
+  }
+
+  // Nullstiller alt fra øving: vegger, spørsmål, fasit, nedtelling, hender, steg og svar.
+  // Notatene og hvilke sider som er skjult, beholdes.
+  async reset() {
+    this.resetAt = this.clearAt = Date.now();
+    this.walls = {};
+    this.revealed = {};
+    this.count = null;
+    this.questions = [];
+    this.live = { on: false, slide: null };
+    await this.ctx.storage.put({ resetAt: this.resetAt, clearAt: this.clearAt, walls: {}, revealed: {}, count: null, questions: [], live: this.live });
+    for (const [s, a] of this.sockets()) {
+      if (a.role === "viewer") s.serializeAttachment({ ...a, hand: false, handAt: 0, prog: {}, ans: {} });
+    }
+    this.broadcast({ t: "reset", at: this.resetAt, live: this.live });
     this.broadcastPresence();
   }
 

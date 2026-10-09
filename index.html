@@ -224,15 +224,20 @@
   .meme { margin: 44px 0 0; max-width: 420px; }
   .meme img { display: block; width: 100%; height: auto; border-radius: 12px; }
 
-  .qr { display: flex; gap: 28px; align-items: center; flex-wrap: wrap; margin-top: 44px; }
-  .qr svg { width: 168px; height: 168px; padding: 10px; background: #fff; border-radius: 14px; }
-  .qr .url { margin: 0; font-size: 20px; font-weight: 600; }
-  .qr .url small { display: block; font-size: 16px; font-weight: 400; color: var(--dark-soft); }
-  .lobby { margin: 0 0 0 auto; text-align: right; color: var(--dark-soft); font-size: 18px; }
-  .lobby b { display: block; font-family: var(--serif); font-size: clamp(56px, 8vw, 128px); line-height: 1; color: var(--dark-ink); font-variant-numeric: tabular-nums; }
+  /* Startsiden: lenken og QR-koden er store, så de kan leses og skannes fra bakerst i rommet. */
+  .qr { display: flex; gap: 24px 40px; align-items: center; flex-wrap: wrap; margin-top: 36px; }
+  .join-text { flex: 1 1 380px; min-width: 0; container-type: inline-size; }
+  .join-k { display: block; margin-bottom: 8px; font-size: clamp(18px, 1.6vw, 26px); color: var(--dark-soft); }
+  .qr .url { margin: 0; font-family: var(--serif); font-weight: 700; font-size: min(64px, 7.4cqi); line-height: 1.1; color: var(--dark-ink); }
+  .qr .url span { display: block; white-space: nowrap; }
+  .join-or { font-size: clamp(18px, 1.6vw, 26px); font-weight: 600; letter-spacing: .08em; text-transform: uppercase; color: var(--dark-soft); }
+  .join-code { text-align: center; }
+  .join-code svg { display: block; width: clamp(220px, 36vh, 380px); height: auto; padding: 14px; background: #fff; border-radius: 16px; }
+  .lobby { margin: 28px 0 0; color: var(--dark-soft); font-size: 18px; }
+  @media (max-width: 640px) { .join-or, .join-code { display: none; } }
+  .lobby b { display: inline-block; margin-right: 12px; font-family: var(--serif); font-size: clamp(48px, 6vw, 96px); line-height: 1; color: var(--dark-ink); font-variant-numeric: tabular-nums; }
   .lobby.bump b { animation: bump .5s ease; }
   @keyframes bump { 40% { transform: scale(1.12); } }
-  @media (max-width: 640px) { .lobby { margin-left: 0; text-align: left; } }
 
   .list { margin: 32px 0 0; padding: 0 0 0 1.2em; max-width: 64ch; display: grid; gap: 10px; }
   .links { margin: 44px 0 0; max-width: 780px; }
@@ -251,6 +256,8 @@
   .notes p { margin: 0 0 8px; }
   .notes p:last-child { margin: 0; }
   .notes .next { margin-top: 12px; font-weight: 600; }
+  .notes b { font-weight: 700; }
+  .notes p.do { font-style: italic; }
   .notes h2 small { font-weight: 400; }
   .notes textarea { width: 100%; padding: 10px 12px; border-radius: 10px; border: 1px solid var(--note-line); background: var(--surface); color: var(--ink); font: inherit; font-size: 15px; line-height: 1.5; resize: vertical; }
   .notes-tools { display: flex; gap: 8px; flex-wrap: wrap; align-items: center; margin-top: 12px; }
@@ -281,8 +288,10 @@
   body.screen footer.bar, body.screen #menuBtn, body.screen .tracks, body.screen .post-form, body.screen .copy { display: none !important; }
   body.screen main { max-width: 1400px; padding-top: 32px; }
   body.screen h1.title { font-size: clamp(48px, min(6.4vw, 9.5vh), 92px); }
-  body.screen .qr svg { width: 280px; height: 280px; }
-  body.screen .qr .url { font-size: 30px; }
+  body.screen main:has(.qr) { max-width: 1760px; }
+  body.screen .join-code svg { width: min(48vh, 540px); }
+  body.screen .qr .url { font-size: min(76px, 7.4cqi); }
+  body.screen .join-k, body.screen .join-or { font-size: 30px; }
   body.screen .meme { max-width: 520px; }
   body.screen .stage { min-height: calc(100dvh - var(--head-h, 60px)); }
   body.screen .joinhint { font-size: 18px; }
@@ -522,7 +531,7 @@
 
 <div class="sorter hidden" id="overview" role="dialog" aria-modal="true" aria-labelledby="sorterTitle">
   <div class="sorter-in">
-    <div class="sorter-head"><h2 id="sorterTitle">Alle sider</h2><p class="sorter-sum" id="sorterSum"></p><button class="btn" id="closeSorter">Lukk</button></div>
+    <div class="sorter-head"><h2 id="sorterTitle">Alle sider</h2><p class="sorter-sum" id="sorterSum"></p><button class="btn hidden" id="resetBtn" title="Fjern svar, steg, innlegg, spørsmål og hender fra øvingen">Nullstill alt</button><button class="btn" id="closeSorter">Lukk</button></div>
     <p class="sorter-hint" id="sorterHint"></p>
     <div id="sorterBody"></div>
   </div>
@@ -610,11 +619,13 @@
       id: "start", mode: "se", kicker: "KI Norge, Digdir", title: "Introduksjon til Claude", dark: true, qr: true,
       lead: "Alt vi gjør i dag, gjør vi samtidig. Du trenger PC, nettleser og et spørsmål.",
       notes: [
-        "Tre vinduer: denne presentørvisningen på laptopen, skjermvisningen (lenken med ?skjerm) på skjermen i rommet, og Claude i et eget vindu.",
-        "Trykk Start presentasjon før folk kommer. Da lander alle her, også de som kommer sent.",
-        "Tre ting å si før du går videre: kamera er valgfritt, lukk e-post og andre chatter i 45 minutter, og oppgavene kommer til å føles rotete. Det er meningen, det er der man lærer.",
-        "Si også at spørsmål kan legges inn når som helst under Spørsmål nederst, anonymt, og at de kan stemme på andres. Du tar dem med flest stemmer før avslutningen.",
-        "Ikke start med agenda eller deg selv. Start med spørsmålet på neste side."
+        "→ Trykk Start presentasjon før folk kommer.",
+        "Velkommen! Kamera er valgfritt. Lukk e-post og chat i 45 minutter.",
+        "Til dette kurset har jeg prøvd å bruke Claude til alt. Da viser selve kurset litt av hva som er mulig.",
+        "Dere vil se noen memes underveis. Jeg ba Claude om litt pizzazz, og den lagde memes der den prøvde å skrive teksten selv. Vi kan prise oss lykkelige for at Claude ikke er god på alle jobber ennå. Kanskje en av dere skriver prompten som gjør den til komiker?",
+        "Oppgavene kommer til å føles litt rotete. Det er der man lærer.",
+        "Spør når som helst, til meg, i Teams eller under Spørsmål nederst. Der kan dere stemme på andres. Ingenting er dumt.",
+        "→ Ingen agenda. Rett til neste side."
       ]
     },
     {
@@ -632,11 +643,12 @@
       gate: true,
       meme: meme("ekte-same", "Pam fra The Office holder to ark, merket Grunnloven paragraf 100 og Noe Claude fant på. Pam er merket Claude og sier at det er samme bilde."),
       notes: [
-        "Kjør dette mens folk kommer inn. Trykk Vis svaret når de fleste har stemt.",
-        "Replikk etter avsløringen, og den er sann: «Da jeg lagde kurset med Claude, ga den meg feil fasit her. Den mente Grunnloven sier \"Det skal være ytringsfrihet\". Det gjør den ikke. Lovdata hadde rett.»",
-        "Poenget, sagt én gang: det høres riktig ut, og det er nettopp problemet. Vi kommer tilbake til det med kildene.",
-        "Bommet mange? «Bra. Det var meningen.»",
-        "C ligner språklova, som sier at offentlige organ skal bruke klart språk. Men det står ikke i Grunnloven."
+        "→ Mens folk kommer inn. Vis svaret når de fleste har stemt.",
+        "**Det er B.** Grunnloven § 100: «Ytringsfrihet bør finne sted.»",
+        "Da jeg lagde denne quizen, foreslo Claude «Det skal være ytringsfrihet» som den ekte. Den setningen står ikke i Grunnloven. Lovdata hadde rett.",
+        "Det høres riktig ut. Det er nettopp problemet.",
+        "Bommet mange? Bra. Det var meningen.",
+        "→ Om C: den ligner språklova, men står ikke i Grunnloven."
       ]
     },
     {
@@ -646,10 +658,9 @@
         { id: "erfaring", q: "Har du brukt Claude før?", options: [["aldri", "Aldri"], ["litt", "Litt"], ["mye", "Mye"]] }
       ],
       notes: [
-        "Still spørsmålet høyt, og vent til tallene står stille. Det tar sjelden mer enn et halvt minutt.",
-        "Les fordelingen høyt, for eksempel «tre jurister og én designer i dag». Det viser at du ser dem, og forklarer hvorfor eksemplene senere er forskjellige.",
-        "Valget styrer hvilke eksempler hver enkelt får i oppgavene. De kan bytte underveis.",
-        "Gi kartet på ti sekunder: først prøver vi, så lærer vi å skrive en god første prompt, så sparrer vi, og til slutt en mappe som husker. Si fra hver gang dere bytter mellom å se og å gjøre."
+        "→ Vent til tallene står stille, og les fordelingen høyt.",
+        "Eksemplene dere får, følger fagfeltet dere valgte. Dere kan bytte underveis.",
+        "Først prøver vi. Så skriver vi en god første prompt, så sparrer vi, og til slutt en mappe som husker."
       ]
     },
     {
@@ -661,11 +672,10 @@
       ],
       meme: meme("oppsett-afraid", "Mann i skjorte ser forsiktig opp. Tekst: Vet ikke hvor jeg logger inn, og nå tør jeg ikke spørre."),
       notes: [
-        "Følg tallene under hvert steg. Gå videre når de fleste er på steg 3, ikke når alle er det.",
-        "Steg 3 virker for alle fagfelt og krever ingen promptferdigheter. Claude gjør tilpasningen. De som er raskt inne, har noe å holde på med mens resten logger inn.",
-        "Replikk mens folk logger inn: «Dette er den eneste delen av kurset Claude ikke kan gjøre for dere.»",
-        "Står noen fast i rommet, hjelp dem, og gjenta spørsmålet høyt så Teams hører det.",
-        "Memen dukker opp hos dem som er ferdige. Den holder de raske opptatt i ti sekunder."
+        "Dette er den eneste delen av kurset Claude ikke kan gjøre for dere.",
+        "Er du inne, gjør steg 3 mens de andre logger inn.",
+        "→ Gå videre når de fleste er på steg 3.",
+        "→ Står noen fast: hjelp, og gjenta spørsmålet høyt for Teams."
       ]
     },
     {
@@ -679,11 +689,14 @@
         { bonus: true, text: "bytt modell, hvis du har valget, og still samme spørsmål på nytt. Se på tiden og lengden." }
       ],
       notes: [
-        "Si først at svarene deres vil være forskjellige fra hverandres og fra ditt. Alle spør om det samme, med egne ord. Ikke forklar noe før veggen har fylt seg.",
-        "Veggen viser de andres setninger først når man har delt sin egen, så ingen kopierer hverandre. Les opp to eller tre, og pek på at de er forskjellige. Spør: «Hvorfor fikk vi så mange forskjellige svar?» Vent ti sekunder før du sier noe selv. Ute på Teams tar det lengre tid å svare.",
-        "Les opp fordelingen på kildespørsmålet. Det er kjøreregelen, vist i stedet for sagt: den kan ta feil, så åpne kilden.",
-        "Svaret på hvorfor, i én setning: Claude formulerer svaret på nytt hver gang, med litt tilfeldighet, og nettsøk gir ulike kilder. Derfor leser du svaret og åpner kilden.",
-        "Replikk hvis svarene spriker mye: «Ti kolleger, samme spørsmål, ti versjoner. Akkurat som et vanlig møte.»"
+        "Alle spør om det samme, med egne ord. Svarene blir forskjellige, også fra mitt.",
+        "→ Ikke forklar noe før veggen har fylt seg. Les opp to eller tre.",
+        "**Hvorfor fikk vi så mange forskjellige svar?**",
+        "→ Vent ti sekunder. Teams trenger lengre tid.",
+        "Claude skriver svaret på nytt hver gang, med litt tilfeldighet. Og nettsøket finner ulike kilder.",
+        "→ Les opp svarene på kildespørsmålet.",
+        "Stol på Claude like mye som du stoler på han karen på gymmen. Han vet sikkert mer om trening enn deg, så ofte er det greit. Men når det står om helsen din?",
+        "**Les svaret, og åpne kilden.**"
       ]
     },
     {
@@ -692,8 +705,8 @@
       blocks: [{ t: "models", items: [["Haiku", "Svarer fort"], ["Sonnet", "Allrounder"], ["Opus", "Tenker grundig"], ["Fable", "Tenker lengst"]] }],
       meme: meme("modeller-gb", "Fire hjerner som lyser sterkere og sterkere, merket Haiku, Sonnet, Opus og Fable med maks effort."),
       notes: [
-        "Ett minutt. Vis modellvelgeren i din egen Claude. De raske har allerede prøvd å bytte modell som ekstrasteg på DDoS-siden. Sjekk på forhånd hvilke modeller og effort-valg Digdir-lisensen faktisk har.",
-        "Ett poeng er nok: standardvalget holder til det meste. Bytt opp når oppgaven er vanskelig og svaret får ta tid."
+        "→ Vis modellvelgeren i din Claude.",
+        "Standardvalget holder til det meste. Bytt opp når oppgaven er vanskelig og svaret får ta tid."
       ]
     },
     {
@@ -754,14 +767,16 @@
       art: "prompt", artAfter: 2, artAside: true,
       meme: meme("prompt-gru", "Gru i fire ruter: Be om en tabell. Få en tabell. Om helt feil ting. Om helt feil ting."),
       notes: [
-        "Den viktigste bolken. Åtte minutter, ikke kutt den.",
-        "Fagfeltene står øverst. Trykk på et felt for å vise eksemplene derfra, også den fargekodede prompten.",
-        "Etter steg 2: be to stykker si hva som ble forskjellig, én i rommet og én på Teams. Spør etter fagfelt, ikke etter navn: «dere som jobber med jus, hva fikk dere?»",
-        "Si så prinsippet i én setning: kontekst, oppgave, format. Kontrasten først, regelen etterpå, det er rekkefølgen som virker. Når de fleste er ferdige med steg 2, kommer begge promptene fargekodet på skjermen. Pek på den.",
-        "Har noen tatt DFØ-kurset, kjenner de dette som KORE: kontekst, oppgave, retningslinjer, eksempel. Ekstrasteget er E-en: et eksempel på det du vil ha sier mer enn en lang beskrivelse.",
-        "Steg 3 er det mange ikke vet: ber du om en fil, får du en fil. Ellers får du en tabell midt i teksten.",
-        "Replikk: «Den korte prompten er som å be en kollega om noe om DDoS, og så bli overrasket over hva du fikk.»",
-        "Test prompten for hvert fagfelt kvelden før, med nettsøk på, og ha skjermbilder klare."
+        "→ Ikke kutt denne. Trykk på fagfeltene øverst for å vise eksemplene.",
+        "→ Etter steg 2: Hva ble forskjellig? Én i rommet, én på Teams. Spør etter fagfelt: «Dere som jobber med jus?»",
+        "**Kontekst, oppgave, format.**",
+        "→ Pek på den fargekodede prompten.",
+        "Den korte prompten er som å be en kollega om «noe om DDoS», og så bli overrasket over hva du fikk.",
+        "Steg 3: ber du om en fil, får du en fil.",
+        "Har du tatt DFØ-kurset, kjenner du dette som KORE. E-en er et eksempel. Vis hva du vil ha, så slipper du å beskrive det.",
+        "Husker du ikke oppskriften, be Claude: «Lag en prompt for meg etter CO-STAR.»",
+        "→ CO-STAR: kontekst, mål, stil, tone, målgruppe, svarformat.",
+        "Og jo mer Claude vet om deg, gjennom minnet eller et prosjekt, jo mindre kontekst trenger du å skrive selv."
       ]
     },
     {
@@ -782,11 +797,9 @@
         fill: { fotball: "en fotballkommentator i overtid", haiku: "en haiku", pressemelding: "en pressemelding fra 1985", support: "en brukerstøtte som har gitt opp", barnebok: "en side i en barnebok" }
       },
       notes: [
-        "Halvannet minutt. Les opp vinneren, kopier prompten under og kjør den i din Claude med nettsøk på, så får den med fakta fra sommeren. Det tar rundt 20 sekunder.",
-        "Testet: brukerstøtten som har gitt opp («Prøv igjen senere. Eller ikke.») og fotballkommentatoren er morsomst. Haikuen er fin.",
-        "Poenget, uten å si det for mye: rolle og format styrer svaret like mye som innholdet.",
-        "Replikk: «Haiku er både en modell og et dikt. I dag tester vi diktet.»",
-        "Kan kuttes hvis dere ligger bak."
+        "→ Les opp vinneren. Kopier prompten og kjør den i din Claude med nettsøk på. Det tar rundt 20 sekunder.",
+        "Haiku er både en modell og et dikt. I dag tester vi diktet.",
+        "→ Kan kuttes."
       ]
     },
     {
@@ -833,10 +846,10 @@
       ],
       meme: meme("sparring-drake", "Drake avviser: Be en kollega lese utkastet fredag kl. 15.55. Drake liker: Be Claude finne hullene først."),
       notes: [
-        "Har de ikke noe å lime inn, kan de bruke svaret fra den lange prompten. Folk lærer mest av tekst de kjenner godt, for der ser de selv hvor den tar feil.",
-        "De tre anførselstegnene skiller beskjeden fra teksten. Da blander den ikke det som står i teksten, med det du ber den om.",
-        "Poenget: du kan få motstand uten å involvere noen andre, og komme bedre forberedt til dem du skal vise det til.",
-        "Ekstrasteget gir ofte latter. La det skje."
+        "Har du ikke noe å lime inn, bruk svaret fra den lange prompten.",
+        "De tre anførselstegnene skiller beskjeden din fra teksten.",
+        "Du får motstand uten å involvere noen andre, og kommer bedre forberedt til dem du skal vise det til.",
+        "→ Ekstrasteget gir ofte latter. La det skje."
       ]
     },
     {
@@ -845,12 +858,11 @@
       art: "mappe",
       meme: meme("projects-harold", "Eldre mann smiler anstrengt foran PC-en. Tekst: Forklarer leiligheten min til Claude, for fjortende gang."),
       notes: [
-        "Vis boligjakt-prosjektet: først prosjektbeskrivelsen, så en ny samtale som vet alt uten at du sier noe.",
-        "Sammenligningen som treffer: det er en mappe, men en mappe som husker hva som står i den. Bildet på siden viser det samme som demoen.",
-        "Fortell demoen som en sak: hva du trengte, hva Claude gjorde, hvor det gikk galt, og hvordan du oppdaget det.",
-        "Ha skjermbilder klare i tilfelle demoen henger.",
-        "Ta spørsmålene her, før avslutningen. Da blir slutten deres planer og ikke en stille spørsmålsrunde.",
-        "Åpne ❓ øverst til høyre. Ta dem med flest stemmer først, trykk Vis for alle på det du svarer på, og Besvart når du er ferdig."
+        "→ Vis boligjakt-prosjektet: først beskrivelsen, så en ny samtale som vet alt.",
+        "Et prosjekt er en mappe, men en mappe som husker hva som står i den.",
+        "→ Fortell: hva jeg trengte, hva Claude gjorde, hvor det gikk galt, og hvordan jeg oppdaget det.",
+        "→ Spørsmål nå. Åpne ❓, flest stemmer først. Vis for alle, så Besvart.",
+        "→ Trener Anthropic på det vi skriver? Ikke på Team- og Enterprise-planer, ifølge de kommersielle vilkårene."
       ]
     },
     {
@@ -863,11 +875,10 @@
       ] }],
       meme: meme("slutt-rollsafe", "Mann peker på tinningen. Tekst: Claude kan ikke ta feil, hvis du aldri sjekker."),
       notes: [
-        "Les opp tre fra veggen, gjerne fra ulike fagfelt. En plan på formen «når jeg …, gjør jeg …» blir oftere gjort enn et løfte om å prøve. Trykk Vis for alle på den beste.",
-        "Vis knappen Ta med juksearket. Den lager et jukseark med eksempler fra deres fagfelt og planen de nettopp skrev.",
-        "Foreslå et KI-minutt på neste avdelingsmøte, der én forteller hva hen prøvde. DFØ-kurset anbefaler det samme, og det holder vanen ved like.",
-        "Avslutt med memen og en takk, ikke med «noen spørsmål?». Si at du blir igjen fem minutter for dem som vil spørre.",
-        "Det siste de husker, er slutten. La den handle om deres planer, ikke dine."
+        "→ Les opp tre fra ulike fagfelt. Vis for alle på den beste.",
+        "En plan på formen «når jeg …, gjør jeg …» blir oftere gjort enn et løfte om å prøve.",
+        "Trykk Ta med juksearket. Da får du eksempler fra fagfeltet ditt og planen du nettopp skrev.",
+        "Et forslag: et KI-minutt på neste avdelingsmøte, der én forteller hva hen prøvde."
       ]
     },
     {
@@ -875,9 +886,9 @@
       lead: "Lenken virker etter kurset også, og juksearket ligger på forrige side.",
       stats: true,
       notes: [
-        "Les opp ett av tallene. Trykk Applaus.",
-        "Det siste kortet er en tørr callback til åpningen. Ikke forklar det.",
-        "Si takk, og at du blir igjen fem minutter for dem som vil spørre."
+        "→ Les opp ett av tallene. Trykk Applaus.",
+        "→ Det siste kortet er en callback til åpningen. Ikke forklar det.",
+        "Takk! Jeg blir igjen fem minutter for dem som vil spørre."
       ]
     },
     {
@@ -890,8 +901,9 @@
       ],
       meme: meme("insistering-ds", "To knapper: Stå på fakta, og Gi etter. Claude svetter."),
       notes: [
-        "Digdir har rundt 400 ansatte. 1200 er feil med vilje.",
-        "Begge utfall er interessante. Gir den etter, er hjelpsom ofte det samme som enig. Står den på sitt, kan den likevel ikke sjekke nettsiden uten søk."
+        "→ Slå av nettsøk først.",
+        "Digdir har noen hundre ansatte. 1200 er feil med vilje.",
+        "Ga den etter? Da er hjelpsom ofte det samme som enig. Sto den på sitt? Uten søk kan den likevel ikke sjekke nettsiden."
       ]
     },
     {
@@ -909,16 +921,14 @@
         "To dager etter: legg en ny oppgave i Teams-chatten. Det er vanen som stopper folk, ikke ferdighetene."
       ] }],
       notes: [
-        "Én flate om gangen. Når de skal se, deler du bare Claude-vinduet. Når de skal gjøre, viser skjermen i rommet skjermvisningen og de jobber på egen PC.",
-        "Si modusen høyt hver gang: «nå ser dere på meg», «nå gjør dere».",
-        "Ikke les opp siden. Den har stikkord, du har resten.",
-        "Vent ti til tjue sekunder etter et spørsmål. Stillhet føles lengre for deg enn for dem.",
+        "Én flate om gangen. Se: del bare Claude-vinduet. Gjør: skjermen i rommet viser skjermvisningen.",
+        "Si modusen høyt: «nå ser dere på meg», «nå gjør dere».",
+        "Ikke les opp siden. Vent ti til tjue sekunder etter et spørsmål.",
         "Gjenta spørsmål fra rommet, så Teams hører dem. Spør etter fagfelt, ikke etter navn.",
-        "Bruk knappene i kurssiden, ikke Teams sin hånd eller reaksjoner. Da er alt på ett sted. Rekker noen opp hånda, får du beskjed nederst, og ✋ i toppen blir korallfarget.",
-        "Nedtelling: trykk ⏱ nederst når en oppgave starter. Den vises på alle skjermer, størst i rommet.",
-        "Blar noen selv, ser du Ta alle hit nederst, med antallet. Ett trykk henter dem til siden du står på.",
-        "Feiler en demo: vis hvordan du retter den. Det er ofte det beste i hele kurset.",
-        "Avslutt med deres planer, ikke med «noen spørsmål?»."
+        "Hender varsles nederst, og ✋ i toppen blir korallfarget. Ta ned hender ligger nederst.",
+        "⏱ nederst starter nedtellingen på alle skjermer. Ta alle hit henter dem som blar selv.",
+        "Nullstill alt ligger i Sider. Den fjerner svar, steg, innlegg, spørsmål og hender fra øvingen.",
+        "Feiler en demo: vis hvordan du retter den."
       ]
     }
   ];
@@ -972,7 +982,7 @@
     hand: false, name: load("localStorage", "kurs.name") || "", seen: 0, presence: null,
     prog: loadJson("kurs.prog"), ans: loadJson("kurs.ans"), posted: loadJson("kurs.posted"), walls: {}, fresh: {},
     revealed: {}, celebrated: {}, maxHere: 0, myPosts: loadJson("kurs.myposts"),
-    count: null, skew: 0, questions: [], liked: loadJson("kurs.liked"), handsSeen: null, hidden: {}, notes: {}, editNotes: false
+    count: null, skew: 0, questions: [], liked: loadJson("kurs.liked"), resetAt: Number(load("localStorage", "kurs.reset")) || 0, handsSeen: null, hidden: {}, notes: {}, editNotes: false
   };
   var net = { ws: null, open: false, ever: false, failed: false, asked: false, retry: 0, last: 0, timer: null };
 
@@ -1101,14 +1111,23 @@
     if (st.editNotes) {
       h += "<label class=\"vh\" for=\"notesEdit\">Notatene, ett avsnitt per linje</label>" +
         "<textarea id=\"notesEdit\" rows=\"" + Math.max(6, Math.min(24, list.length * 3 + 2)) + "\">" + esc(list.join("\n\n")) + "</textarea>" +
-        "<div class=\"notes-tools\"><button class=\"btn primary\" id=\"notesSave\">Lagre</button><button class=\"btn\" id=\"notesCancel\">Avbryt</button>" +
+        "<div class=\"notes-tools\"><button class=\"btn\" id=\"notesBold\" title=\"Fet skrift (Cmd+B). Blir **slik** i teksten.\"><b aria-hidden=\"true\">B</b><span class=\"vh\">Fet skrift</span></button><button class=\"btn primary\" id=\"notesSave\">Lagre</button><button class=\"btn\" id=\"notesCancel\">Avbryt</button>" +
         (mine ? "<button class=\"btn quiet\" id=\"notesReset\">Tilbake til originalen</button>" : "") + "</div>";
     } else {
-      h += list.map(function (n) { return "<p>" + esc(n) + "</p>"; }).join("") +
+      h += list.map(function (n) { return "<p" + (n.charAt(0) === "→" ? " class=\"do\"" : "") + ">" + esc(n).replace(/\*\*(.+?)\*\*/g, "<b>$1</b>") + "</p>"; }).join("") +
         "<p class=\"next\">Neste side: " + esc(v[st.i + 1] ? v[st.i + 1].title : "ingen, dette er den siste") + "</p>" +
         "<div class=\"notes-tools\"><button class=\"small-btn\" id=\"notesEditBtn\"" + (net.open && st.verified ? "" : " disabled title=\"Krever kontakt med live-tjenesten\"") + ">Rediger notatene</button></div>";
     }
     return h + "</aside>";
+  }
+  // Fet skrift i notatene skrives **slik**. Knappen og Cmd+B pakker inn det som er markert.
+  function boldNotes() {
+    var t = $("#notesEdit");
+    if (!t) return;
+    var a = t.selectionStart, b = t.selectionEnd, v = t.value;
+    t.value = v.slice(0, a) + "**" + v.slice(a, b) + "**" + v.slice(b);
+    t.focus();
+    t.setSelectionRange(a + 2, b + 2);
   }
   function tracksHtml() {
     var cur = field();
@@ -1218,7 +1237,8 @@
     // Notatene står øverst, der presentøren ser dem mens hen snakker. Endringer lagres i live-tjenesten.
     if (st.isPresenter && st.notesOpen) h += notesHtml(s, v);
     if (s.track && open) h += tracksHtml();
-    if (s.qr) h += "<div class=\"qr\">" + QR + "<p class=\"url\">" + COURSE_URL + "<small>Åpne lenken på PC-en, så følger du med.</small></p><p class=\"lobby\" id=\"lobby\">" + lobbyHtml() + "</p></div>";
+    if (s.qr) h += "<div class=\"qr\"><div class=\"join-text\"><span class=\"join-k\">Skriv inn</span><p class=\"url\">" + COURSE_URL.split("/").map(function (x, k) { return "<span>" + (k ? "/" : "") + x + "</span>"; }).join("") + "</p><p class=\"lobby\" id=\"lobby\">" + lobbyHtml() + "</p></div>" +
+      "<span class=\"join-or\">eller</span><div class=\"join-code\"><span class=\"join-k\">bruk mobilen</span>" + QR + "</div></div>";
     (s.blocks || []).forEach(function (b) { h += blockHtml(b); });
     if (s.polls) h += "<div class=\"polls\">" + s.polls.map(function (p) { return pollHtml(p); }).join("") + "</div>";
     // Skjermen i rommet samler det de andre har delt, og memen, i en egen kolonne.
@@ -1328,6 +1348,7 @@
       if (hid) sum += ". " + hid + " skjult";
     }
     $("#sorterSum").textContent = sum + ".";
+    $("#resetBtn").classList.toggle("hidden", !st.verified);
     $("#sorterHint").textContent = st.isPresenter ? "Trykk på et kort for å gå dit. Skjulte sider hoppes over for alle, og tiden regnes om." + (cuts.length ? " Kan kuttes: " + cuts.join(", ") + "." : "") : "Trykk på et kort for å gå dit.";
   }
   function openSorter(show) {
@@ -1787,6 +1808,10 @@
       case "nextBtn": go(st.i + 1, { manual: true }); break;
       case "menuBtn": openSorter(); break;
       case "closeSorter": openSorter(false); break;
+      case "resetBtn":
+        if (!net.open) { toast("Får ikke kontakt akkurat nå."); break; }
+        if (window.confirm("Nullstille alt? Svar, steg, innlegg, spørsmål og hender forsvinner for alle, og presentasjonen stopper. Notatene og skjulte sider beholdes.")) send({ t: "reset" });
+        break;
       case "roomChip": togglePanel("roster"); break;
       case "followBtn": if (!st.following) { setFollowing(true); followLive(); updateBar(); } break;
       case "handBtn":
@@ -1809,6 +1834,7 @@
       case "notesBtn": st.notesOpen = !st.notesOpen; st.editNotes = false; render(); break;
       case "notesEditBtn": st.editNotes = true; render(true); if ($("#notesEdit")) $("#notesEdit").focus(); break;
       case "notesCancel": st.editNotes = false; render(true); break;
+      case "notesBold": boldNotes(); break;
       case "notesSave": (function () {
         var text = $("#notesEdit").value.replace(/\r/g, "").split("\n").map(function (x) { return x.trim(); }).filter(Boolean).join("\n");
         var same = text === (s.notes || []).join("\n");
@@ -1863,6 +1889,7 @@
     if (e.key === "Escape" && !$("#spot").classList.contains("hidden")) { showSpot(null); return; }
     if (e.key === "Escape" && !$("#qpanel").classList.contains("hidden")) { togglePanel("qpanel", false); return; }
     var tag = (e.target && e.target.tagName) || "";
+    if (e.target && e.target.id === "notesEdit" && (e.metaKey || e.ctrlKey) && (e.key === "b" || e.key === "B")) { e.preventDefault(); boldNotes(); return; }
     if (tag === "INPUT" || tag === "TEXTAREA" || e.metaKey || e.ctrlKey || e.altKey) return;
     if (e.key === "ArrowRight" || e.key === "PageDown" || (e.key === " " && tag !== "BUTTON")) { e.preventDefault(); go(st.i + 1, { manual: true }); }
     else if (e.key === "ArrowLeft" || e.key === "PageUp") { e.preventDefault(); go(st.i - 1, { manual: true }); }
@@ -1882,7 +1909,7 @@
     net.ws = ws;
     ws.onopen = function () {
       net.open = true; net.retry = 0; net.last = Date.now();
-      send({ t: "hello", cid: cid, name: st.name, hand: st.hand, seen: st.seen, prog: st.prog, ans: st.ans, follow: st.following, screen: SCREEN || undefined, token: token || undefined });
+      send({ t: "hello", cid: cid, name: st.name, hand: st.hand, seen: st.seen, reset: st.resetAt, prog: st.prog, ans: st.ans, follow: st.following, screen: SCREEN || undefined, token: token || undefined });
     };
     ws.onmessage = function (ev) {
       net.last = Date.now();
@@ -1942,6 +1969,13 @@
       case "name-taken": joinError(m.name); break;
       case "react": burst(m.e); break;
       case "clear": st.hand = false; st.seen = m.at || 0; updateBar(); break;
+      case "reset": wipeLocal(m.at); st.walls = {}; st.revealed = {}; st.questions = []; st.count = null; st.seen = m.at || 0;
+        renderQ(); updateCount(); showSpot(null); applyLive(m.live || {});
+        if (!st.isPresenter && !SCREEN) setFollowing(true);
+        jumpTo(SLIDES[0].id);
+        render(true);
+        if (st.isPresenter) toast("Alt er nullstilt. Trykk Start presentasjon når du er klar.");
+        break;
       case "wall":
         (st.walls[m.wall] || (st.walls[m.wall] = [])).push(m.item);
         st.fresh[m.item.id] = 1;
@@ -1962,8 +1996,16 @@
     st.handsSeen = up;
     if (fresh.length) toast("✋ " + (fresh.length > 1 ? fresh.slice(0, -1).join(", ") + " og " + fresh[fresh.length - 1] : fresh[0]) + " rekker opp hånda");
   }
+  // Det deltakeren har svart og delt, ligger også i nettleseren. Etter en nullstilling skal det bort.
+  function wipeLocal(at) {
+    st.prog = {}; st.ans = {}; st.posted = {}; st.myPosts = {}; st.liked = {}; st.celebrated = {}; st.hand = false;
+    ["kurs.prog", "kurs.ans", "kurs.posted", "kurs.myposts", "kurs.liked"].forEach(function (k) { save("localStorage", k, null); });
+    st.resetAt = at || 0;
+    save("localStorage", "kurs.reset", String(st.resetAt));
+  }
   function onWelcome(m) {
     net.ever = true; net.failed = false;
+    if ((m.resetAt || 0) > st.resetAt) wipeLocal(m.resetAt);
     st.seen = m.clearAt || 0;
     st.count = m.count || null;
     st.skew = (m.now || Date.now()) - Date.now();

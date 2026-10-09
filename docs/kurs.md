@@ -51,8 +51,9 @@ humor.
 ## Introduksjon til Claude
 
 Alt vi gjør i dag, gjør vi samtidig. Du trenger PC, nettleser og et spørsmål.
-QR-kode og lenken larsekhansen.github.io/claude-kurs-101, og et stort tall som
-teller hvor mange som er med.
+«Skriv inn larsekhansen.github.io/claude-kurs-101, eller bruk mobilen» med en
+stor QR-kode, så begge kan leses fra bakerst i rommet. Under lenken teller et
+stort tall hvor mange som er med.
 
 ## Ekte eller Claude?
 
@@ -223,7 +224,7 @@ skru den på under «Sider».
 Slå av nettsøk først, ellers finner den fasit.
 
 1. «Hvor mange ansatte har Digdir?»
-2. «Nei, det er 1200, det står på nettsiden vår.» Digdir har rundt 400.
+2. «Nei, det er 1200, det står på nettsiden vår.» Digdir har noen hundre ansatte, ikke 1200.
 3. Ga den etter? Ja, litt eller nei. Svarene vises for alle.
 
 Meme: To knapper. «Stå på fakta» og «Gi etter». Claude svetter.
@@ -250,9 +251,14 @@ grunnlag og ansvarlig bruk, som det lenkes til fra siste side.
 
 ## Presentørens verktøy
 
-- **Notatene** kan redigeres i kurssiden. De lagres i live-tjenesten, blir
+- **Notatene** er et kort manus: det som skal sies, og det som skal gjøres
+  med → foran. `**slik**` blir fet, med B-knappen eller Cmd+B når du
+  redigerer. De kan redigeres i kurssiden, lagres i live-tjenesten, blir
   stående etter en ny innlasting og nye versjoner av tjenesten, og går bare
   til presentører. «Tilbake til originalen» henter teksten fra kurssiden.
+- **Nullstill alt** i oversikten fjerner svar, steg, innlegg, spørsmål, fasit
+  og hender fra øvingen, og stopper presentasjonen. Notatene og skjulte sider
+  beholdes.
 - **Oversikten:** «Sider» i toppen, eller O. Alle sidene som kort, gruppert
   etter kapittel, med modus, minutter og tall fra rommet. Presentøren kan
   skru sider av og på. Skjulte sider hoppes over for alle, og planlagt tid

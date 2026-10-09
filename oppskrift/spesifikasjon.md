@@ -42,8 +42,10 @@ For deltakerne:
 
 For presentøren:
 
-- Notater øverst på siden, med neste side nederst. De kan redigeres i
+- Notater øverst på siden, med neste side nederst. De er et kort manus, med
+  → foran det som skal gjøres og `**fet**` skrift. De kan redigeres i
   kurssiden og lagres i live-tjenesten, bare for presentører.
+- Nullstill alt i oversikten, for å fjerne alt fra øving før kurset.
 - Tidtaker mot planen, og hvilke sider som kan kuttes hvis det går tregt.
 - Vis svaret, applaus med konfetti, løft fram et innlegg eller et spørsmål på
   alle skjermer.
@@ -72,7 +74,7 @@ Alt innhold ligger i `SLIDES` i `index.html`. Hver side er et objekt.
 | `min` | Planlagte minutter. `0.5` er 30 sekunder. |
 | `kicker`, `title`, `lead` | Liten overtittel, tittel og ingress. |
 | `dark` | Mørk side, brukt til pauser med humor. |
-| `qr` | QR-kode, lenke og telleren for hvor mange som er med. |
+| `qr` | Stor lenke og QR-kode, og telleren for hvor mange som er med. |
 | `polls` | Avstemninger: `id`, `q`, `options`, og eventuelt `answer` og `explain`. |
 | `gate` | Resten av siden kommer først når fasiten er vist. |
 | `steps` | Stegene: `text`, og eventuelt `say` (prompt), `wall`, `poll`, `auto`, `bonus`, `key`. |
@@ -85,7 +87,7 @@ Alt innhold ligger i `SLIDES` i `index.html`. Hver side er et objekt.
 | `blocks`, `after` | Enkle blokker: avsnitt, liste, lenker, modeller. |
 | `art`, `artAfter`, `artAside` | En illustrasjon fra `artHtml`, eventuelt holdt igjen til flertallet er ferdig med et steg, og eventuelt i kolonnen på skjermen. |
 | `meme` | Memen. På Gjør-sider kommer den når stegene er gjort. |
-| `notes` | Notatene, bare for presentøren. |
+| `notes` | Notatene, bare for presentøren. Et kort manus. → foran det som skal gjøres, `**fet**` for det viktigste. |
 | `cut`, `reserve`, `backstage` | Kan kuttes. Ekstra, ikke med i planen. Bare for presentøren. |
 | `off` | Skjult som standard. Presentøren kan skru den på i oversikten. |
 
